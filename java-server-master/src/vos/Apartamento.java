@@ -35,8 +35,8 @@ public class Apartamento extends Alojamiento
 	//----------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Contructor de alojamiento.
-	 * <b>post: </b> Crea un alojamiento con los valores que entran por parametro
+	 * Contructor de un apartamento.
+	 * <b>post: </b> Crea un apartamento con los valores que entran por parametro
 	 */
 	public Apartamento(@JsonProperty( value = "id")Long pId,
 			@JsonProperty( value = "ubicacion")String pUbicacion,

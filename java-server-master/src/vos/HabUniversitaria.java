@@ -1,31 +1,62 @@
-package model;
+package vos;
 
+import java.util.Date;
+import java.util.List;
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
+import org.codehaus.jackson.annotate.JsonProperty;
 
 public class HabUniversitaria extends Alojamiento
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public int duracionDeHab;
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// ATRIBUTOS
+	//----------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * tipo de la habitacion que ofrece el hotel.
 	 */
-	public HabUniversitaria(){
-		super();
+	@JsonProperty( value = "duracionDeHab")
+	public int duracionDeHab;
+
+
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// CONSTRUCTOR
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Contructor de una habitacion universitaria.
+	 * <b>post: </b> Crea una habitacion universitaria con los valores que entran por parametro
+	 */
+	public HabUniversitaria(@JsonProperty( value = "id")Long pId,
+			@JsonProperty( value = "ubicacion")String pUbicacion,
+			@JsonProperty( value = "costoBasico")double pCostoBasico,
+			@JsonProperty( value = "diasAlquilado")int pDiasAlquilado,
+			@JsonProperty( value = "capacidad")int pCapacidad,
+			@JsonProperty( value = "numPersonas") int pNumPersonas,
+			@JsonProperty( value = "vigente")boolean pVigente,
+			@JsonProperty( value = "fechaRetiro")Date pFechaRetiro,
+			@JsonProperty( value = "vecesAlquilado")int pVecesAlquilado,
+			@JsonProperty( value = "operador")Operador pOperador,
+			@JsonProperty( value = "servicios") List<Servicio> pServicios,
+			@JsonProperty( value = "reservas") List<Reserva> pReservas,
+			@JsonProperty( value = "duracionDeHab") int pDuracionHab)
+	{
+		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas);
+		duracionDeHab = pDuracionHab;
 	}
+
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// METODOS
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	public int getDuracionDeHab() {
+		return duracionDeHab;
+	}
+
+
+	public void setDuracionDeHab(int duracionDeHab) {
+		this.duracionDeHab = duracionDeHab;
+	}
+
 
 }
 
