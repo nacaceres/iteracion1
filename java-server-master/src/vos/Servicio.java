@@ -1,49 +1,90 @@
-package model;
+package vos;
 
-
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
+import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Servicio
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public String nombre;
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// ATRIBUTOS
+	//----------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Id del servicio
 	 */
-	
-	public String descripcion;
+	@JsonProperty( value = "id")
+	private Long id;
+	/**
+	 * nombre del servicio
+	 */
+	@JsonProperty( value = "nombre")
+	private String nombre;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Descripcion del servicio
 	 */
-	
-	public double costoAdicional;
+	@JsonProperty( value = "descripcion")
+	private String descripcion;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * costo adicional del servicio
 	 */
-	public Servicio(){
-		super();
+	@JsonProperty( value = "costoAdicional")
+	private double costoAdicional;
+
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// CONSTRUCTOR
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Contructor de servicio.
+	 * <b>post: </b> Crea un servicio con los valores que entran por parametro
+	 */
+	public Servicio(@JsonProperty( value = "id") Long pId, 
+			@JsonProperty( value = "nombre") String pNombre, 
+			@JsonProperty( value = "descripcion") String pDescripcion,
+			@JsonProperty( value = "costoAdicional") double pCostoAdicional)
+	{
+		id = pId;
+		nombre = pNombre;
+		descripcion = pDescripcion;
+		costoAdicional = pCostoAdicional;
 	}
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// METODOS
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public double getCostoAdicional() {
+		return costoAdicional;
+	}
+
+	public void setCostoAdicional(double costoAdicional) {
+		this.costoAdicional = costoAdicional;
+	}
+
 
 }
 

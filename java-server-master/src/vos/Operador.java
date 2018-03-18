@@ -1,78 +1,132 @@
-package model;
-import java.util.HashSet;
-import java.util.Set;
+package vos;
+import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
 
 public class Operador
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public int id;
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// ATRIBUTOS
+	//----------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Id del operador
 	 */
-	
-	public String tipoId;
+	@JsonProperty( value = "id")
+	private int id;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * tipo de id del operador
 	 */
-	
-	public String nombre;
+	@JsonProperty( value = "tipoId")
+	private String tipoId;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * nombre del operador
 	 */
-	
-	public String contacto;
+	@JsonProperty( value = "nombre")
+	private String nombre;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * contacto del operador
 	 */
-	
-	public Set<Alojamiento> alojamiento;
+	@JsonProperty( value = "contacto")
+	private String contacto;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Alojamientos que ofrece el operador
 	 */
-	
-	public RelacionUniandes relacionUniandes;
+	@JsonProperty( value = "alojamientos")
+	private List<Alojamiento> alojamientos;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Relacion que mantiene el operador con uniandes.
 	 */
-	public Operador(){
-		super();
+	@JsonProperty( value = "relacionUniandes")
+	private RelacionUniandes relacionUniandes;
+
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// CONSTRUCTOR
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Contructor de operador.
+	 * <b>post: </b> Crea un operador con los valores que entran por parametro
+	 */
+	public Operador(@JsonProperty( value = "id") int pId,
+				    @JsonProperty( value = "tipoId")String pTipoId,
+				    @JsonProperty( value = "nombre")String pNombre,
+				    @JsonProperty( value = "contacto") String pContacto,
+				    @JsonProperty( value = "alojamientos")List<Alojamiento>pAlojamientos,
+				    @JsonProperty( value = "relacionUniandes")RelacionUniandes pRelacionUniandes)
+	{
+		id = pId;
+		tipoId = pTipoId;
+		nombre=pNombre;
+		contacto = pContacto;
+		alojamientos = pAlojamientos;
+		relacionUniandes = pRelacionUniandes;
+	}
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// METODOS
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+
+	public String getTipoId() {
+		return tipoId;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public String getContacto() {
+		return contacto;
+	}
+
+
+	public List<Alojamiento> getAlojamientos() {
+		return alojamientos;
+	}
+
+
+	public RelacionUniandes getRelacionUniandes() {
+		return relacionUniandes;
+	}
+
+
+	public void setTipoId(String tipoId) {
+		this.tipoId = tipoId;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setContacto(String contacto) {
+		this.contacto = contacto;
+	}
+
+	public void setAlojamientos(List<Alojamiento> alojamientos) {
+		this.alojamientos = alojamientos;
+	}
+
+	public void setRelacionUniandes(RelacionUniandes relacionUniandes) {
+		this.relacionUniandes = relacionUniandes;
+	}
+
+	
 }
 

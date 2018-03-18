@@ -1,7 +1,8 @@
-package model;
-import java.util.HashSet;
+package vos;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 
 /**
@@ -12,122 +13,223 @@ import java.util.Set;
 
 public class Reserva
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public String numDias;
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// ATRIBUTOS
+	//----------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Numero de dias de la reserva
 	 */
-	
-	public Date fechaInicio;
+	@JsonProperty( value = "id")
+	private Long id;
+	/**
+	 * Numero de dias de la reserva
+	 */
+	@JsonProperty( value = "numDias")
+	private String numDias;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Fecha de inicio de la reserva
 	 */
-	
-	public Date fechaFin;
+	@JsonProperty( value = "fechaInicio")
+	private Date fechaInicio;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Fecha de fin de la reserva
 	 */
-	
-	public boolean cancelada;
+	@JsonProperty( value = "fechaFin")
+	private Date fechaFin;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Estado de la reserva false si esta vigente true si ha sido cancelada.
 	 */
-	
-	public int numPersonas;
+	@JsonProperty( value = "cancelada")
+	private boolean cancelada;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Numero de personas que tomaran la reserva
 	 */
-	
-	public Date fechaCancelacion;
+	@JsonProperty( value = "numPersonas")
+	private int numPersonas;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Fecha en la que la reserva fue cancelada, null si no ha sido cancelada.
 	 */
-	
-	public double costoDefinitivo;
+	@JsonProperty( value = "fechaCancelacion")
+	private Date fechaCancelacion;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Costo final de la reserva con servicios adicionales y numero de personas.
 	 */
-	
-	public boolean terminada;
+	@JsonProperty( value = "costoDefinitivo")
+	private double costoDefinitivo;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Indica si la reserva ya tuvo lugar y fue exitosa, true si ya paso, false de lo contrario.
 	 */
-	
-	public Date tiempoOportunoCan;
+	@JsonProperty( value = "terminada")
+	private boolean terminada;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Fecha en la que aun se puede pagar sin tener las respectivas sanciones.
 	 */
-	
-	public Alojamiento alojamiento;
+	@JsonProperty( value = "tiempoOportunoCan")
+	private Date tiempoOportunoCan;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Alojamiento respectivo de la resera
 	 */
-	
-	public Cliente cliente;
+	@JsonProperty( value = "alojamiento")
+	private Alojamiento alojamiento;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Cliente respectivo de la reserva
 	 */
-	
-	public Set<Servicio> serviciosAdicionales;
+	@JsonProperty( value = "cliente")
+	private Cliente cliente;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * Lista que contiene los servicios adicionales de la reserva, estos son los servicios que no 
+	 * incluye el alojamiento.
 	 */
-	public Reserva(){
-		super();
+	@JsonProperty( value = "serviciosAdicionales")
+	private List<Servicio> serviciosAdicionales;
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// CONSTRUCTOR
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Contructor de reserva.
+	 * <b>post: </b> Crea una reserva con los valores que entran por parametro
+	 */
+	public Reserva(@JsonProperty( value = "id") Long pId,
+			@JsonProperty( value = "numDias") String pNumDias, 
+			@JsonProperty( value = "fechaInicio") Date pFechaInicio,
+			@JsonProperty( value = "fechaFin") Date pFechaFin,
+			@JsonProperty( value = "cancelada") boolean pCancelada,
+			@JsonProperty( value = "numPersonas")int pNumPersonas,
+			@JsonProperty( value = "fechaCancelacion") Date pFechaCancelacion,
+			@JsonProperty( value = "costoDefinitivo") double pCostoDefinitivo,
+			@JsonProperty( value = "terminada") boolean pTerminada,
+			@JsonProperty( value = "tiempoOportunoCan") Date pTiempoOportunoCan,
+			@JsonProperty( value = "alojamiento") Alojamiento pAlojamiento,
+			@JsonProperty( value = "cliente") Cliente pCliente,
+			@JsonProperty( value = "serviciosAdicionales") List<Servicio> pServiciosAdicionales )
+	{
+		id=pId;
+		numDias = pNumDias;
+		fechaInicio = pFechaInicio;
+		fechaFin = pFechaFin;
+		cancelada = pCancelada;
+		numPersonas = pNumPersonas;
+		fechaCancelacion= pFechaCancelacion;
+		costoDefinitivo = pCostoDefinitivo;
+		terminada = pTerminada;
+		tiempoOportunoCan = pTiempoOportunoCan;
+		alojamiento = pAlojamiento;
+		cliente = pCliente;
+		serviciosAdicionales = pServiciosAdicionales;
 	}
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// METODOS
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	public String getNumDias() {
+		return numDias;
+	}
+
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public boolean isCancelada() {
+		return cancelada;
+	}
+
+	public int getNumPersonas() {
+		return numPersonas;
+	}
+
+	public Date getFechaCancelacion() {
+		return fechaCancelacion;
+	}
+
+	public double getCostoDefinitivo() {
+		return costoDefinitivo;
+	}
+
+	public boolean isTerminada() {
+		return terminada;
+	}
+
+	public Date getTiempoOportunoCan() {
+		return tiempoOportunoCan;
+	}
+
+	public Alojamiento getAlojamiento() {
+		return alojamiento;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public List<Servicio> getServiciosAdicionales() {
+		return serviciosAdicionales;
+	}
+
+	public void setNumDias(String numDias) {
+		this.numDias = numDias;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public void setCancelada(boolean cancelada) {
+		this.cancelada = cancelada;
+	}
+
+	public void setNumPersonas(int numPersonas) {
+		this.numPersonas = numPersonas;
+	}
+
+	public void setFechaCancelacion(Date fechaCancelacion) {
+		this.fechaCancelacion = fechaCancelacion;
+	}
+
+	public void setCostoDefinitivo(double costoDefinitivo) {
+		this.costoDefinitivo = costoDefinitivo;
+	}
+
+	public void setTerminada(boolean terminada) {
+		this.terminada = terminada;
+	}
+
+	public void setTiempoOportunoCan(Date tiempoOportunoCan) {
+		this.tiempoOportunoCan = tiempoOportunoCan;
+	}
+
+	public void setAlojamiento(Alojamiento alojamiento) {
+		this.alojamiento = alojamiento;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setServiciosAdicionales(List<Servicio> serviciosAdicionales) {
+		this.serviciosAdicionales = serviciosAdicionales;
+	}
+
 
 }
 
