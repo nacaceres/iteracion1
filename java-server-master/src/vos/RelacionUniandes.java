@@ -2,11 +2,6 @@ package vos;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
 
 public class RelacionUniandes
 {
@@ -40,6 +35,11 @@ public class RelacionUniandes
 	//----------------------------------------------------------------------------------------------------------------------------------
 
 	/**
+	 * Id de larelacion
+	 */
+	@JsonProperty( value = "id")
+	private Long id;
+	/**
 	 * Tipo de la relacion con uniandes.
 	 */
 	@JsonProperty( value = "tipo")
@@ -58,11 +58,13 @@ public class RelacionUniandes
 	 * Contructor de alojamiento.
 	 * <b>post: </b> Crea un alojamiento con los valores que entran por parametro
 	 */
-	public RelacionUniandes(@JsonProperty( value = "tipo") String pTipo ,  
+	public RelacionUniandes(@JsonProperty( value = "id") Long pId,
+			@JsonProperty( value = "tipo") String pTipo ,  
 			@JsonProperty( value = "carnet") int pCarnet) throws Exception
 	{
 		if(pTipo==ESTUDIANTE|| pTipo == PROFESOR || pTipo == HOTEL || pTipo == EMPLEADO || pTipo == VECINO || pTipo == FENICIA || pTipo == PROFESOR_INVITADO || pTipo == REGISTRADO || pTipo == EGRESADO || pTipo == PADRE_ESTUDIANTE || pTipo == ADMINISTRADOR_VIVIENDA_UNIVERSITARIA)
 		{
+			id= pId;
 			tipo = pTipo;
 			carnet = pCarnet;
 		}
