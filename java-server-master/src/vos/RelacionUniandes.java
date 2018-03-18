@@ -62,7 +62,7 @@ public class RelacionUniandes
 			@JsonProperty( value = "tipo") String pTipo ,  
 			@JsonProperty( value = "carnet") int pCarnet) throws Exception
 	{
-		if(pTipo==ESTUDIANTE|| pTipo == PROFESOR || pTipo == HOTEL || pTipo == EMPLEADO || pTipo == VECINO || pTipo == FENICIA || pTipo == PROFESOR_INVITADO || pTipo == REGISTRADO || pTipo == EGRESADO || pTipo == PADRE_ESTUDIANTE || pTipo == ADMINISTRADOR_VIVIENDA_UNIVERSITARIA)
+		if(pTipo.equals(ESTUDIANTE)|| pTipo.equals(PROFESOR) || pTipo.equals(HOTEL) || pTipo.equals(EMPLEADO) || pTipo.equals(VECINO) || pTipo.equals(FENICIA) || pTipo.equals(PROFESOR_INVITADO) || pTipo.equals(REGISTRADO) || pTipo.equals(EGRESADO) || pTipo.equals(PADRE_ESTUDIANTE) || pTipo.equals(ADMINISTRADOR_VIVIENDA_UNIVERSITARIA))
 		{
 			id= pId;
 			tipo = pTipo;
@@ -90,6 +90,16 @@ public class RelacionUniandes
 	public void setCarnet(int carnet) {
 		this.carnet = carnet;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 
 }
 

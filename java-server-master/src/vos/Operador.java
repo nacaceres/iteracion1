@@ -14,7 +14,7 @@ public class Operador
 	 * Id del operador
 	 */
 	@JsonProperty( value = "id")
-	private int id;
+	private Long id;
 
 	/**
 	 * tipo de id del operador
@@ -54,7 +54,7 @@ public class Operador
 	 * Contructor de operador.
 	 * <b>post: </b> Crea un operador con los valores que entran por parametro
 	 */
-	public Operador(@JsonProperty( value = "id") int pId,
+	public Operador(@JsonProperty( value = "id") Long pId,
 				    @JsonProperty( value = "tipoId")String pTipoId,
 				    @JsonProperty( value = "nombre")String pNombre,
 				    @JsonProperty( value = "contacto") String pContacto,
@@ -73,11 +73,11 @@ public class Operador
 	//----------------------------------------------------------------------------------------------------------------------------------
 
 	
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 

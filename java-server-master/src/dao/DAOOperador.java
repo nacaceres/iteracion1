@@ -74,116 +74,106 @@ public class DAOOperador {
 		return operadores;
 	}
 
-	/**
-	 * Metodo que obtiene la informacion de todos los bebedores en la Base de Datos que se encuentran en la ciudad y con el presupuesto dados por parametro<br/>
-	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
-	 * @param ciudad ciudad en la que se encuentran los bebedores
-	 * @param presupuesto presupuesto de los bebedores
-	 * @return lista con la informacion de todos los bebedores que se encuentran en la Base de Datos que cumplen con los criterios de la sentencia SQL
-	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
-	 * @throws Exception Si se genera un error dentro del metodo.
-	 */
-
-	public ArrayList<Bebedor> getBebedoresByCiudadAndPresupuesto(String ciudad, String presupuesto) throws SQLException, Exception{
-		ArrayList<Bebedor> bebedores = new ArrayList<Bebedor>();
-
-		String sql = String.format("SELECT * FROM %1$s.BEBEDORES WHERE CIUDAD = '%2$s' AND PRESUPUESTO = '%3$s'", USUARIO, ciudad, presupuesto);
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
-
-		recursos.add(prepStmt);
-		ResultSet rs = prepStmt.executeQuery();
-
-		while (rs.next()) {
-			bebedores.add(convertResultSetToBebedor(rs));
-		}
-		return bebedores;
-	}
+	
 
 	/**
-	 * Metodo que obtiene la informacion del bebedor en la Base de Datos que tiene el identificador dado por parametro<br/>
+	 * Metodo que obtiene la informacion del operador en la Base de Datos que tiene el identificador dado por parametro<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/> 
-	 * @param id el identificador del bebedor
-	 * @return la informacion del bebedor que cumple con los criterios de la sentecia SQL
+	 * @param id el identificador del operador
+	 * @return la informacion del operador que cumple con los criterios de la sentecia SQL
 	 * 			Null si no existe el bebedor conlos criterios establecidos
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public Bebedor findBebedorById(Long id) throws SQLException, Exception 
+	public Operador findOperadorById(Long id) throws SQLException, Exception 
 	{
-		Bebedor bebedor = null;
+		Operador operador = null;
 
-		String sql = String.format("SELECT * FROM %1$s.BEBEDORES WHERE ID = %2$d", USUARIO, id); 
+		String sql = String.format("SELECT * FROM %1$s.OPERADORES WHERE ID = %2$d", USUARIO, id); 
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 
 		if(rs.next()) {
-			bebedor = convertResultSetToBebedor(rs);
+			operador = convertResultSetToBebedor(rs);
 		}
 
-		return bebedor;
+		return operador;
 	}
 
 	/**
-	 * Metodo que agregar la informacion de un nuevo bebedor en la Base de Datos a partir del parametro ingresado<br/>
+	 * Metodo que agregar la informacion de un nuevo operador en la Base de Datos a partir del parametro ingresado<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
-	 * @param bebedor Bebedor que desea agregar a la Base de Datos
+	 * @param operador operador que desea agregar a la Base de Datos
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public void addBebedor(Bebedor bebedor) throws SQLException, Exception {
+	public void addOperador (Operador operador) throws SQLException, Exception {
 
-		String sql = String.format("INSERT INTO %1$s.BEBEDORES (ID, NOMBRE, PRESUPUESTO, CIUDAD) VALUES (%2$s, '%3$s', '%4$s', '%5$s')", 
+		String sql = String.format("INSERT INTO %1$s.OPERADORES (ID, TIPO_ID, NOMBRE, CONTACTO, ID_RELACION) VALUES (%2$d, '%3$s', '%4$s', '%5$s', %6$d)", 
 				USUARIO, 
-				bebedor.getId(), 
-				bebedor.getNombre(),
-				bebedor.getPresupuesto(), 
-				bebedor.getCiudad());
+				operador.getId(), 
+				operador.getTipoId(),
+				operador.getNombre(),
+				operador.getContacto(), 
+				operador.getRelacionUniandes().getId());
 		System.out.println(sql);
-
+		
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
-
+		
+		String sql2 = String.format("INSERT INTO %1$S.RELACIONES (ID, TIPO, CARNET) VALUES (%2$D,'%3$s', '%4$s'", 
+				USUARIO,
+				operador.getRelacionUniandes().getId(),
+				operador.getRelacionUniandes().getTipo(),
+				operador.getRelacionUniandes().getCarnet()+"");
+		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+		recursos.add(prepStmt2);
+		prepStmt2.executeQuery();
+		
+		//Falta agregar todos los alojamientos.
 	}
 
 	/**
-	 * Metodo que actualiza la informacion del bebedor en la Base de Datos que tiene el identificador dado por parametro<br/>
+	 * Metodo que actualiza la informacion del operador en la Base de Datos que tiene el identificador dado por parametro<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
-	 * @param bebedor Bebedor que desea actualizar a la Base de Datos
+	 * @param operador operador que desea actualizar a la Base de Datos
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public void updateBebedor(Bebedor bebedor) throws SQLException, Exception {
+	public void updateOperador(Operador operador) throws SQLException, Exception {
 
 		StringBuilder sql = new StringBuilder();
-		sql.append(String.format("UPDATE %s.BEBEDORES SET ", USUARIO));
-		sql.append(String.format("NOMBRE = '%1$s' AND CIUDAD = '%2$s' AND PRESUPUESTO = '%3$s' ", bebedor.getNombre(), bebedor.getCiudad(), bebedor.getPresupuesto()));
+		sql.append(String.format("UPDATE %s.OPERADORES SET ", USUARIO));
+		sql.append(String.format("NOMBRE = '%1$s' AND CONTACTO = '%2$s'", operador.getNombre(), operador.getContacto()));
 
 		System.out.println(sql);
-
+		// Falta Actualizar los alojamientos del operador
 		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
 
 	/**
-	 * Metodo que actualiza la informacion del bebedor en la Base de Datos que tiene el identificador dado por parametro<br/>
+	 * Metodo que actualiza la informacion del operador en la Base de Datos que tiene el identificador dado por parametro<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
-	 * @param bebedor Bebedor que desea actualizar a la Base de Datos
+	 * @param operador operador que desea actualizar a la Base de Datos
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public void deleteBebedor(Bebedor bebedor) throws SQLException, Exception {
+	public void deleteOperador(Operador operador) throws SQLException, Exception {
 
-		String sql = String.format("DELETE FROM %1$s.BEBEDORES WHERE ID = %2$d", USUARIO, bebedor.getId());
+		String sql = String.format("DELETE FROM %1$s.OPERADORES WHERE ID = %2$d", USUARIO, operador.getId());
 
 		System.out.println(sql);
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
+		
+		//Revisar Cascade
 	}
 
 	/**
@@ -249,14 +239,25 @@ public class DAOOperador {
 	 * @return operador cuyos atributos corresponden a los valores asociados a un registro particular de la tabla OPERADORES y RELACIONES.
 	 * @throws SQLException Si existe algun problema al extraer la informacion del ResultSet.
 	 */
-	public Operador convertResultSetToBebedor(ResultSet resultSet) throws SQLException {
+	public Operador convertResultSetToBebedor(ResultSet resultSet) throws SQLException, Exception {
 
 		long id = Long.parseLong(resultSet.getString("ID"));
 		String tipo = resultSet.getString("TIPO_ID");
 		String nombre = resultSet.getString("NOMBRE");
 		String contacto = resultSet.getString("CONTACTO");
-		RelacionUniandes rela = new RelacionUniandes(pId, pTipo, pCarnet);
+		long idRelacion = Long.parseLong(resultSet.getString("ID_RELACION"));
+		String sql = String.format("SELECT * FROM %1$s.RELACIONES WHERE ID = %2$d", USUARIO, idRelacion);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		rs.next();
+		String tipo2 = rs.getString("TIPO");
+		int carnet = Integer.parseInt(rs.getString("CARNET"));
+		
+		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
 		ArrayList <Alojamiento> alojamientos = new ArrayList <Alojamiento>();
+		//Falta agregar todos los alojamientos.
 		Operador ope = new Operador(id, tipo, nombre, contacto, alojamientos, rela);
 
 		return ope;
