@@ -44,12 +44,9 @@ public class Vivienda extends Alojamiento
 	public Vivienda(@JsonProperty( value = "id")Long pId,
 			@JsonProperty( value = "ubicacion")String pUbicacion,
 			@JsonProperty( value = "costoBasico")double pCostoBasico,
-			@JsonProperty( value = "diasAlquilado")int pDiasAlquilado,
 			@JsonProperty( value = "capacidad")int pCapacidad,
-			@JsonProperty( value = "numPersonas") int pNumPersonas,
 			@JsonProperty( value = "vigente")boolean pVigente,
 			@JsonProperty( value = "fechaRetiro")Date pFechaRetiro,
-			@JsonProperty( value = "vecesAlquilado")int pVecesAlquilado,
 			@JsonProperty( value = "operador")Operador pOperador,
 			@JsonProperty( value = "servicios") List<Servicio> pServicios,
 			@JsonProperty( value = "reservas") List<Reserva> pReservas,
@@ -59,7 +56,7 @@ public class Vivienda extends Alojamiento
 			@JsonProperty( value = "compartido")boolean pCompartido,
 			@JsonProperty( value = "contratos") List <Contrato> pContratos)
 	{
-		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas, pTipo);
+		super(pId, pUbicacion, pCostoBasico, pCapacidad, pVigente, pFechaRetiro, pOperador, pServicios, pReservas, pTipo);
 		numHabitaciones = pNumHabitaciones;
 		cedido = pCedido;
 		compartido = pCompartido;

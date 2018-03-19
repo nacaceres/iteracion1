@@ -135,15 +135,16 @@ public class AlohAndesMaster{
 	 * @return List<operador> - Lista de operadores que contiene el resultado de la consulta.
 	 * @throws Exception -  Cualquier error que se genere durante la transaccion
 	 */
-	public List<Operador> getAllOperadores() throws Exception {
+	public List<Operador> getAllOperadores( ) throws Exception {
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
 		DAOOperador daooperador = new DAOOperador();
 		List<Operador> operadores;
 		try 
 		{
 			this.conn = darConexion();
 			daooperador.setConn(conn);
-			
-			operadores = daooperador.getOperadores();
+			daoAlojamiento.setConn(conn);
+			operadores = daooperador.getOperadores(daoAlojamiento);
 		}
 		catch (SQLException sqlException) {
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
@@ -158,6 +159,7 @@ public class AlohAndesMaster{
 		finally {
 			try {
 				daooperador.cerrarRecursos();
+				daoAlojamiento.cerrarRecursos();
 				if(this.conn!=null){
 					this.conn.close();					
 				}
@@ -178,13 +180,15 @@ public class AlohAndesMaster{
 	 * @throws Exception -  cualquier error que se genere durante la transaccion
 	 */
 	public Operador getOperadorById(Long id) throws Exception {
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
 		DAOOperador daoOperador = new DAOOperador();
 		Operador Operador = null;
 		try 
 		{
 			this.conn = darConexion();
 			daoOperador.setConn(conn);
-			Operador = daoOperador.findOperadorById(id);
+			daoAlojamiento.setConn(conn);
+			Operador = daoOperador.findOperadorById(id, daoAlojamiento);
 			if(Operador == null)
 			{
 				throw new Exception("El Operador con el id = " + id + " no se encuentra persistido en la base de datos.");				
@@ -203,6 +207,7 @@ public class AlohAndesMaster{
 		finally {
 			try {
 				daoOperador.cerrarRecursos();
+				daoAlojamiento.cerrarRecursos();
 				if(this.conn!=null){
 					this.conn.close();					
 				}
@@ -225,14 +230,15 @@ public class AlohAndesMaster{
 	 */
 	public void addOperador(Operador Operador) throws Exception 
 	{
-		
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
 		DAOOperador daoOperador = new DAOOperador( );
 		try
 		{
 			this.conn = darConexion();
 			daoOperador.setConn(conn);
-			daoOperador.addOperador(Operador);
-
+			daoAlojamiento.setConn(conn);
+			daoOperador.addOperador(Operador,daoAlojamiento);
+			
 		}
 		catch (SQLException sqlException) {
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
@@ -247,6 +253,7 @@ public class AlohAndesMaster{
 		finally {
 			try {
 				daoOperador.cerrarRecursos();
+				daoAlojamiento.cerrarRecursos();
 				if(this.conn!=null){
 					this.conn.close();					
 				}
@@ -269,11 +276,13 @@ public class AlohAndesMaster{
 	public void updateOperador(Operador Operador) throws Exception 
 	{
 		DAOOperador daoOperador = new DAOOperador( );
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
 		try
 		{
 			this.conn = darConexion();
 			daoOperador.setConn( conn );
-			Operador actual = daoOperador.findOperadorById(Operador.getId());
+			daoAlojamiento.setConn(conn);
+			Operador actual = daoOperador.findOperadorById(Operador.getId(),daoAlojamiento);
 			if (actual!= null)
 			{
 				daoOperador.updateOperador(Operador);
@@ -297,6 +306,7 @@ public class AlohAndesMaster{
 		finally {
 			try {
 				daoOperador.cerrarRecursos();
+				daoAlojamiento.cerrarRecursos();
 				if(this.conn!=null){
 					this.conn.close();					
 				}
@@ -318,14 +328,16 @@ public class AlohAndesMaster{
 	public void deleteOperador(Operador Operador) throws Exception 
 	{
 		DAOOperador daoOperador = new DAOOperador( );
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
 		try
 		{
 			this.conn = darConexion();
 			daoOperador.setConn( conn );
-			Operador actual = daoOperador.findOperadorById(Operador.getId());
+			daoAlojamiento.setConn(conn);
+			Operador actual = daoOperador.findOperadorById(Operador.getId(),daoAlojamiento);
 			if (actual!= null)
 			{
-				daoOperador.deleteOperador(Operador);
+				daoOperador.deleteOperador(Operador,daoAlojamiento);
 			}
 			else
 			{
@@ -345,6 +357,7 @@ public class AlohAndesMaster{
 		} 
 		finally {
 			try {
+				daoAlojamiento.cerrarRecursos();
 				daoOperador.cerrarRecursos();
 				if(this.conn!=null){
 					this.conn.close();					
@@ -584,5 +597,299 @@ public class AlohAndesMaster{
 				throw exception;
 			}
 		}	
+	}
+	/**
+	 * Metodo que modela la transaccion que retorna todos los Alojamientos de la base de datos. <br/>
+	 * @return List<Alojamiento> - Lista de Alojamientos que contiene el resultado de la consulta.
+	 * @throws Exception -  Cualquier error que se genere durante la transaccion
+	 */
+	public List<Alojamiento> getAllAlojamientos() throws Exception {
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+		List<Alojamiento> Alojamientos;
+		try 
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn(conn);
+			
+			Alojamientos = daoAlojamiento.getAlojamientos();
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return Alojamientos;
+	}
+	
+	/**
+	 * Metodo que modela la transaccion que busca el Alojamiento en la base de datos que tiene el ID dado por parametro. <br/>
+	 * @param name -id del Alojamiento a buscar. id != null
+	 * @return Alojamiento - Alojamiento que se obtiene como resultado de la consulta.
+	 * @throws Exception -  cualquier error que se genere durante la transaccion
+	 */
+	public Alojamiento getAlojamientoById(Long id) throws Exception {
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+		Alojamiento Alojamiento = null;
+		try 
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn(conn);
+			Alojamiento = daoAlojamiento.findAlojamientoById(id);
+			if(Alojamiento == null)
+			{
+				throw new Exception("El Alojamiento con el id = " + id + " no se encuentra persistido en la base de datos.");				
+			}
+		} 
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return Alojamiento;
+	}
+	
+
+	/**
+	 * Metodo que modela la transaccion que agrega un Alojamiento a la base de datos. <br/>
+	 * <b> post: </b> se ha agregado el Alojamiento que entra como parametro <br/>
+	 * @param Alojamiento - el Alojamiento a agregar. Alojamiento != null
+	 * @throws Exception - Cualquier error que se genere agregando el Alojamiento
+	 */
+	public void addAlojamiento(Alojamiento Alojamiento) throws Exception 
+	{
+		
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn(conn);
+			daoAlojamiento.addAlojamiento(Alojamiento);
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Metodo que modela la transaccion que agrega un Apartamento a la base de datos. <br/>
+	 * <b> post: </b> se ha agregado el Apartamento que entra como parametro <br/>
+	 * @param Apartamento - el Apartamento a agregar. Apartamento != null
+	 * @throws Exception - Cualquier error que se genere agregando el Apartamento
+	 */
+	public void addApartamento(Apartamento Apartamento) throws Exception 
+	{
+		
+		DAOAlojamiento daoApartamento = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoApartamento.setConn(conn);
+			daoApartamento.addApartamento(Apartamento);
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoApartamento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Metodo que modela la transaccion que agrega un HabHostal a la base de datos. <br/>
+	 * <b> post: </b> se ha agregado el HabHostal que entra como parametro <br/>
+	 * @param HabHostal - el HabHostal a agregar. HabHostal != null
+	 * @throws Exception - Cualquier error que se genere agregando el HabHostal
+	 */
+	public void addHabHostal(HabHostal HabHostal) throws Exception 
+	{
+		
+		DAOAlojamiento daoHabHostal = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoHabHostal.setConn(conn);
+			daoHabHostal.addHabHostal(HabHostal);
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoHabHostal.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	/**
+	 * Metodo que modela la transaccion que agrega un HabHotel a la base de datos. <br/>
+	 * <b> post: </b> se ha agregado el HabHotel que entra como parametro <br/>
+	 * @param HabHotel - el HabHotel a agregar. HabHotel != null
+	 * @throws Exception - Cualquier error que se genere agregando el HabHotel
+	 */
+	public void addHabHotel(HabHotel HabHotel) throws Exception 
+	{
+		
+		DAOAlojamiento daoHabHotel = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoHabHotel.setConn(conn);
+			daoHabHotel.addHabHotel(HabHotel);
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoHabHotel.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	/**
+	 * Metodo que modela la transaccion que agrega un HabUniversitaria a la base de datos. <br/>
+	 * <b> post: </b> se ha agregado el HabUniversitaria que entra como parametro <br/>
+	 * @param HabUniversitaria - el HabUniversitaria a agregar. HabUniversitaria != null
+	 * @throws Exception - Cualquier error que se genere agregando el HabUniversitaria
+	 */
+	public void addHabUniversitaria(HabUniversitaria HabUniversitaria) throws Exception 
+	{
+		
+		DAOAlojamiento daoHabUniversitaria = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoHabUniversitaria.setConn(conn);
+			daoHabUniversitaria.addHabUniversitaria(HabUniversitaria);
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoHabUniversitaria.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
 	}
 }

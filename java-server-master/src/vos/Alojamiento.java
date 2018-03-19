@@ -44,11 +44,6 @@ public class Alojamiento
 	@JsonProperty( value = "costoBasico")
 	private double costoBasico;
 
-	/**
-	 * Numero de dias que ha sido alquilado en toda la historia de la aplicacion
-	 */
-	@JsonProperty( value = "diasAlquilado")
-	private int diasAlquilado;
 
 	/**
 	 * Capacidad del alojamiento
@@ -56,11 +51,6 @@ public class Alojamiento
 	@JsonProperty( value = "capacidad")
 	private int capacidad;
 
-	/**
-	 * Total de personas que han pasado por el alojamiento
-	 */
-	@JsonProperty( value = "numPersonas")
-	private int numPersonas;
 
 	/**
 	 * Hace referencia a si el alojamiento ha sido retirado por el operardor, true si no ha sido retirada, false de lo contrario
@@ -74,11 +64,6 @@ public class Alojamiento
 	@JsonProperty( value = "fechaRetiro")
 	private Date fechaRetiro;
 
-	/**
-	 * Veces que ha sido alquilado el alojamiento.
-	 */
-	@JsonProperty( value = "vecesAlquilado")
-	private int vecesAlquilado;
 
 	/**
 	 * Operador del alojamiento
@@ -109,12 +94,9 @@ public class Alojamiento
 	public Alojamiento(@JsonProperty( value = "id")Long pId,
 			@JsonProperty( value = "ubicacion")String pUbicacion,
 			@JsonProperty( value = "costoBasico")double pCostoBasico,
-			@JsonProperty( value = "diasAlquilado")int pDiasAlquilado,
 			@JsonProperty( value = "capacidad")int pCapacidad,
-			@JsonProperty( value = "numPersonas") int pNumPersonas,
 			@JsonProperty( value = "vigente")boolean pVigente,
 			@JsonProperty( value = "fechaRetiro")Date pFechaRetiro,
-			@JsonProperty( value = "vecesAlquilado")int pVecesAlquilado,
 			@JsonProperty( value = "operador")Operador pOperador,
 			@JsonProperty( value = "servicios") List<Servicio> pServicios,
 			@JsonProperty( value = "reservas") List<Reserva> pReservas,
@@ -123,12 +105,9 @@ public class Alojamiento
 		id = pId;
 		ubicacion = pUbicacion;
 		costoBasico = pCostoBasico;
-		diasAlquilado = pDiasAlquilado;
 		capacidad = pCapacidad;
-		numPersonas = pNumPersonas;
 		vigente = pVigente;
 		fechaRetiro = pFechaRetiro;
-		vecesAlquilado = pVecesAlquilado;
 		operador = pOperador;
 		servicios = pServicios;
 		reservas = pReservas;
@@ -162,28 +141,12 @@ public class Alojamiento
 		this.costoBasico = costoBasico;
 	}
 
-	public int getDiasAlquilado() {
-		return diasAlquilado;
-	}
-
-	public void setDiasAlquilado(int diasAlquilado) {
-		this.diasAlquilado = diasAlquilado;
-	}
-
 	public int getCapacidad() {
 		return capacidad;
 	}
 
 	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
-	}
-
-	public int getNumPersonas() {
-		return numPersonas;
-	}
-
-	public void setNumPersonas(int numPersonas) {
-		this.numPersonas = numPersonas;
 	}
 
 	public boolean isVigente() {
@@ -200,14 +163,6 @@ public class Alojamiento
 
 	public void setFechaRetiro(Date fechaRetiro) {
 		this.fechaRetiro = fechaRetiro;
-	}
-
-	public int getVecesAlquilado() {
-		return vecesAlquilado;
-	}
-
-	public void setVecesAlquilado(int vecesAlquilado) {
-		this.vecesAlquilado = vecesAlquilado;
 	}
 
 	public Operador getOperador() {

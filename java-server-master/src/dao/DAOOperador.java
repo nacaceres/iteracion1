@@ -59,7 +59,7 @@ public class DAOOperador {
 	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public ArrayList<Operador> getOperadores() throws SQLException, Exception {
+	public ArrayList<Operador> getOperadores( DAOAlojamiento daoAlojamiento) throws SQLException, Exception {
 		ArrayList<Operador> operadores = new ArrayList<Operador>();
 
 		String sql = String.format("SELECT * FROM %1$s.OPERADORES", USUARIO);
@@ -69,7 +69,7 @@ public class DAOOperador {
 		ResultSet rs = prepStmt.executeQuery();
 
 		while (rs.next()) {
-		operadores.add(convertResultSetToOperador(rs));
+		operadores.add(convertResultSetToOperador(rs,daoAlojamiento));
 		}
 		return operadores;
 	}
@@ -85,7 +85,7 @@ public class DAOOperador {
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public Operador findOperadorById(Long id) throws SQLException, Exception 
+	public Operador findOperadorById(Long id, DAOAlojamiento daoAlojamiento) throws SQLException, Exception 
 	{
 		Operador operador = null;
 
@@ -96,7 +96,7 @@ public class DAOOperador {
 		ResultSet rs = prepStmt.executeQuery();
 
 		if(rs.next()) {
-			operador = convertResultSetToOperador(rs);
+			operador = convertResultSetToOperador(rs,daoAlojamiento);
 		}
 
 		return operador;
@@ -109,7 +109,7 @@ public class DAOOperador {
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public void addOperador (Operador operador) throws SQLException, Exception {
+	public void addOperador (Operador operador, DAOAlojamiento daoAlojamiento) throws SQLException, Exception {
 
 		String sql2 = String.format("INSERT INTO %1$s.RELACIONES (ID, TIPO, CARNET) VALUES (%2$d,'%3$s', '%4$s')", 
 				USUARIO,
@@ -133,8 +133,11 @@ public class DAOOperador {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 		
+		for (int i = 0; i < operador.getAlojamientos().size(); i++) {
+			Alojamiento actual = operador.getAlojamientos().get(i);
+			daoAlojamiento.addAlojamiento(actual);
+		}
 		
-		//Falta agregar todos los alojamientos.
 	}
 
 	/**
@@ -145,13 +148,12 @@ public class DAOOperador {
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
 	public void updateOperador(Operador operador) throws SQLException, Exception {
-
+		//No actualiza los alojamientos.
 		StringBuilder sql = new StringBuilder();
 		sql.append(String.format("UPDATE %s.OPERADORES SET ", USUARIO));
 		sql.append(String.format("NOMBRE = '%1$s' , CONTACTO = '%2$s'", operador.getNombre(), operador.getContacto()));
 		sql.append(String.format(" WHERE ID = %d ", operador.getId()));
 		System.out.println(sql);
-		// Falta Actualizar los alojamientos del operador
 		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
@@ -164,9 +166,12 @@ public class DAOOperador {
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public void deleteOperador(Operador operador) throws SQLException, Exception {
+	public void deleteOperador(Operador operador,DAOAlojamiento daoAlojamiento) throws SQLException, Exception {
 
-		
+		for (int i = 0; i < operador.getAlojamientos().size(); i++) {
+			Alojamiento actual = operador.getAlojamientos().get(i);
+			//Implementar el metodo delete de DAOAlojamiento.
+		}
 		
 		String sql2 = String.format("DELETE FROM %1$s.OPERADORES WHERE ID = %2$d", USUARIO, operador.getId());
 		
@@ -183,7 +188,6 @@ public class DAOOperador {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
-		//Revisar Cascade de los alojamientos
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -220,7 +224,7 @@ public class DAOOperador {
 	 * @return operador cuyos atributos corresponden a los valores asociados a un registro particular de la tabla OPERADORES y RELACIONES.
 	 * @throws SQLException Si existe algun problema al extraer la informacion del ResultSet.
 	 */
-	public Operador convertResultSetToOperador(ResultSet resultSet) throws SQLException, Exception {
+	public Operador convertResultSetToOperador(ResultSet resultSet, DAOAlojamiento daoAlojamiento) throws SQLException, Exception {
 
 		long id = Long.parseLong(resultSet.getString("ID"));
 		String tipo = resultSet.getString("TIPO_ID");
@@ -237,9 +241,20 @@ public class DAOOperador {
 		int carnet = Integer.parseInt(rs.getString("CARNET"));
 		
 		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
-		ArrayList <Alojamiento> alojamientos = new ArrayList <Alojamiento>();
-		//Falta agregar todos los alojamientos.
-		Operador ope = new Operador(id, tipo, nombre, contacto, alojamientos, rela);
+		
+		ArrayList<Alojamiento> Alojamientos = new ArrayList<Alojamiento>();
+
+		String sql4 = String.format("SELECT * FROM %1$s.ALOJAMIENTOS WHERE ID_OPERADOR = %2$d", USUARIO,id);
+
+		PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+		recursos.add(prepStmt4);
+		ResultSet rs4 = prepStmt4.executeQuery();
+
+		while (rs4.next()) {
+			Alojamientos.add(daoAlojamiento.convertResultSetToAlojamiento(rs4));
+		}
+		
+		Operador ope = new Operador(id, tipo, nombre, contacto, Alojamientos, rela);
 
 		return ope;
 	}
