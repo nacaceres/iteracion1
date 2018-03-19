@@ -14,6 +14,8 @@ public class RelacionUniandes
 	public static final String PROFESOR = "PROFESOR";
 
 	public static final String HOTEL = "HOTEL";
+	
+	public static final String HOSTAL = "HOSTAL";
 
 	public static final String EMPLEADO = "EMPLEADO";
 
@@ -62,7 +64,7 @@ public class RelacionUniandes
 			@JsonProperty( value = "tipo") String pTipo ,  
 			@JsonProperty( value = "carnet") int pCarnet) throws Exception
 	{
-		if(pTipo.equals(ESTUDIANTE)|| pTipo.equals(PROFESOR) || pTipo.equals(HOTEL) || pTipo.equals(EMPLEADO) || pTipo.equals(VECINO) || pTipo.equals(FENICIA) || pTipo.equals(PROFESOR_INVITADO) || pTipo.equals(REGISTRADO) || pTipo.equals(EGRESADO) || pTipo.equals(PADRE_ESTUDIANTE) || pTipo.equals(ADMINISTRADOR_VIVIENDA_UNIVERSITARIA))
+		if(pTipo.equals(ESTUDIANTE)|| pTipo.equals(PROFESOR) || pTipo.equals(HOTEL) || pTipo.equals(EMPLEADO) || pTipo.equals(VECINO) || pTipo.equals(FENICIA) || pTipo.equals(PROFESOR_INVITADO) || pTipo.equals(REGISTRADO) || pTipo.equals(EGRESADO) || pTipo.equals(PADRE_ESTUDIANTE) || pTipo.equals(ADMINISTRADOR_VIVIENDA_UNIVERSITARIA)|| pTipo.equals(HOSTAL))
 		{
 			id= pId;
 			tipo = pTipo;

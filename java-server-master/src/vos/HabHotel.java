@@ -38,9 +38,12 @@ public class HabHotel extends Alojamiento
 			@JsonProperty( value = "vecesAlquilado")int pVecesAlquilado,
 			@JsonProperty( value = "operador")Operador pOperador,
 			@JsonProperty( value = "servicios") List<Servicio> pServicios,
-			@JsonProperty( value = "reservas") List<Reserva> pReservas)
+			@JsonProperty( value = "reservas") List<Reserva> pReservas,
+			@JsonProperty( value = "tipo") String pTipo,
+			@JsonProperty( value = "tipoHabitacion") String pTipohab)
 	{
-		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas);
+		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas,pTipo);
+		tipoHabitacion = pTipohab;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------------------

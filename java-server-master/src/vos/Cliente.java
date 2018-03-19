@@ -16,7 +16,7 @@ public class Cliente
 	 * Id del cliente
 	 */
 	@JsonProperty( value = "id")
-	private int id;
+	private Long id;
 
 	/**
 	 * tipo del id
@@ -35,18 +35,6 @@ public class Cliente
 	 */
 	@JsonProperty( value = "contacto")
 	private String contacto;
-
-	/**
-	 * cantidad total de dinero pago por el cliente
-	 */
-	@JsonProperty( value = "dineroPago")
-	private double dineroPago;
-
-	/**
-	 * numero de noches que ha tomado cada cliente mediante la aplicacion.
-	 */
-	@JsonProperty( value = "numeroDeNochesTomadas")
-	private int numeroDeNochesTomadas;
 
 	/**
 	 * lista de los contratos que tiene el cliente
@@ -85,12 +73,10 @@ public class Cliente
 	 * Constructor de cliente.
 	 * <b>post: </b> Crea el cliente con los valores que entran por parametro
 	 */
-	public Cliente(@JsonProperty( value = "id")int pId,
+	public Cliente(@JsonProperty( value = "id")Long pId,
 			       @JsonProperty( value = "tipoId")String pTipoId, 
 			       @JsonProperty( value = "nombre")String pNombre,
-			       @JsonProperty( value = "contacto")String pContacto, 
-			       @JsonProperty( value = "dineroPago")double pDineroPago, 
-			       @JsonProperty( value = "numeroDeNochesTomadas")int pNumeroDeNochesTomadas,
+			       @JsonProperty( value = "contacto")String pContacto,
 			       @JsonProperty( value = "relacionUniandes")RelacionUniandes pRelacion, 
 			       @JsonProperty( value = "contratos")List <Contrato> pContratos, 
 			       @JsonProperty( value = "reservas")List <Reserva> pReservas, 
@@ -100,8 +86,6 @@ public class Cliente
 		tipoId = pTipoId;
 		nombre = pNombre;
 		contacto = pContacto;
-		dineroPago = pDineroPago;
-		numeroDeNochesTomadas = pNumeroDeNochesTomadas;
 		contratos = pContratos;
 		reservas = pReservas;
 		relacionUniandes= pRelacion;
@@ -113,7 +97,7 @@ public class Cliente
 	// METODOS
 	//----------------------------------------------------------------------------------------------------------------------------------
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -130,16 +114,6 @@ public class Cliente
 
 	public String getContacto() {
 		return contacto;
-	}
-
-
-	public double getDineroPago() {
-		return dineroPago;
-	}
-
-
-	public int getNumeroDeNochesTomadas() {
-		return numeroDeNochesTomadas;
 	}
 
 
@@ -168,7 +142,7 @@ public class Cliente
 	}
 
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -182,14 +156,6 @@ public class Cliente
 
 	public void setContacto(String contacto) {
 		this.contacto = contacto;
-	}
-
-	public void setDineroPago(double dineroPago) {
-		this.dineroPago = dineroPago;
-	}
-
-	public void setNumeroDeNochesTomadas(int numeroDeNochesTomadas) {
-		this.numeroDeNochesTomadas = numeroDeNochesTomadas;
 	}
 
 	public void setContratos(List<Contrato> contratos) {

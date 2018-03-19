@@ -50,10 +50,11 @@ public class Apartamento extends Alojamiento
 			@JsonProperty( value = "operador")Operador pOperador,
 			@JsonProperty( value = "servicios") List<Servicio> pServicios,
 			@JsonProperty( value = "reservas") List<Reserva> pReservas,
+			@JsonProperty( value = "tipo") String pTipo,
 			@JsonProperty( value = "amoblado") boolean pAmoblado,
 			@JsonProperty( value = "contratos") List<Contrato> pContratos)
 	{
-		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas);
+		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas,pTipo);
 		amoblado = pAmoblado;
 		contratos = pContratos;
 	}

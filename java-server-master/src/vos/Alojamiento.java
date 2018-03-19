@@ -8,6 +8,15 @@ import java.util.Date;
 public class Alojamiento
 {
 	//----------------------------------------------------------------------------------------------------------------------------------
+	// CONSTANTES que modelan los tipos de alojamiento que existen.
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	private static final String APARTAMENTO = "APARTAMENTO";
+	private static final String HAB_HOSTAL = "HAB HOSTAL";
+	private static final String HAB_HOTEL = "HAB HOTEL";
+	private static final String VIVIENDA = "VIVIENDA";
+	private static final String HAB_UNIVERSITARIA = "HAB UNIVERSITARIA";
+	//----------------------------------------------------------------------------------------------------------------------------------
 	// ATRIBUTOS
 	//----------------------------------------------------------------------------------------------------------------------------------
 
@@ -17,6 +26,12 @@ public class Alojamiento
 	@JsonProperty( value = "id")
 	private Long id;
 
+	/**
+	 * Id del alojamiento
+	 */
+	@JsonProperty( value = "tipo")
+	private String tipo;
+	
 	/**
 	 * Ubicacion del alojamiento
 	 */
@@ -92,17 +107,18 @@ public class Alojamiento
 	 * <b>post: </b> Crea un alojamiento con los valores que entran por parametro
 	 */
 	public Alojamiento(@JsonProperty( value = "id")Long pId,
-					   @JsonProperty( value = "ubicacion")String pUbicacion,
-					   @JsonProperty( value = "costoBasico")double pCostoBasico,
-					   @JsonProperty( value = "diasAlquilado")int pDiasAlquilado,
-					   @JsonProperty( value = "capacidad")int pCapacidad,
-					   @JsonProperty( value = "numPersonas") int pNumPersonas,
-					   @JsonProperty( value = "vigente")boolean pVigente,
-					   @JsonProperty( value = "fechaRetiro")Date pFechaRetiro,
-					   @JsonProperty( value = "vecesAlquilado")int pVecesAlquilado,
-					   @JsonProperty( value = "operador")Operador pOperador,
-					   @JsonProperty( value = "servicios") List<Servicio> pServicios,
-					   @JsonProperty( value = "reservas") List<Reserva> pReservas)
+			@JsonProperty( value = "ubicacion")String pUbicacion,
+			@JsonProperty( value = "costoBasico")double pCostoBasico,
+			@JsonProperty( value = "diasAlquilado")int pDiasAlquilado,
+			@JsonProperty( value = "capacidad")int pCapacidad,
+			@JsonProperty( value = "numPersonas") int pNumPersonas,
+			@JsonProperty( value = "vigente")boolean pVigente,
+			@JsonProperty( value = "fechaRetiro")Date pFechaRetiro,
+			@JsonProperty( value = "vecesAlquilado")int pVecesAlquilado,
+			@JsonProperty( value = "operador")Operador pOperador,
+			@JsonProperty( value = "servicios") List<Servicio> pServicios,
+			@JsonProperty( value = "reservas") List<Reserva> pReservas,
+			@JsonProperty( value = "tipo") String pTipo)
 	{
 		id = pId;
 		ubicacion = pUbicacion;
@@ -116,11 +132,12 @@ public class Alojamiento
 		operador = pOperador;
 		servicios = pServicios;
 		reservas = pReservas;
+		tipo = pTipo;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS
 	//----------------------------------------------------------------------------------------------------------------------------------
-		
+
 	public Long getId() {
 		return id;
 	}
@@ -216,6 +233,15 @@ public class Alojamiento
 	public void setReservas(List<Reserva> reservas) {
 		this.reservas = reservas;
 	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	
 }
 

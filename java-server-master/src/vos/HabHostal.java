@@ -23,6 +23,11 @@ public class HabHostal extends Alojamiento
 	@JsonProperty( value = "horarioCierre")
 	private Date horarioCierre;
 
+	/**
+	 * boolean que indica si la habitacion es compartida.
+	 */
+	@JsonProperty( value = "compartida")
+	private boolean compartida;
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// CONSTRUCTOR
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -43,12 +48,15 @@ public class HabHostal extends Alojamiento
 			@JsonProperty( value = "operador")Operador pOperador,
 			@JsonProperty( value = "servicios") List<Servicio> pServicios,
 			@JsonProperty( value = "reservas") List<Reserva> pReservas,
+			@JsonProperty( value = "tipo") String pTipo,
 			@JsonProperty( value = "horarioApertura") Date pHorarioApertura,
-			@JsonProperty( value = "horarioCierre") Date pHorarioCierre)
+			@JsonProperty( value = "horarioCierre") Date pHorarioCierre,
+			@JsonProperty( value = "compartida")boolean pCompartida)
 	{
-		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas);
+		super(pId, pUbicacion, pCostoBasico, pDiasAlquilado, pCapacidad, pNumPersonas, pVigente, pFechaRetiro, pVecesAlquilado, pOperador, pServicios, pReservas,pTipo);
 		horarioApertura =pHorarioApertura;
 		horarioCierre = pHorarioCierre;
+		compartida = pCompartida;
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -71,6 +79,14 @@ public class HabHostal extends Alojamiento
 		this.horarioCierre = horarioCierre;
 	}
 
+	public boolean isCompartida() {
+		return compartida;
+	}
 
+	public void setCompartida(boolean compartida) {
+		this.compartida = compartida;
+	}
+
+	
 }
 

@@ -17,15 +17,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.AlohAndesMaster;
-import vos.Operador;
+import vos.Cliente;
 
 
 
 /**
  * Clase que expone servicios REST con ruta base: http://localhost:8080/AlohAndes/rest/operadores/...
  */
-@Path("operadores")
-public class OperadoresService {
+@Path("clientes")
+public class ClientesService {
 
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// ATRIBUTOS
@@ -58,22 +58,22 @@ public class OperadoresService {
 	//----------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Metodo GET que trae a todos los operadores en la Base de datos. <br/>
+	 * Metodo GET que trae a todos los Clientes en la Base de datos. <br/>
 	 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
-	 * <b>URL: </b> http://localhost:8080/AlohAndes/rest/operadores <br/>
-	 * @return	<b>Response Status 200</b> - JSON que contiene a todos los Operadores que estan en la Base de Datos <br/>
+	 * <b>URL: </b> http://localhost:8080/AlohAndes/rest/Clientes <br/>
+	 * @return	<b>Response Status 200</b> - JSON que contiene a todos los Clientes que estan en la Base de Datos <br/>
 	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
 	 */			
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getOperadores() {
+	public Response getClientes() {
 		
 		try {
 			AlohAndesMaster tm = new AlohAndesMaster(getPath());
 			
-			List<Operador> operadores;
-			operadores = tm.getAllOperadores();
-			return Response.status(200).entity(operadores).build();
+			List<Cliente> Clientes;
+			Clientes = tm.getAllClientes();
+			return Response.status(200).entity(Clientes).build();
 		} 
 		catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
@@ -81,22 +81,22 @@ public class OperadoresService {
 	}
 
 	/**
-	 * Metodo GET que trae al Operador en la Base de Datos con el ID dado por parametro <br/>
+	 * Metodo GET que trae al Cliente en la Base de Datos con el ID dado por parametro <br/>
 	 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
-	 * <b>URL: </b> http://localhost:8080/AlohAndesMaster/rest/Operadores/{id} <br/>
-	 * @return	<b>Response Status 200</b> - JSON Operador que contiene al Operador cuyo ID corresponda al parametro <br/>
+	 * <b>URL: </b> http://localhost:8080/AlohAndesMaster/rest/Clientes/{id} <br/>
+	 * @return	<b>Response Status 200</b> - JSON Cliente que contiene al Cliente cuyo ID corresponda al parametro <br/>
 	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
 	 */
 	@GET
 	@Path( "{id: \\d+}" )
 	@Produces( { MediaType.APPLICATION_JSON } )
-	public Response getOperadorById( @PathParam( "id" ) Long id )
+	public Response getClienteById( @PathParam( "id" ) Long id )
 	{
 		try{
 			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
 			
-			Operador operador = tm.getOperadorById( id );
-			return Response.status( 200 ).entity( operador ).build( );			
+			Cliente Cliente = tm.getClienteById( id );
+			return Response.status( 200 ).entity( Cliente ).build( );			
 		}
 		catch( Exception e )
 		{
@@ -105,23 +105,23 @@ public class OperadoresService {
 	}
 
 	/**
-	 * Metodo que recibe un Operador en formato JSON y lo agrega a la Base de Datos <br/>
+	 * Metodo que recibe un Cliente en formato JSON y lo agrega a la Base de Datos <br/>
 	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
-	 * <b>Postcondicion: </b> Se agrega a la Base de datos la informacion correspondiente al Operador. <br/>
-	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Operadores <br/>
-	 * @param Operador JSON con la informacion del Operador que se desea agregar
-	 * @return	<b>Response Status 200</b> - JSON que contiene al Operador que ha sido agregado <br/>
+	 * <b>Postcondicion: </b> Se agrega a la Base de datos la informacion correspondiente al Cliente. <br/>
+	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Clientes <br/>
+	 * @param Cliente JSON con la informacion del Cliente que se desea agregar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Cliente que ha sido agregado <br/>
 	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
 	 */
 	@POST
 	@Produces( { MediaType.APPLICATION_JSON } )
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response addOperador(Operador Operador) {
+	public Response addCliente(Cliente Cliente) {
 		
 		try{
 			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
-			tm.addOperador(Operador);
-			return Response.status( 200 ).entity( Operador ).build( );			
+			tm.addCliente(Cliente);
+			return Response.status( 200 ).entity( Cliente ).build( );			
 		}
 		catch( Exception e )
 		{
@@ -131,21 +131,21 @@ public class OperadoresService {
 	
 
 	/**
-	 * Metodo que recibe un Operador en formato JSON y lo agrega a la Base de Datos <br/>
+	 * Metodo que recibe un Cliente en formato JSON y lo agrega a la Base de Datos <br/>
 	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
-	 * <b>Postcondicion: </b> Se actualiza la Base de datos con la informacion correspondiente al Operador.<br/>
-	 * @param Operador JSON con la informacion del Operador que se desea agregar
-	 * @return	<b>Response Status 200</b> - JSON que contiene al Operador que se desea modificar <br/>
+	 * <b>Postcondicion: </b> Se actualiza la Base de datos con la informacion correspondiente al Cliente.<br/>
+	 * @param Cliente JSON con la informacion del Cliente que se desea agregar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Cliente que se desea modificar <br/>
 	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
 	 */
 	@PUT	
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateOperador(Operador Operador) {
+	public Response updateCliente(Cliente Cliente) {
 		try{
 			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
-			tm.updateOperador(Operador);
-			return Response.status( 200 ).entity( Operador ).build( );			
+			tm.updateCliente(Cliente);
+			return Response.status( 200 ).entity( Cliente ).build( );			
 		}
 		catch( Exception e )
 		{
@@ -154,23 +154,23 @@ public class OperadoresService {
 	}
 
 	/**
-	 * Metodo que recibe un Operador en formato JSON y lo elimina de la Base de Datos <br/>
+	 * Metodo que recibe un Cliente en formato JSON y lo elimina de la Base de Datos <br/>
 	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
-	 * <b>Postcondicion: </b> Se elimina de la Base de datos al Operador con la informacion correspondiente.<br/>
-	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Operadores <br/>
-	 * @param Operador JSON con la informacion del Operador que se desea eliminar
-	 * @return	<b>Response Status 200</b> - JSON que contiene al Operador que se desea eliminar <br/>
+	 * <b>Postcondicion: </b> Se elimina de la Base de datos al Cliente con la informacion correspondiente.<br/>
+	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Clientes <br/>
+	 * @param Cliente JSON con la informacion del Cliente que se desea eliminar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Cliente que se desea eliminar <br/>
 	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
 	 */
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	
-	public Response deleteOperador(Operador Operador) {
+	public Response deleteCliente(Cliente Cliente) {
     	try{
 			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
-			tm.deleteOperador(Operador);
-			return Response.status( 200 ).entity( Operador ).build( );			
+			tm.deleteCliente(Cliente);
+			return Response.status( 200 ).entity( Cliente ).build( );			
 		}
 		catch( Exception e )
 		{
