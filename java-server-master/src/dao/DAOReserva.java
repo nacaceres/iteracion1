@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import vos.*;
 
@@ -59,7 +60,7 @@ public class DAOReserva {
 	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public ArrayList<Reserva> getReservas( DAOReserva daoReserva) throws SQLException, Exception {
+	public ArrayList<Reserva> getReservas( DAOAlojamiento daoAlojamiento, DAOCliente daoCliente) throws SQLException, Exception {
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
 		String sql = String.format("SELECT * FROM %1$s.RESERVAS", USUARIO);
@@ -69,7 +70,7 @@ public class DAOReserva {
 		ResultSet rs = prepStmt.executeQuery();
 
 		while (rs.next()) {
-		reservas.add(convertResultSetToReserva(rs,daoReserva));
+		reservas.add(convertResultSetToReserva(rs,daoAlojamiento,daoCliente));
 		}
 		return reservas;
 	}
@@ -85,7 +86,7 @@ public class DAOReserva {
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public Reserva findReservaById(Long id, DAOReserva daoReserva) throws SQLException, Exception 
+	public Reserva findReservaById(Long id, DAOAlojamiento daoAlojamiento, DAOCliente daoCliente) throws SQLException, Exception 
 	{
 		Reserva Reserva = null;
 
@@ -96,7 +97,7 @@ public class DAOReserva {
 		ResultSet rs = prepStmt.executeQuery();
 
 		if(rs.next()) {
-			Reserva = convertResultSetToReserva(rs,daoReserva);
+			Reserva = convertResultSetToReserva(rs,daoAlojamiento,daoCliente);
 		}
 
 		return Reserva;
@@ -109,10 +110,10 @@ public class DAOReserva {
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public void addReserva (Reserva Reserva, DAOReserva daoReserva) throws SQLException, Exception {
+	public void addReserva (Reserva Reserva) throws SQLException, Exception {
 		String fecha1 = "'"+Reserva.getFechaInicio().getDate() +"/" +Reserva.getFechaInicio().getMonth()+"/" +Reserva.getFechaInicio().getYear()+"'";
 		String fecha2 = "'"+Reserva.getFechaFin().getDate() +"/" +Reserva.getFechaFin().getMonth()+"/" +Reserva.getFechaFin().getYear()+"'";
-		String fecha3 = "'"+Reserva.getFechaCancelacion().getDate() +"/" +Reserva.getFechaCancelacion().getMonth()+"/" +Reserva.getFechaCancelacion().getYear()+"'";
+		//String fecha3 = "'"+Reserva.getFechaCancelacion().getDate() +"/" +Reserva.getFechaCancelacion().getMonth()+"/" +Reserva.getFechaCancelacion().getYear()+"'";
 		String fecha4 = "'"+Reserva.getTiempoOportunoCan().getDate() +"/" +Reserva.getTiempoOportunoCan().getMonth()+"/" +Reserva.getTiempoOportunoCan().getYear()+"'";
 		String cancelada = "F";
 		if(Reserva.isCancelada())
@@ -120,15 +121,15 @@ public class DAOReserva {
 		String terminada = "F";
 		if(Reserva.isTerminada())
 			terminada = "T";
-		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, NUM_DIAS, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_Reserva, ID_CLIENTE) VALUES ("+ 
+		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, NUM_DIAS, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE) VALUES ("+ 
 				Reserva.getId()+" , "+
 				Reserva.getNumDias()+" , "+
 				fecha1+" , "+
 				fecha2+" , "+
 				Reserva.getNumPersonas()+" , '"+
 				cancelada+ "' , "+
-				fecha3+" , '"+
-				Reserva.getCostoDefinitivo()+" , '"+
+				null+" , "+
+				Reserva.getCostoDefinitivo()+" ,"+
 				fecha4+" , '"+
 				terminada+ "' , "+
 				Reserva.getAlojamiento().getId()+" , "+
@@ -138,6 +139,7 @@ public class DAOReserva {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
+		//Pendiente anhadir los servicios a tablas.
 		
 	}
 
@@ -191,33 +193,33 @@ public class DAOReserva {
 //		prepStmt.executeQuery();
 //	}
 //
-//	//----------------------------------------------------------------------------------------------------------------------------------
-//	// METODOS AUXILIARES
-//	//----------------------------------------------------------------------------------------------------------------------------------
-//
-//	/**
-//	 * Metodo encargado de inicializar la conexion del DAO a la Base de Datos a partir del parametro <br/>
-//	 * <b>Postcondicion: </b> el atributo conn es inicializado <br/>
-//	 * @param connection la conexion generada en el TransactionManager para la comunicacion con la Base de Datos
-//	 */
-//	public void setConn(Connection connection){
-//		this.conn = connection;
-//	}
-//
-//	/**
-//	 * Metodo que cierra todos los recursos que se encuentran en el arreglo de recursos<br/>
-//	 * <b>Postcondicion: </b> Todos los recurso del arreglo de recursos han sido cerrados.
-//	 */
-//	public void cerrarRecursos() {
-//		for(Object ob : recursos){
-//			if(ob instanceof PreparedStatement)
-//				try {
-//					((PreparedStatement) ob).close();
-//				} catch (Exception ex) {
-//					ex.printStackTrace();
-//				}
-//		}
-//	}
+	//----------------------------------------------------------------------------------------------------------------------------------
+	// METODOS AUXILIARES
+	//----------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Metodo encargado de inicializar la conexion del DAO a la Base de Datos a partir del parametro <br/>
+	 * <b>Postcondicion: </b> el atributo conn es inicializado <br/>
+	 * @param connection la conexion generada en el TransactionManager para la comunicacion con la Base de Datos
+	 */
+	public void setConn(Connection connection){
+		this.conn = connection;
+	}
+
+	/**
+	 * Metodo que cierra todos los recursos que se encuentran en el arreglo de recursos<br/>
+	 * <b>Postcondicion: </b> Todos los recurso del arreglo de recursos han sido cerrados.
+	 */
+	public void cerrarRecursos() {
+		for(Object ob : recursos){
+			if(ob instanceof PreparedStatement)
+				try {
+					((PreparedStatement) ob).close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+		}
+	}
 
 	/**
 	 * Metodo que transforma el resultado obtenido de una consulta SQL (sobre la tabla reservaS y RELACIONES) en una instancia de la clase Reserva.
@@ -225,40 +227,62 @@ public class DAOReserva {
 	 * @return Reserva cuyos atributos corresponden a los valores asociados a un registro particular de la tabla reservaS y RELACIONES.
 	 * @throws SQLException Si existe algun problema al extraer la informacion del ResultSet.
 	 */
-	public Reserva convertResultSetToReserva(ResultSet resultSet, DAOReserva daoReserva) throws SQLException, Exception {
+	public Reserva convertResultSetToReserva(ResultSet resultSet, DAOAlojamiento daoAlojamiento, DAOCliente daoCliente) throws SQLException, Exception {
 
 		long id = Long.parseLong(resultSet.getString("ID"));
 		int numDias = Integer.parseInt(resultSet.getString("NUM_DIAS"));
 		String fechaInicio = resultSet.getString("FECHA_INICIO");
 		
-		String tipo = resultSet.getString("TIPO_ID");
-		String nombre = resultSet.getString("NOMBRE");
-		String contacto = resultSet.getString("CONTACTO");
-		long idRelacion = Long.parseLong(resultSet.getString("ID_RELACION"));
-		String sql = String.format("SELECT * FROM %1$s.RELACIONES WHERE ID = %2$d", USUARIO, idRelacion);
-
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
-		recursos.add(prepStmt);
-		ResultSet rs = prepStmt.executeQuery();
-		rs.next();
-		String tipo2 = rs.getString("TIPO");
-		int carnet = Integer.parseInt(rs.getString("CARNET"));
+		String fif = fechaInicio.substring(2, 10);
+		String [] array = fif.split("-");
+		int anho = Integer.parseInt(array[0])+2000;
+		int mes = Integer.parseInt(array[1]);
+		int dia = Integer.parseInt(array[2]);
+		Date date1 = new Date(anho, mes, dia);
 		
-		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
+		String fechaFin = resultSet.getString("FECHA_FIN");
+		String fff = fechaFin.substring(2, 10);
+		String [] array2 = fff.split("-");
+		int anho2 = Integer.parseInt(array2[0])+2000;
+		int mes2 = Integer.parseInt(array2[1]);
+		int dia2 = Integer.parseInt(array2[2]);
+		Date date2 = new Date(anho2, mes2, dia2);
 		
-		ArrayList<Reserva> Reservas = new ArrayList<Reserva>();
-
-		String sql4 = String.format("SELECT * FROM %1$s.ReservaS WHERE ID_Reserva = %2$d", USUARIO,id);
-
-		PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
-		recursos.add(prepStmt4);
-		ResultSet rs4 = prepStmt4.executeQuery();
-
-		while (rs4.next()) {
-			Reservas.add(daoReserva.convertResultSetToReserva(rs4));
+		int numPersonas = Integer.parseInt(resultSet.getString("NUM_PERSONAS"));
+		boolean cancelada = false;
+		if(resultSet.getString("CANCELADA").equals("T"))
+			cancelada = true;
+		String fechaCancelacion = resultSet.getString("FECHA_CANCELACION");
+		Date date3 = null;
+		if(fechaCancelacion != null)
+		{
+		String fcf = fechaCancelacion.substring(2, 10);
+		String [] array3 = fcf.split("-");
+		int anho3 = Integer.parseInt(array3[0])+2000;
+		int mes3 = Integer.parseInt(array3[1]);
+		int dia3 = Integer.parseInt(array3[2]);
+		date3 = new Date(anho3, mes3, dia3);
 		}
 		
-		Reserva ope = new Reserva(id, tipo, nombre, contacto, Reservas, rela);
+		double costoFinal = Double.parseDouble(resultSet.getString("COSTO_DEFINITIVO"));
+		String tiempoOportuno = resultSet.getString("TIEMPO_OPORTUNO");
+		String ftf = tiempoOportuno.substring(2, 10);
+		String [] array4 = ftf.split("-");
+		int anho4 = Integer.parseInt(array4[0])+2000;
+		int mes4 = Integer.parseInt(array4[1]);
+		int dia4 = Integer.parseInt(array4[2]);
+		Date date4 = new Date(anho4, mes4, dia4);
+		
+		boolean terminada = false;
+		if(resultSet.getString("TERMINADA").equals("T"))
+			terminada = true;
+		long idAlojamiento = Long.parseLong(resultSet.getString("ID_ALOJAMIENTO"));
+		long idCliente = Long.parseLong(resultSet.getString("ID_CLIENTE"));
+		
+		Alojamiento alojamiento = daoAlojamiento.findAlojamientoById(idAlojamiento);
+		Cliente cliente = daoCliente.findClienteById(idCliente);
+		ArrayList <Servicio>servicios = new ArrayList<Servicio>();
+		Reserva ope = new Reserva(id, numDias, date1, date2, cancelada, numPersonas, date3, costoFinal, terminada, date4, alojamiento, cliente, servicios);
 
 		return ope;
 	}

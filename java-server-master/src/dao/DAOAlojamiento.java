@@ -372,6 +372,20 @@ public class DAOAlojamiento {
 	public void retirarOfertaAlojamiento(Alojamiento alojamiento) throws SQLException, Exception {
 		
 		String fecha = null;
+		String sentencia ="SELECT MAX (RE.FECHA_FIN) AS MAX_DATE FROM RESERVAS RE WHERE RE.ID_ALOJAMIENTO="+alojamiento.getId();
+		PreparedStatement prepStmt2 = conn.prepareStatement(sentencia);
+		recursos.add(prepStmt2);
+		prepStmt2.executeQuery();
+		ResultSet rs = prepStmt2.executeQuery();
+		if(rs.next()) {
+			String fechaUltimaReserva = rs.getString("MAX_DATE");
+			String prueba = fechaUltimaReserva.substring(2, 10);
+			String [] array = prueba.split("-");
+			int anho = Integer.parseInt(array[0])+100;
+			int mes = Integer.parseInt(array[1])-1;
+			int dia = Integer.parseInt(array[2]);
+			Date date = new Date(anho, mes, dia);
+		}
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append(String.format("UPDATE %s.ALOJAMIENTOS SET ", USUARIO));

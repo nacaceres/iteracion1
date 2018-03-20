@@ -25,7 +25,7 @@ import vos.Reserva;
 /**
  * Clase que expone servicios REST con ruta base: http://localhost:8080/AlohAndes/rest/Reservas/...
  */
-@Path("Reservas")
+@Path("reservas")
 public class ReservasService {
 
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -131,52 +131,52 @@ public class ReservasService {
 	}
 	
 
-	/**
-	 * Metodo que recibe un Reserva en formato JSON y lo agrega a la Base de Datos <br/>
-	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
-	 * <b>Postcondicion: </b> Se actualiza la Base de datos con la informacion correspondiente al Reserva.<br/>
-	 * @param Reserva JSON con la informacion del Reserva que se desea agregar
-	 * @return	<b>Response Status 200</b> - JSON que contiene al Reserva que se desea modificar <br/>
-	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
-	 */
-	@PUT	
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateReserva(Reserva Reserva) {
-		try{
-			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
-			tm.updateReserva(Reserva);
-			return Response.status( 200 ).entity( Reserva ).build( );			
-		}
-		catch( Exception e )
-		{
-			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
-		}
-	}
-
-	/**
-	 * Metodo que recibe un Reserva en formato JSON y lo elimina de la Base de Datos <br/>
-	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
-	 * <b>Postcondicion: </b> Se elimina de la Base de datos al Reserva con la informacion correspondiente.<br/>
-	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Reservas <br/>
-	 * @param Reserva JSON con la informacion del Reserva que se desea eliminar
-	 * @return	<b>Response Status 200</b> - JSON que contiene al Reserva que se desea eliminar <br/>
-	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
-	 */
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	
-	public Response deleteReserva(Reserva Reserva) {
-    	try{
-			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
-			tm.deleteReserva(Reserva);
-			return Response.status( 200 ).entity( Reserva ).build( );			
-		}
-		catch( Exception e )
-		{
-			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
-		}
-	}
+//	/**
+//	 * Metodo que recibe un Reserva en formato JSON y lo agrega a la Base de Datos <br/>
+//	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+//	 * <b>Postcondicion: </b> Se actualiza la Base de datos con la informacion correspondiente al Reserva.<br/>
+//	 * @param Reserva JSON con la informacion del Reserva que se desea agregar
+//	 * @return	<b>Response Status 200</b> - JSON que contiene al Reserva que se desea modificar <br/>
+//	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+//	 */
+//	@PUT	
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response updateReserva(Reserva Reserva) {
+//		try{
+//			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+//			tm.updateReserva(Reserva);
+//			return Response.status( 200 ).entity( Reserva ).build( );			
+//		}
+//		catch( Exception e )
+//		{
+//			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+//		}
+//	}
+//
+//	/**
+//	 * Metodo que recibe un Reserva en formato JSON y lo elimina de la Base de Datos <br/>
+//	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+//	 * <b>Postcondicion: </b> Se elimina de la Base de datos al Reserva con la informacion correspondiente.<br/>
+//	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Reservas <br/>
+//	 * @param Reserva JSON con la informacion del Reserva que se desea eliminar
+//	 * @return	<b>Response Status 200</b> - JSON que contiene al Reserva que se desea eliminar <br/>
+//	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+//	 */
+//    @DELETE
+//    @Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	
+//	public Response deleteReserva(Reserva Reserva) {
+//    	try{
+//			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+//			tm.deleteReserva(Reserva);
+//			return Response.status( 200 ).entity( Reserva ).build( );			
+//		}
+//		catch( Exception e )
+//		{
+//			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+//		}
+//	}
 
 }
