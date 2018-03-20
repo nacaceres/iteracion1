@@ -23,6 +23,7 @@ import vos.Cliente;
 import vos.HabHostal;
 import vos.HabHotel;
 import vos.HabUniversitaria;
+import vos.Vivienda;
 
 
 
@@ -225,6 +226,30 @@ public class AlojamientosService {
 			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
 			tm.addHabUniversitaria(HabUniversitaria);
 			return Response.status( 200 ).entity( HabUniversitaria ).build( );			
+		}
+		catch( Exception e )
+		{
+			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+		}
+	}
+	/**
+	 * Metodo que recibe un Vivienda en formato JSON y lo agrega a la Base de Datos <br/>
+	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>Postcondicion: </b> Se agrega a la Base de datos la informacion correspondiente al Vivienda. <br/>
+	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Viviendas <br/>
+	 * @param Vivienda JSON con la informacion del Vivienda que se desea agregar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Vivienda que ha sido agregado <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */
+	@POST
+	@Produces( { MediaType.APPLICATION_JSON } )
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("viviendas")
+	public Response addVivienda(Vivienda Vivienda) {
+		try{
+			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+			tm.addVivienda(Vivienda);
+			return Response.status( 200 ).entity( Vivienda ).build( );			
 		}
 		catch( Exception e )
 		{

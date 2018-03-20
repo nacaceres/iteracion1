@@ -313,6 +313,75 @@ public class DAOAlojamiento {
 		//Falta agregar todos los servicios.
 		//Falta agregar todos los contratos.
 	}
+	/**
+	 * Metodo que agregar la informacion de un nuevo Vivienda en la Base de Datos a partir del parametro ingresado<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @param Vivienda Vivienda que desea agregar a la Base de Datos
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public void addVivienda (Vivienda Vivienda) throws SQLException, Exception {
+		// Se asume que el operador ya existe.
+		// El Vivienda empieza sin reservas.
+		String var = "F";
+		if(Vivienda.isVigente())
+			var = "T";
+		String fecha = Vivienda.getFechaRetiro().getDate() +"/" +Vivienda.getFechaRetiro().getMonth()+"/" +Vivienda.getFechaRetiro().getYear();
+		String sql2 = "INSERT INTO "+ USUARIO+".ALOJAMIENTOS (ID, UBICACION, COSTO_BASICO, CAPACIDAD, VIGENTE, FECHA_RETIRO, TIPO , ID_OPERADOR) VALUES ("+ 
+
+				Vivienda.getId()+", '"+
+				Vivienda.getUbicacion()+"' ,"+
+				Vivienda.getCostoBasico()+","+
+				Vivienda.getCapacidad()+", '"+
+				var+"' , '"+
+				fecha+"' , '"+
+				Vivienda.getTipo()+"' ,"+
+				Vivienda.getOperador().getId()+")";
+		System.out.println(sql2);
+		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+		recursos.add(prepStmt2);
+		prepStmt2.executeQuery();
+
+		String var2 = "F";
+		if(Vivienda.isCedido())
+			var2= "T";
+		String var3 = "F";
+		if(Vivienda.isCompartido())
+			var3= "T";
+		String sql3 = "INSERT INTO "+ USUARIO+".VIVIENDAS (ID, NUM_HABITACIONES,CEDIDO,COMPARTIDO ) VALUES ("+ 
+
+				Vivienda.getId()+", "+
+				Vivienda.getNumHabitaciones()+ ", '"
+				+var2+"' , '"
+				+var3+
+				"' )";
+		PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
+		recursos.add(prepStmt3);
+		prepStmt3.executeQuery();
+
+		//Falta agregar todos los servicios.
+		//Falta agregar todos los contratos.
+	}
+	/**
+	 * Metodo que retira la oferta de alojamiento en la Base de Datos que tiene el identificador dado por parametro<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @param Alojamiento alojamiento que se desea actualizar a la Base de Datos
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public void retirarOfertaAlojamiento(Alojamiento alojamiento) throws SQLException, Exception {
+		
+		String fecha = null;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append(String.format("UPDATE %s.ALOJAMIENTOS SET ", USUARIO));
+		sql.append(String.format("VIGENTE = 'F' , FECHA_RETIRO = '%1$s'",  fecha));
+		sql.append(String.format(" WHERE ID = %d ", alojamiento.getId()));
+		System.out.println(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
