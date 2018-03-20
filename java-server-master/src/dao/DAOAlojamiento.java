@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -117,17 +119,18 @@ public class DAOAlojamiento {
 		String var = "F";
 		if(Alojamiento.isVigente())
 			var = "T";
-		String fecha = Alojamiento.getFechaRetiro().getDate() +"/" +Alojamiento.getFechaRetiro().getMonth()+"/" +Alojamiento.getFechaRetiro().getYear();
+		//String fecha = Alojamiento.getFechaRetiro().getDate() +"/" +Alojamiento.getFechaRetiro().getMonth()+"/" +Alojamiento.getFechaRetiro().getYear();
 		String sql2 = "INSERT INTO "+ USUARIO+".ALOJAMIENTOS (ID, UBICACION, COSTO_BASICO, CAPACIDAD, VIGENTE, FECHA_RETIRO, TIPO , ID_OPERADOR) VALUES ("+ 
 
 				Alojamiento.getId()+", '"+
 				Alojamiento.getUbicacion()+"' ,"+
 				Alojamiento.getCostoBasico()+","+
 				Alojamiento.getCapacidad()+", '"+
-				var+"' , '"+
-				fecha+"' , '"+
+				var+"' , "+
+				null+" , '"+
 				Alojamiento.getTipo()+"' ,"+
 				Alojamiento.getOperador().getId()+")";
+		System.out.println(sql2);
 		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
 		recursos.add(prepStmt2);
 		prepStmt2.executeQuery();
@@ -260,7 +263,7 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt2);
 		prepStmt2.executeQuery();
 
-		
+
 		String sql3 = "INSERT INTO "+ USUARIO+".HABITACIONES_HOTEL (ID, TIPO_HABITACION ) VALUES ("+ 
 
 				HabHotel.getId()+", '"+
@@ -301,7 +304,7 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt2);
 		prepStmt2.executeQuery();
 
-		
+
 		String sql3 = "INSERT INTO "+ USUARIO+".HABITACIONES_VIV_UNI (ID, DURACION_DE_HAB ) VALUES ("+ 
 
 				habUniversitaria.getId()+", "+
@@ -370,8 +373,14 @@ public class DAOAlojamiento {
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
 	public void retirarOfertaAlojamiento(Alojamiento alojamiento) throws SQLException, Exception {
-		
-		String fecha = null;
+
+
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date1 = new Date();
+		String x = dateFormat.format(date1);
+
+		String fecha = x;
+
 		String sentencia ="SELECT MAX (RE.FECHA_FIN) AS MAX_DATE FROM RESERVAS RE WHERE RE.ID_ALOJAMIENTO="+alojamiento.getId();
 		PreparedStatement prepStmt2 = conn.prepareStatement(sentencia);
 		recursos.add(prepStmt2);
@@ -379,14 +388,21 @@ public class DAOAlojamiento {
 		ResultSet rs = prepStmt2.executeQuery();
 		if(rs.next()) {
 			String fechaUltimaReserva = rs.getString("MAX_DATE");
-			String prueba = fechaUltimaReserva.substring(2, 10);
-			String [] array = prueba.split("-");
-			int anho = Integer.parseInt(array[0])+100;
-			int mes = Integer.parseInt(array[1])-1;
-			int dia = Integer.parseInt(array[2]);
-			Date date = new Date(anho, mes, dia);
+			if(fechaUltimaReserva!= null)
+			{
+				String prueba = fechaUltimaReserva.substring(2, 10);
+				String [] array = prueba.split("-");
+				int anho = Integer.parseInt(array[0])+100;
+				int mes = Integer.parseInt(array[1])-1;
+				int dia = Integer.parseInt(array[2]);
+				Date date = new Date(anho, mes, dia);
+				if(date.compareTo(date1)>0)
+				{
+					fecha = dia+"/"+(mes+1)+"/"+(anho+1900);
+				}
+			}
 		}
-		
+
 		StringBuilder sql = new StringBuilder();
 		sql.append(String.format("UPDATE %s.ALOJAMIENTOS SET ", USUARIO));
 		sql.append(String.format("VIGENTE = 'F' , FECHA_RETIRO = '%1$s'",  fecha));
@@ -439,18 +455,21 @@ public class DAOAlojamiento {
 		boolean vigente = resultSet.getString("VIGENTE").equals("T");
 
 		String fech = resultSet.getString("FECHA_RETIRO");
-		String prueba = fech.substring(2, 10);
-		System.out.println(fech);
-		System.out.println(prueba);
-		String [] array = prueba.split("-");
-		int anho = Integer.parseInt(array[0])+2000;
-		int mes = Integer.parseInt(array[1]);
-		int dia = Integer.parseInt(array[2]);
-		System.out.println(dia);
-		System.out.println(mes);
-		System.out.println(anho);
-		Date date = new Date(anho, mes, dia);
-
+		Date date = null;
+		if(fech!=null)
+		{
+			String prueba = fech.substring(2, 10);
+			System.out.println(fech);
+			System.out.println(prueba);
+			String [] array = prueba.split("-");
+			int anho = Integer.parseInt(array[0])+2000;
+			int mes = Integer.parseInt(array[1]);
+			int dia = Integer.parseInt(array[2]);
+			System.out.println(dia);
+			System.out.println(mes);
+			System.out.println(anho);
+			date = new Date(anho, mes, dia);
+		}
 		String tipo = resultSet.getString("TIPO");
 		Long idOp = Long.parseLong(resultSet.getString("ID_OPERADOR"));
 

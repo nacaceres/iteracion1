@@ -1072,6 +1072,56 @@ public class AlohAndesMaster{
 		}
 	}
 	
+	/**
+	 * Metodo que modela la transaccion que actualiza en la base de datos al Alojamiento que entra por parametro.<br/>
+	 * Solamente se actualiza si existe el Alojamiento en la Base de Datos <br/>
+	 * <b> post: </b> se ha actualizado el Alojamiento que entra como parametro <br/>
+	 * @param Alojamiento - Alojamiento a actualizar. Alojamiento != null
+	 * @throws Exception - Cualquier error que se genere actualizando al Alojamiento.
+	 */
+	public void retirarOfertaAlojamiento(Alojamiento alojamiento) throws Exception 
+	{
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn( conn );
+			Alojamiento actual = daoAlojamiento.findAlojamientoById(alojamiento.getId());
+			if (actual!= null)
+			{
+				daoAlojamiento.retirarOfertaAlojamiento( alojamiento);
+			}
+			else
+			{
+				throw new Exception ("[EXCEPTION] General Exception: No se puede actualizar el Alojamiento debido a que no existe un Alojamiento en la base de datos con ese id.");
+			}
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}	
+	}
+	
 //	/**
 //	 * Metodo que modela la transaccion que actualiza en la base de datos al Reserva que entra por parametro.<br/>
 //	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
