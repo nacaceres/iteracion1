@@ -1,0 +1,436 @@
+{
+	"info": {
+		"_postman_id": "bf2cbd28-8169-4c4a-9a25-40808ab7e618",
+		"name": "Reservas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RF4 Crear una reserva Caso 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d2849e4-3393-4bd6-87be-a7ecd5abdf91",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_reserva\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 7426,\n  \"numDias\" : 6,\n  \"fechaInicio\" : \"2021-05-06\",\n  \"fechaFin\" : \"2021-05-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 20000,\n  \"terminada\" : \"false\",\n  \"tiempoOportunoCan\" : \"2021-05-07\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2021-05-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una Reserva",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b397a49-fc57-4746-b479-66b5501d1d1f",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas/{{new_id_reserva}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas",
+						"{{new_id_reserva}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RF5 Cancelar una reserva Caso 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75fa0c3a-5858-42a4-8970-fb7e9777a352",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 7426,\n  \"numDias\" : 6,\n  \"fechaInicio\" : \"2021-05-06\",\n  \"fechaFin\" : \"2021-05-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 20000,\n  \"terminada\" : \"false\",\n  \"tiempoOportunoCan\" : \"2021-05-07\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2021-05-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RF4 Crear una reserva caso 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b67f1ae2-21e1-4058-a85b-29dda5f9d20a",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_reserva\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 7428,\n  \"numDias\" : 6,\n  \"fechaInicio\" : \"2018-05-28\",\n  \"fechaFin\" : \"2021-05-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 20000,\n  \"terminada\" : \"false\",\n  \"tiempoOportunoCan\" : \"2018-03-15\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2021-05-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RF5 Cancelar una reserva caso 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a5717bc0-a948-4a2d-afc3-0cc6f0d165a3",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 7428,\n  \"numDias\" : 6,\n  \"fechaInicio\" : \"2018-05-28\",\n  \"fechaFin\" : \"2021-05-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 20000,\n  \"terminada\" : \"false\",\n  \"tiempoOportunoCan\" : \"2018-03-15\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2021-05-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RF4 Crear una reserva caso 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad218585-86c8-4035-b165-0bb85f38d022",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_reserva\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 7467,\n  \"numDias\" : 6,\n  \"fechaInicio\" : \"2017-02-06\",\n  \"fechaFin\" : \"2017-05-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 20000,\n  \"terminada\" : \"false\",\n  \"tiempoOportunoCan\" : \"2017-05-07\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2017-01-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RF5 Cancelar una reserva caso 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5efb094-8ecd-4ea4-ad3a-d05490737f6e",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 7467,\n  \"numDias\" : 6,\n  \"fechaInicio\" : \"2017-02-06\",\n  \"fechaFin\" : \"2017-05-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 20000,\n  \"terminada\" : \"false\",\n  \"tiempoOportunoCan\" : \"2017-05-07\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2017-01-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RF4 Crear una reserva para probar el requerimiento RFC1 actual",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfb1719a-2cbd-46a3-b416-6f8ea64674b1",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_reserva\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 3654,\n  \"numDias\" : 15,\n  \"fechaInicio\" : \"2018-01-28\",\n  \"fechaFin\" : \"2018-02-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 20000,\n  \"terminada\" : \"true\",\n  \"tiempoOportunoCan\" : \"2018-01-15\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2021-05-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RF4 Crear una reserva para probar el requerimiento RFC1 antiguo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4b629a8-dec2-4c41-bfd0-7e04b3b31b05",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_reserva\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\" : 3657,\n  \"numDias\" : 15,\n  \"fechaInicio\" : \"2017-01-28\",\n  \"fechaFin\" : \"2017-02-12\",\n  \"cancelada\" : \"false\",\n  \"numPersonas\" : 5,\n  \"costoDefinitivo\" : 50000,\n  \"terminada\" : \"true\",\n  \"tiempoOportunoCan\" : \"2017-01-15\",\n  \"alojamiento\" : {\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"false\",\n    \"fechaRetiro\": \"2021-05-06\",\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"cliente\" : {\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n},\n\"serviciosAdicionales\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar todas las reservas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a35736b5-5f38-44b9-8ee5-98c72d78a0c7",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"cliente count\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

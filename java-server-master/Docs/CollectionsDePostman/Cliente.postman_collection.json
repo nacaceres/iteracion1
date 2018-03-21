@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "11581c03-f76d-41ad-a4c7-bc6c23887209",
+		"name": "Cliente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RF3 Crear un cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_cliente\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar todos los clientes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"cliente count\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar un cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes/{{new_id_cliente}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes",
+						"{{new_id_cliente}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Chicho\",\n    \"contacto\": \"Num del chicho\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

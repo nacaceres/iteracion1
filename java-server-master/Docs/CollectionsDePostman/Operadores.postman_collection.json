@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "b410ae21-8323-42d6-875a-7b590f7fa703",
+		"name": "Operadores",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RF1 Crear un Operador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_operador\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1020839170,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientos\": [{\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": 5600,\n    \"capacidad\": 0,\n    \"vigente\": true,\n    \"fechaRetiro\": null,\n    \"operador\": {\n        \"id\": 1020839170,\n        \"tipoId\": \"CC\",\n        \"nombre\": \"Nicolas\",\n        \"contacto\": \"cel:3017914757\",\n        \"alojamientos\": [],\n        \"relacionUniandes\": {\n            \"id\": 1,\n            \"tipo\": \"ESTUDIANTE\",\n            \"carnet\": 201630692\n        }\n    },\n    \"servicios\": [],\n    \"reservas\": [],\n    \"tipo\": \"APARTAMENTO\"\n}],\n    \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un operador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1020839170,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Chichico\",\n    \"contacto\": \"El celu de chichico\",\n    \"alojamientos\": [],\n    \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar un operador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores/{{new_id_operador}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores",
+						"{{new_id_operador}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar todos los operadores",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"cliente count\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC1 Las ganancias de todos los operadores a lo largo de este año",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "01bfab9f-5a64-42d1-bd15-6b9a97bad2c7",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"cliente count\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores/gananciasactuales",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores",
+						"gananciasactuales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC1 Las ganancias de todo los operadores en el año pasado.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "702c9745-6ddd-4f87-8497-0659c7eff339",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"cliente count\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores/gananciaspasadas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores",
+						"gananciaspasadas"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
