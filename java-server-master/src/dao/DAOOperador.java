@@ -6,9 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import org.json.JSONObject;
-import org.json.JSONString;
 
 import vos.*;
 
@@ -200,7 +199,7 @@ public class DAOOperador {
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public String getGananciasActualesOperadores() throws SQLException, Exception {
+	public List<OperadorGan> getGananciasActualesOperadores() throws SQLException, Exception {
 
 		Date date1 = new Date();
 		int anhoActual = date1.getYear();
@@ -212,19 +211,47 @@ public class DAOOperador {
 		recursos.add(prepStmt2);
 		ResultSet rs = prepStmt2.executeQuery();
 		
-		JSONObject jsonString = new JSONObject();
+		ArrayList<OperadorGan> lista = new ArrayList<>();
 		
 		while(rs.next()) {
 			String id = rs.getString("ID");
 			String nombre = rs.getString("NOMBRE");
 			String ganancia = rs.getString("GANANCIA");
-			jsonString 
-	                  .put("IdOperador_NombreOperador_GananciaOperador", id+"_"+nombre+"_"+ganancia);
+			OperadorGan actual = new OperadorGan(id, nombre, ganancia);
+			lista.add(actual);
 		}
-		 System.out.println(jsonString.toString());
-		return jsonString.toString();
+		return lista;
 	}
 	
+	/**
+	 * Metodo por el que se obtienen las ganancias de un operador en el año actual<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public List<OperadorGan> getGananciasPasadasOperadores() throws SQLException, Exception {
+
+		Date date1 = new Date();
+		int anhoActual = date1.getYear();
+		String sql2 = "SELECT OPE.ID,OPE.NOMBRE, SUM(RE.COSTO_DEFINITIVO) AS GANANCIA FROM "+USUARIO +".RESERVAS RE INNER JOIN "+USUARIO +".ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO INNER JOIN " +USUARIO+ ".OPERADORES OPE ON  ALO.ID_OPERADOR=OPE.ID WHERE EXTRACT( YEAR FROM RE.FECHA_FIN) = " +(anhoActual-1)+ " AND  RE.TERMINADA='T' GROUP BY OPE.ID, OPE.NOMBRE";
+		
+		System.out.println(sql2);
+		
+		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+		recursos.add(prepStmt2);
+		ResultSet rs = prepStmt2.executeQuery();
+		
+		ArrayList<OperadorGan> lista = new ArrayList<>();
+		
+		while(rs.next()) {
+			String id = rs.getString("ID");
+			String nombre = rs.getString("NOMBRE");
+			String ganancia = rs.getString("GANANCIA");
+			OperadorGan actual = new OperadorGan(id, nombre, ganancia);
+			lista.add(actual);
+		}
+		return lista;
+	}
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------

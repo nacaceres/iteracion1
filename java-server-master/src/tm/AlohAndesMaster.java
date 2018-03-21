@@ -1183,14 +1183,52 @@ public class AlohAndesMaster{
 	 * @return String - string de operadores que contiene el resultado de la consulta.
 	 * @throws Exception -  Cualquier error que se genere durante la transaccion
 	 */
-	public String getGananciasActualesOperadores() throws Exception {
+	public List <OperadorGan> getGananciasActualesOperadores() throws Exception {
 		DAOOperador daooperador = new DAOOperador();
-		String operadores;
+		List <OperadorGan> operadores;
 		try 
 		{
 			this.conn = darConexion();
 			daooperador.setConn(conn);
-			operadores = getGananciasActualesOperadores();
+			operadores = daooperador.getGananciasActualesOperadores();
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daooperador.cerrarRecursos();				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return operadores;
+	}
+	/**
+	 * Metodo que modela la transaccion que retorna las ganancias de todos  operadores. <br/>
+	 * @return String - string de operadores que contiene el resultado de la consulta.
+	 * @throws Exception -  Cualquier error que se genere durante la transaccion
+	 */
+	public List <OperadorGan> getGananciasPasadasOperadores() throws Exception {
+		DAOOperador daooperador = new DAOOperador();
+		List <OperadorGan> operadores;
+		try 
+		{
+			this.conn = darConexion();
+			daooperador.setConn(conn);
+			operadores = daooperador.getGananciasPasadasOperadores();
 		}
 		catch (SQLException sqlException) {
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());

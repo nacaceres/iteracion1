@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import tm.AlohAndesMaster;
 import vos.HabHotel;
 import vos.Operador;
+import vos.OperadorGan;
 
 
 
@@ -193,7 +194,29 @@ public class OperadoresService {
 	public Response getGananciasActualesOperadores() {
 		try{
 			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
-			String x = tm.getGananciasActualesOperadores();
+			List <OperadorGan> x = tm.getGananciasActualesOperadores();
+			return Response.status( 200 ).entity( x ).build( );			
+		}
+		catch( Exception e )
+		{
+			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+		}
+	}
+    /**
+	 * Metodo que recibe un Operador en formato JSON y lo agrega a la Base de Datos <br/>
+	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Operadors <br/>
+	 * @param Operador JSON con la informacion del Operador que se desea agregar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Operador que ha sido agregado <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */
+    @GET
+	@Produces({ MediaType.APPLICATION_JSON})
+	@Path("gananciaspasadas")
+	public Response getGananciasPasadasOperadores() {
+		try{
+			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+			List <OperadorGan> x = tm.getGananciasPasadasOperadores();
 			return Response.status( 200 ).entity( x ).build( );			
 		}
 		catch( Exception e )
