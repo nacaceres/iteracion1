@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import tm.AlohAndesMaster;
 import vos.Cliente;
+import vos.UsoAlohAndes;
 
 
 
@@ -178,4 +179,27 @@ public class ClientesService {
 		}
 	}
 
+    /**
+	 * Metodo GET que trae a todos los Clientes en la Base de datos. <br/>
+	 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>URL: </b> http://localhost:8080/AlohAndes/rest/Clientes <br/>
+	 * @return	<b>Response Status 200</b> - JSON que contiene a todos los Clientes que estan en la Base de Datos <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */			
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("usoalohandes")
+	public Response getUsoAlohAndes() {
+		
+		try {
+			AlohAndesMaster tm = new AlohAndesMaster(getPath());
+			
+			List<UsoAlohAndes> Clientes;
+			Clientes = tm.getUsoAlohAndes();
+			return Response.status(200).entity(Clientes).build();
+		} 
+		catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+	}
 }

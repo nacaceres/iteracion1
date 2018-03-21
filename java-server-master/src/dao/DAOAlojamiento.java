@@ -140,15 +140,15 @@ public class DAOAlojamiento {
 		for (int i = 0; i < lista.size(); i++) {
 			Servicio actual = lista.get(i);
 			String sql3 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
-						 actual.getId()+", '"+
-						 actual.getNombre()+"' , '"+
-						 actual.getDescripcion()+"', "+
-						 actual.getCostoAdicional() +" )";
+					actual.getId()+", '"+
+					actual.getNombre()+"' , '"+
+					actual.getDescripcion()+"', "+
+					actual.getCostoAdicional() +" )";
 			System.out.println(sql3);
 			PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
 			recursos.add(prepStmt3);
 			prepStmt3.executeQuery();
-			
+
 			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
 					Alojamiento.getId()+" , "+
 					actual.getId()+")";
@@ -203,15 +203,15 @@ public class DAOAlojamiento {
 		for (int i = 0; i < lista.size(); i++) {
 			Servicio actual = lista.get(i);
 			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
-						 actual.getId()+", '"+
-						 actual.getNombre()+"' , '"+
-						 actual.getDescripcion()+"', "+
-						 actual.getCostoAdicional() +" )";
+					actual.getId()+", '"+
+					actual.getNombre()+"' , '"+
+					actual.getDescripcion()+"', "+
+					actual.getCostoAdicional() +" )";
 			System.out.println(sql5);
 			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
 			recursos.add(prepStmt5);
 			prepStmt5.executeQuery();
-			
+
 			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
 					Apartamento.getId()+" , "+
 					actual.getId()+")";
@@ -273,15 +273,15 @@ public class DAOAlojamiento {
 		for (int i = 0; i < lista.size(); i++) {
 			Servicio actual = lista.get(i);
 			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
-						 actual.getId()+", '"+
-						 actual.getNombre()+"' , '"+
-						 actual.getDescripcion()+"', "+
-						 actual.getCostoAdicional() +" )";
+					actual.getId()+", '"+
+					actual.getNombre()+"' , '"+
+					actual.getDescripcion()+"', "+
+					actual.getCostoAdicional() +" )";
 			System.out.println(sql5);
 			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
 			recursos.add(prepStmt5);
 			prepStmt5.executeQuery();
-			
+
 			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
 					HabHostal.getId()+" , "+
 					actual.getId()+")";
@@ -332,15 +332,15 @@ public class DAOAlojamiento {
 		for (int i = 0; i < lista.size(); i++) {
 			Servicio actual = lista.get(i);
 			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
-						 actual.getId()+", '"+
-						 actual.getNombre()+"' , '"+
-						 actual.getDescripcion()+"', "+
-						 actual.getCostoAdicional() +" )";
+					actual.getId()+", '"+
+					actual.getNombre()+"' , '"+
+					actual.getDescripcion()+"', "+
+					actual.getCostoAdicional() +" )";
 			System.out.println(sql5);
 			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
 			recursos.add(prepStmt5);
 			prepStmt5.executeQuery();
-			
+
 			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
 					HabHotel.getId()+" , "+
 					actual.getId()+")";
@@ -391,15 +391,15 @@ public class DAOAlojamiento {
 		for (int i = 0; i < lista.size(); i++) {
 			Servicio actual = lista.get(i);
 			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
-						 actual.getId()+", '"+
-						 actual.getNombre()+"' , '"+
-						 actual.getDescripcion()+"', "+
-						 actual.getCostoAdicional() +" )";
+					actual.getId()+", '"+
+					actual.getNombre()+"' , '"+
+					actual.getDescripcion()+"', "+
+					actual.getCostoAdicional() +" )";
 			System.out.println(sql5);
 			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
 			recursos.add(prepStmt5);
 			prepStmt5.executeQuery();
-			
+
 			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
 					habUniversitaria.getId()+" , "+
 					actual.getId()+")";
@@ -458,15 +458,15 @@ public class DAOAlojamiento {
 		for (int i = 0; i < lista.size(); i++) {
 			Servicio actual = lista.get(i);
 			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
-						 actual.getId()+", '"+
-						 actual.getNombre()+"' , '"+
-						 actual.getDescripcion()+"', "+
-						 actual.getCostoAdicional() +" )";
+					actual.getId()+", '"+
+					actual.getNombre()+"' , '"+
+					actual.getDescripcion()+"', "+
+					actual.getCostoAdicional() +" )";
 			System.out.println(sql5);
 			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
 			recursos.add(prepStmt5);
 			prepStmt5.executeQuery();
-			
+
 			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
 					Vivienda.getId()+" , "+
 					actual.getId()+")";
@@ -550,6 +550,39 @@ public class DAOAlojamiento {
 			Alojamientos.add(actual);		}
 		return Alojamientos;
 	}
+	/**
+	 * Metodo que obtiene la informacion de todos los Alojamientos con restriccion de fecha y servicios <br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @return	lista con la informacion de todos los Alojamientos que se encuentran en la Base de Datos
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public ArrayList<Alojamiento> getAlojamientosConRestriccion(Condiciones pCondiciones) throws SQLException, Exception {
+		ArrayList<Alojamiento> Alojamientos = new ArrayList<Alojamiento>();
+		if(pCondiciones.getFechaFin()!= null && pCondiciones!=null && pCondiciones.getServicios()!= null&& !pCondiciones.getServicios().isEmpty())
+		{
+			String sql = "SELECT * FROM ISIS2304A431810.ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  ISIS2304A431810.RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '"+20/10/17+"' AND '"+30/10/17+"')";
+			String sql2	=	" ) AND ALO.ID IN ( SELECT SEO.ID_ALOJAMIENTO FROM  ISIS2304A431810.SERVICIOS_OFRECIDOS SEO INNER JOIN  ISIS2304A431810.SERVICIOS SE ON SE.ID=SEO.ID_SERVICIO WHERE ";
+			String sql3 = "";
+			for (int i = 1; i < pCondiciones.getServicios().size(); i++) {
+				String actual = pCondiciones.getServicios().get(i).getNombre();
+				sql3+=" SE.NOMBRE='"+actual+"'OR ";
+			}
+			String sql4 =  "SE.NOMBRE='"+pCondiciones.getServicios().get(0).getNombre()+"' )";
+
+			PreparedStatement prepStmt = conn.prepareStatement(sql+sql2+sql3+sql4);
+			recursos.add(prepStmt);
+			ResultSet rs = prepStmt.executeQuery();
+
+
+			while (rs.next()) {
+				Alojamientos.add(convertResultSetToAlojamiento(rs));
+			}
+		}
+		else
+			throw new Exception("Condiciones de busqueda invalidas");
+		return Alojamientos;
+	}
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -631,7 +664,7 @@ public class DAOAlojamiento {
 		String tipo2 = rs1.getString("TIPO");
 		int carnet =0;
 		if(rs1.getString("CARNET")!= null)
-		carnet = Integer.parseInt(rs1.getString("CARNET"));
+			carnet = Integer.parseInt(rs1.getString("CARNET"));
 
 		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
 		ArrayList <Alojamiento> alojamientos = new ArrayList <Alojamiento>();

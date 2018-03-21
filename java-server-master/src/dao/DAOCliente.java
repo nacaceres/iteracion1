@@ -195,6 +195,33 @@ public class DAOCliente {
 		//Falta revisar cascade todas las reservas
 	}
 
+	/**
+	 * Metodo que obtiene la informacion de todo el uso de alohandes en la Base de Datos <br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @return	lista con la informacion de todos los Clientes que se encuentran en la Base de Datos
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public ArrayList<UsoAlohAndes> getUsoAlohAndes() throws SQLException, Exception {
+		ArrayList<UsoAlohAndes> clientes = new ArrayList<UsoAlohAndes>();
+
+		String sql = "SELECT RELA.TIPO,ALO.TIPO AS TIPO_ALOJAMIENTO,SUM(RE.COSTO_DEFINITIVO) AS DINERO_PAGADO,SUM(RE.NUM_DIAS) AS DIAS_CONTRATADOS FROM ISIS2304A431810.CLIENTES CLI INNER JOIN  ISIS2304A431810.RESERVAS RE ON RE.ID_CLIENTE=CLI.ID INNER JOIN ISIS2304A431810.ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO INNER JOIN ISIS2304A431810.RELACIONES RELA ON RELA.ID=CLI.ID_RELACION GROUP BY RELA.TIPO,ALO.TIPO";
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			String tipoUsuario = rs.getString("tipo");
+			String tipoAlojamiento = rs.getString("TIPO_ALOJAMIENTO");
+			String dineroPagado = rs.getString("DINERO_PAGADO");
+			String dias = rs.getString("DIAS_CONTRATADOS");
+			UsoAlohAndes actual = new UsoAlohAndes(tipoUsuario, tipoAlojamiento, dineroPagado, dias);
+			clientes.add(actual);
+		}
+		return clientes;
+	}
+	
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
