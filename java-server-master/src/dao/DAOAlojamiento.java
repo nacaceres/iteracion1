@@ -412,6 +412,28 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
+	/**
+	 * Metodo que obtiene la informacion de todos los Alojamientos en la Base de Datos <br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @return	lista con la informacion de todos los Alojamientos que se encuentran en la Base de Datos
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public ArrayList<Alojamiento> getAlojamientosMasPopulares() throws SQLException, Exception {
+		ArrayList<Alojamiento> Alojamientos = new ArrayList<Alojamiento>();
+
+		String sql = String.format("SELECT * FROM %1$s.ALOJAMIENTOS", USUARIO);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+
+		while (rs.next()) {
+			Alojamientos.add(convertResultSetToAlojamiento(rs));
+		}
+		return Alojamientos;
+	}
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
