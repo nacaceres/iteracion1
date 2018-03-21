@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -143,24 +145,36 @@ public class DAOReserva {
 		
 	}
 
-//	/**
-//	 * Metodo que actualiza la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
-//	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
-//	 * @param Reserva Reserva que desea actualizar a la Base de Datos
-//	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
-//	 * @throws Exception Si se genera un error dentro del metodo.
-//	 */
-//	public void updateReserva(Reserva Reserva) throws SQLException, Exception {
-//		//No actualiza los Reservas.
-//		StringBuilder sql = new StringBuilder();
-//		sql.append(String.format("UPDATE %s.reservaS SET ", USUARIO));
-//		sql.append(String.format("NOMBRE = '%1$s' , CONTACTO = '%2$s'", Reserva.getNombre(), Reserva.getContacto()));
-//		sql.append(String.format(" WHERE ID = %d ", Reserva.getId()));
-//		System.out.println(sql);
-//		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
-//		recursos.add(prepStmt);
-//		prepStmt.executeQuery();
-//	}
+	/**
+	 * Metodo que actualiza la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @param Reserva Reserva que desea actualizar a la Base de Datos
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public void cancelarReserva(Reserva Reserva) throws SQLException, Exception {
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date1 = new Date();
+		String x = dateFormat.format(date1);
+		String fecha = x;
+		double costoDef = Reserva.getCostoDefinitivo();
+		if(Reserva.getTiempoOportunoCan().compareTo(date1)>0)
+		{
+			costoDef = costoDef *0.1;
+		}
+		else if (Reserva.getTiempoOportunoCan().compareTo(date1)<0 && Reserva.getFechaInicio().compareTo(date1)>0)
+		{
+			costoDef = costoDef *0.3;
+		}
+		else
+			costoDef = costoDef *0.5;
+		String sql = "UPDATE "+ USUARIO +".RESERVAS SET "+"CANCELADA = 'T' , FECHA_CANCELACION = '"+fecha+"' , COSTO_DEFINITIVO = "+costoDef+" , TERMINADA = 'F' WHERE ID ="+Reserva.getId();
+		System.out.println(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
 //
 //	/**
 //	 * Metodo que actualiza la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
