@@ -188,7 +188,7 @@ public class OperadoresService {
 	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
 	 */
     @GET
-	@Produces({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON})
 	@Path("gananciasactuales")
 	public Response getGananciasActualesOperadores() {
 		try{
