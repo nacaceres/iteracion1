@@ -1,8 +1,10 @@
 {
+	"variables": [],
 	"info": {
-		"_postman_id": "9bfdd714-da59-47c4-a07a-f45d9a54a2bc",
 		"name": "Alojamientos",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "9bfdd714-da59-47c4-a07a-f45d9a54a2bc",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -11,7 +13,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3fdf6a66-0f67-401f-b881-c17829128f6c",
 						"type": "text/javascript",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
@@ -23,30 +24,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 12345,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : [{\"id\": 1,\"nombre\": \"Wi-fi\",\"descripcion\":\"internet de 5 mb\",\"costoAdicional\":0},{\"id\": 2,\"nombre\": \"Comida\",\"descripcion\":\"Desayuno Americano\",\"costoAdicional\":2000}]\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -56,7 +47,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "24552979-8437-4e57-9f4a-b7d232f4f311",
 						"type": "text/javascript",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
@@ -68,31 +58,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/apartamentos",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 2853,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n     \"servicios\" : [{\"id\": 3,\"nombre\": \"Wi-fi\",\"descripcion\":\"internet de 5 mb\",\"costoAdicional\":0},{\"id\": 4,\"nombre\": \"Comida\",\"descripcion\":\"Desayuno Americano\",\"costoAdicional\":2000}],\n     \"amoblado\" : true\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/apartamentos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos",
-						"apartamentos"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -102,7 +81,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5387903c-54eb-4106-bc61-b212d43a5d58",
 						"type": "text/javascript",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
@@ -114,31 +92,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/habitacioneshostales",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 8,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"HAB HOSTAL\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n     \"servicios\" : [{\"id\": 5,\"nombre\": \"Wi-fi\",\"descripcion\":\"internet de 5 mb\",\"costoAdicional\":0},{\"id\": 6,\"nombre\": \"Comida\",\"descripcion\":\"Desayuno Americano\",\"costoAdicional\":2000}],\n     \"compartida\" : true,\n     \"horarioApertura\": \"2019-10-01T09:45:00.000UTC+00:00\",\n     \"horarioCierre\": \"2019-10-01T11:45:00.000UTC+00:00\"\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/habitacioneshostales",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos",
-						"habitacioneshostales"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -148,7 +115,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8656f030-5d9f-45e8-9942-671fea4f9881",
 						"type": "text/javascript",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
@@ -160,31 +126,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/habitacioneshoteles",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 11,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"HAB HOTEL\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n     \"servicios\" : [{\"id\": 7,\"nombre\": \"Wi-fi\",\"descripcion\":\"internet de 5 mb\",\"costoAdicional\":0},{\"id\": 8,\"nombre\": \"Comida\",\"descripcion\":\"Desayuno Americano\",\"costoAdicional\":2000}],\n     \"tipoHabitacion\" : \"SEMISUITE\"\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/habitacioneshoteles",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos",
-						"habitacioneshoteles"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -194,7 +149,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a7451008-1e58-45b7-b87b-c631fd388151",
 						"type": "text/javascript",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
@@ -206,31 +160,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/habitacionesuniversitarias",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 26,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"HAB UNIVERSITARIA\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n     \"servicios\" : [{\"id\": 9,\"nombre\": \"Wi-fi\",\"descripcion\":\"internet de 5 mb\",\"costoAdicional\":0},{\"id\": 10,\"nombre\": \"Comida\",\"descripcion\":\"Desayuno Americano\",\"costoAdicional\":2000}],\n     \"duracionDeHab\" : 180\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/habitacionesuniversitarias",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos",
-						"habitacionesuniversitarias"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -240,7 +183,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f6c8d101-174c-4e2a-84d4-731cf5e5e583",
 						"type": "text/javascript",
 						"exec": [
 							"var data = JSON.parse(responseBody);",
@@ -252,31 +194,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/viviendas",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 435,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"HAB UNIVERSITARIA\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n     \"servicios\" : [{\"id\": 11,\"nombre\": \"Wi-fi\",\"descripcion\":\"internet de 5 mb\",\"costoAdicional\":0},{\"id\": 12,\"nombre\": \"Comida\",\"descripcion\":\"Desayuno Americano\",\"costoAdicional\":2000}],\n     \"numHabitaciones\" : 5,\n     \"cedido\" : true,\n     \"compartido\" : false\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/viviendas",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos",
-						"viviendas"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -286,7 +217,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "daaeec0a-7b28-471f-90d4-28754f5995c0",
 						"type": "text/javascript",
 						"exec": [
 							"var data= JSON.parse(responseBody);",
@@ -297,22 +227,14 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos",
 				"method": "GET",
 				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos"
-					]
-				}
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -322,7 +244,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1ae0112d-5fa7-4f12-9010-83a21b6e4d9f",
 						"type": "text/javascript",
 						"exec": [
 							"console.log(responseBody);",
@@ -333,23 +254,14 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/{{new_id_alojamiento}}",
 				"method": "GET",
 				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/{{new_id_alojamiento}}",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos",
-						"{{new_id_alojamiento}}"
-					]
-				}
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -357,19 +269,8 @@
 			"name": "RF6 Retirar una oferta de alojamiento",
 			"event": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"id": "87fc86d7-7a66-4da5-b1e3-d154bd61f2b1",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
 					"listen": "test",
 					"script": {
-						"id": "f7a55765-8ba5-489b-94f0-edb6457703ed",
 						"type": "text/javascript",
 						"exec": [
 							"console.log(responseBody);",
@@ -380,30 +281,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos",
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": \"5600\",\n    \"capacidad\" : 5,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"APARTAMENTO\",\n    \"operador\" : {\n      \"id\": 1020839170,\n      \"tipoId\": \"CC\",\n      \"nombre\": \"Nicolas\",\n      \"contacto\": \"cel:3017914757\",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -413,7 +304,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0c1c56b8-ae15-4f30-ba99-b3e3286f1ce2",
 						"type": "text/javascript",
 						"exec": [
 							"console.log(responseBody);",
@@ -424,23 +314,44 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/maspopulares",
 				"method": "GET",
 				"header": [],
 				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/maspopulares",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"alojamientos",
-						"maspopulares"
-					]
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "RFC4 obtener alojamientos con restricciones de fecha y servicios.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
 				}
+			],
+			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/alojamientos/conrestricciones",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fechaInicio\" : \"2017-10-20\",\n\t\"fechaFin\" : \"2017-10-30\",\n\t\"servicios\" : [{\"id\": 1,\"nombre\": \"wi-fi\",\"descripcion\":\"internet de 5 mb\",\"costoAdicional\":0},{\"id\": 2,\"nombre\": \"lavado de ropa\",\"descripcion\":\"con lavadora\",\"costoAdicional\":2000}]\n}\n\t"
+				},
+				"description": ""
 			},
 			"response": []
 		}

@@ -1,8 +1,10 @@
 {
+	"variables": [],
 	"info": {
-		"_postman_id": "b410ae21-8323-42d6-875a-7b590f7fa703",
 		"name": "Operadores",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "b410ae21-8323-42d6-875a-7b590f7fa703",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -22,30 +24,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/operadores",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 1020839170,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientos\": [{\n    \"id\": 1234,\n    \"ubicacion\": \"Kr 21B #154-11\",\n    \"costoBasico\": 5600,\n    \"capacidad\": 0,\n    \"vigente\": true,\n    \"fechaRetiro\": null,\n    \"operador\": {\n        \"id\": 1020839170,\n        \"tipoId\": \"CC\",\n        \"nombre\": \"Nicolas\",\n        \"contacto\": \"cel:3017914757\",\n        \"alojamientos\": [],\n        \"relacionUniandes\": {\n            \"id\": 1,\n            \"tipo\": \"ESTUDIANTE\",\n            \"carnet\": 201630692\n        }\n    },\n    \"servicios\": [],\n    \"reservas\": [],\n    \"tipo\": \"APARTAMENTO\"\n}],\n    \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/operadores",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"operadores"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -65,30 +57,20 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/operadores",
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"id\": 1020839170,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Chichico\",\n    \"contacto\": \"El celu de chichico\",\n    \"alojamientos\": [],\n    \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
 				},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/operadores",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"operadores"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -108,23 +90,14 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/operadores/{{new_id_operador}}",
 				"method": "GET",
 				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/operadores/{{new_id_operador}}",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"operadores",
-						"{{new_id_operador}}"
-					]
-				}
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -144,22 +117,14 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/operadores",
 				"method": "GET",
 				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/operadores",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"operadores"
-					]
-				}
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -169,7 +134,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "01bfab9f-5a64-42d1-bd15-6b9a97bad2c7",
 						"type": "text/javascript",
 						"exec": [
 							"var data= JSON.parse(responseBody);",
@@ -180,23 +144,11 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/operadores/gananciasactuales",
 				"method": "GET",
 				"header": [],
 				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/operadores/gananciasactuales",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"operadores",
-						"gananciasactuales"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		},
@@ -206,7 +158,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "702c9745-6ddd-4f87-8497-0659c7eff339",
 						"type": "text/javascript",
 						"exec": [
 							"var data= JSON.parse(responseBody);",
@@ -217,23 +168,11 @@
 				}
 			],
 			"request": {
+				"url": "http://localhost:8080/AlohAndes/rest/operadores/gananciaspasadas",
 				"method": "GET",
 				"header": [],
 				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/AlohAndes/rest/operadores/gananciaspasadas",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"AlohAndes",
-						"rest",
-						"operadores",
-						"gananciaspasadas"
-					]
-				}
+				"description": null
 			},
 			"response": []
 		}
