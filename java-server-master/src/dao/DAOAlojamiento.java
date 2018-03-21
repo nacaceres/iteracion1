@@ -413,16 +413,16 @@ public class DAOAlojamiento {
 		prepStmt.executeQuery();
 	}
 	/**
-	 * Metodo que obtiene la informacion de todos los Alojamientos en la Base de Datos <br/>
+	 * Metodo que obtiene la informacion de todos los Alojamientos mas populares en la base de datos <br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
 	 * @return	lista con la informacion de todos los Alojamientos que se encuentran en la Base de Datos
 	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public ArrayList<Alojamiento> getAlojamientosMasPopulares() throws SQLException, Exception {
-		ArrayList<Alojamiento> Alojamientos = new ArrayList<Alojamiento>();
+	public ArrayList<AlojamientosTop> getAlojamientosMasPopulares() throws SQLException, Exception {
+		ArrayList<AlojamientosTop> Alojamientos = new ArrayList<AlojamientosTop>();
 
-		String sql = String.format("SELECT * FROM %1$s.ALOJAMIENTOS", USUARIO);
+		String sql = "SELECT A.* FROM (SELECT ALO.ID as id_alojamiento,OPE.NOMBRE AS OPERADOR,ALO.UBICACION AS UBICACION ,COUNT(RE.ID) AS mas_reservado FROM (ISIS2304A431810.RESERVAS RE INNER JOIN ISIS2304A431810.ALOJAMIENTOS ALO ON RE.ID_ALOJAMIENTO=ALO.ID INNER JOIN ISIS2304A431810.OPERADORES OPE ON ALO.ID_OPERADOR=OPE.ID) GROUP BY ALO.ID,ALO.UBICACION, OPE.NOMBRE ORDER BY COUNT(RE.ID) DESC) A WHERE ROWNUM<20";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
@@ -430,8 +430,12 @@ public class DAOAlojamiento {
 
 
 		while (rs.next()) {
-			Alojamientos.add(convertResultSetToAlojamiento(rs));
-		}
+			String id = rs.getString("ID_ALOJAMIENTO");
+			String operador = rs.getString("OPERADOR");
+			String ubicacion = rs.getString("UBICACION");
+			String numReserva = rs.getString("MAS_RESERVADO");
+			AlojamientosTop actual = new AlojamientosTop(id, operador, ubicacion, numReserva);
+			Alojamientos.add(actual);		}
 		return Alojamientos;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------

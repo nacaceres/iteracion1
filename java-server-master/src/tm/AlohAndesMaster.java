@@ -1254,6 +1254,47 @@ public class AlohAndesMaster{
 		}
 		return operadores;
 	}
+	
+	/**
+	 * Metodo que modela la transaccion que retorna todos los Alojamientos top de la base de datos. <br/>
+	 * @return List<Alojamiento> - Lista de Alojamientos top que contiene el resultado de la consulta.
+	 * @throws Exception -  Cualquier error que se genere durante la transaccion
+	 */
+	public List<AlojamientosTop> getAlojamientosMasPopulares() throws Exception {
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+		List<AlojamientosTop> Alojamientos;
+		try 
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn(conn);
+			
+			Alojamientos = daoAlojamiento.getAlojamientosMasPopulares();
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return Alojamientos;
+	}
 //	/**
 //	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>
 //	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
