@@ -251,8 +251,9 @@ public class DAOAlojamiento {
 		prepStmt2.executeQuery();
 
 		String var2 = "F";
-		String fecha2 = HabHostal.getHorarioApertura().getYear() +"/"+ HabHostal.getHorarioApertura().getMonth()+"/" +HabHostal.getHorarioApertura().getDate()+":"+HabHostal.getHorarioApertura().getHours()+":"+HabHostal.getHorarioApertura().getMinutes()+":"+HabHostal.getHorarioApertura().getSeconds();
-		String fecha3 = HabHostal.getHorarioCierre().getYear() +"/"+ HabHostal.getHorarioCierre().getMonth()+"/" +HabHostal.getHorarioCierre().getDate()+":"+HabHostal.getHorarioCierre().getHours()+":"+HabHostal.getHorarioCierre().getMinutes()+":"+HabHostal.getHorarioCierre().getSeconds();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		String fecha2 = dateFormat.format(HabHostal.getHorarioApertura())+":"+HabHostal.getHorarioApertura().getHours()+":"+HabHostal.getHorarioApertura().getMinutes()+":"+HabHostal.getHorarioApertura().getSeconds();
+		String fecha3 = dateFormat.format(HabHostal.getHorarioCierre())+":"+HabHostal.getHorarioCierre().getHours()+":"+HabHostal.getHorarioCierre().getMinutes()+":"+HabHostal.getHorarioCierre().getSeconds();
 		String fecha2final = "to_date('"+fecha2+"', 'yyyy/mm/dd:hh:mi:ss')";
 		String fecha3final = "to_date('"+fecha3+"', 'yyyy/mm/dd:hh:mi:ss')";
 		if(HabHostal.isCompartida())
@@ -599,8 +600,8 @@ public class DAOAlojamiento {
 			System.out.println(fech);
 			System.out.println(prueba);
 			String [] array = prueba.split("-");
-			int anho = Integer.parseInt(array[0])+2000;
-			int mes = Integer.parseInt(array[1]);
+			int anho = Integer.parseInt(array[0])+100;
+			int mes = Integer.parseInt(array[1])-1;
 			int dia = Integer.parseInt(array[2]);
 			System.out.println(dia);
 			System.out.println(mes);
@@ -628,7 +629,9 @@ public class DAOAlojamiento {
 		ResultSet rs1 = prepStmt1.executeQuery();
 		rs1.next();
 		String tipo2 = rs1.getString("TIPO");
-		int carnet = Integer.parseInt(rs1.getString("CARNET"));
+		int carnet =0;
+		if(rs1.getString("CARNET")!= null)
+		carnet = Integer.parseInt(rs1.getString("CARNET"));
 
 		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
 		ArrayList <Alojamiento> alojamientos = new ArrayList <Alojamiento>();

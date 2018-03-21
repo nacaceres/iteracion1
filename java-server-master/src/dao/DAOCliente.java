@@ -120,7 +120,7 @@ public class DAOCliente {
 		recursos.add(prepStmt2);
 		prepStmt2.executeQuery();
 
-		String sql = String.format("INSERT INTO %1$s.ClienteS (ID, TIPO_ID, NOMBRE, CONTACTO, ID_RELACION) VALUES (%2$d, '%3$s', '%4$s', '%5$s', %6$d)", 
+		String sql = String.format("INSERT INTO %1$s.CLIENTES (ID, TIPO_ID, NOMBRE, CONTACTO, ID_RELACION) VALUES (%2$d, '%3$s', '%4$s', '%5$s', %6$d)", 
 				USUARIO, 
 				Cliente.getId(), 
 				Cliente.getTipoId(),

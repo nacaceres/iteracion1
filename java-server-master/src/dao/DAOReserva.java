@@ -113,10 +113,10 @@ public class DAOReserva {
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
 	public void addReserva (Reserva Reserva) throws SQLException, Exception {
-		String fecha1 = "'"+Reserva.getFechaInicio().getDate() +"/" +Reserva.getFechaInicio().getMonth()+"/" +Reserva.getFechaInicio().getYear()+"'";
-		String fecha2 = "'"+Reserva.getFechaFin().getDate() +"/" +Reserva.getFechaFin().getMonth()+"/" +Reserva.getFechaFin().getYear()+"'";
-		//String fecha3 = "'"+Reserva.getFechaCancelacion().getDate() +"/" +Reserva.getFechaCancelacion().getMonth()+"/" +Reserva.getFechaCancelacion().getYear()+"'";
-		String fecha4 = "'"+Reserva.getTiempoOportunoCan().getDate() +"/" +Reserva.getTiempoOportunoCan().getMonth()+"/" +Reserva.getTiempoOportunoCan().getYear()+"'";
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String fecha1 = "'"+dateFormat.format(Reserva.getFechaInicio())+"'";
+		String fecha2 = "'"+dateFormat.format(Reserva.getFechaFin())+"'";
+		String fecha4 = "'"+dateFormat.format(Reserva.getTiempoOportunoCan())+"'";
 		String cancelada = "F";
 		if(Reserva.isCancelada())
 			cancelada = "T";
@@ -249,16 +249,16 @@ public class DAOReserva {
 		
 		String fif = fechaInicio.substring(2, 10);
 		String [] array = fif.split("-");
-		int anho = Integer.parseInt(array[0])+2000;
-		int mes = Integer.parseInt(array[1]);
+		int anho = Integer.parseInt(array[0])+100;
+		int mes = Integer.parseInt(array[1])-1;
 		int dia = Integer.parseInt(array[2]);
 		Date date1 = new Date(anho, mes, dia);
 		
 		String fechaFin = resultSet.getString("FECHA_FIN");
 		String fff = fechaFin.substring(2, 10);
 		String [] array2 = fff.split("-");
-		int anho2 = Integer.parseInt(array2[0])+2000;
-		int mes2 = Integer.parseInt(array2[1]);
+		int anho2 = Integer.parseInt(array2[0])+100;
+		int mes2 = Integer.parseInt(array2[1])-1;
 		int dia2 = Integer.parseInt(array2[2]);
 		Date date2 = new Date(anho2, mes2, dia2);
 		
@@ -272,8 +272,8 @@ public class DAOReserva {
 		{
 		String fcf = fechaCancelacion.substring(2, 10);
 		String [] array3 = fcf.split("-");
-		int anho3 = Integer.parseInt(array3[0])+2000;
-		int mes3 = Integer.parseInt(array3[1]);
+		int anho3 = Integer.parseInt(array3[0])+100;
+		int mes3 = Integer.parseInt(array3[1])-1;
 		int dia3 = Integer.parseInt(array3[2]);
 		date3 = new Date(anho3, mes3, dia3);
 		}
@@ -282,8 +282,8 @@ public class DAOReserva {
 		String tiempoOportuno = resultSet.getString("TIEMPO_OPORTUNO");
 		String ftf = tiempoOportuno.substring(2, 10);
 		String [] array4 = ftf.split("-");
-		int anho4 = Integer.parseInt(array4[0])+2000;
-		int mes4 = Integer.parseInt(array4[1]);
+		int anho4 = Integer.parseInt(array4[0])+100;
+		int mes4 = Integer.parseInt(array4[1])-1;
 		int dia4 = Integer.parseInt(array4[2]);
 		Date date4 = new Date(anho4, mes4, dia4);
 		

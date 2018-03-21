@@ -202,8 +202,8 @@ public class DAOOperador {
 	public List<OperadorGan> getGananciasActualesOperadores() throws SQLException, Exception {
 
 		Date date1 = new Date();
-		int anhoActual = date1.getYear();
-		String sql2 = "SELECT OPE.ID,OPE.NOMBRE, SUM(RE.COSTO_DEFINITIVO) AS GANANCIA FROM "+USUARIO +".RESERVAS RE INNER JOIN "+USUARIO +".ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO INNER JOIN " +USUARIO+ ".OPERADORES OPE ON  ALO.ID_OPERADOR=OPE.ID WHERE EXTRACT( YEAR FROM RE.FECHA_FIN) = " +anhoActual+ " AND  RE.TERMINADA='T' GROUP BY OPE.ID, OPE.NOMBRE";
+		int anhoActual = date1.getYear()+1900;
+		String sql2 = "SELECT OPE.ID,OPE.NOMBRE, SUM(RE.COSTO_DEFINITIVO) AS GANANCIA FROM "+USUARIO +".RESERVAS RE INNER JOIN "+USUARIO +".ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO INNER JOIN " +USUARIO+ ".OPERADORES OPE ON  ALO.ID_OPERADOR=OPE.ID WHERE RE.FECHA_FIN BETWEEN '01/01/"+anhoActual+"' AND '31/12/"+anhoActual+"' AND  RE.TERMINADA='T' GROUP BY OPE.ID, OPE.NOMBRE";
 		
 		System.out.println(sql2);
 		
@@ -232,9 +232,8 @@ public class DAOOperador {
 	public List<OperadorGan> getGananciasPasadasOperadores() throws SQLException, Exception {
 
 		Date date1 = new Date();
-		int anhoActual = date1.getYear();
-		String sql2 = "SELECT OPE.ID,OPE.NOMBRE, SUM(RE.COSTO_DEFINITIVO) AS GANANCIA FROM "+USUARIO +".RESERVAS RE INNER JOIN "+USUARIO +".ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO INNER JOIN " +USUARIO+ ".OPERADORES OPE ON  ALO.ID_OPERADOR=OPE.ID WHERE EXTRACT( YEAR FROM RE.FECHA_FIN) = " +(anhoActual-1)+ " AND  RE.TERMINADA='T' GROUP BY OPE.ID, OPE.NOMBRE";
-		
+		int anhoActual = date1.getYear()+1900;
+		String sql2 = "SELECT OPE.ID,OPE.NOMBRE, SUM(RE.COSTO_DEFINITIVO) AS GANANCIA FROM "+USUARIO +".RESERVAS RE INNER JOIN "+USUARIO +".ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO INNER JOIN " +USUARIO+ ".OPERADORES OPE ON  ALO.ID_OPERADOR=OPE.ID WHERE RE.FECHA_FIN BETWEEN '01/01/"+(anhoActual-1)+"' AND '31/12/"+(anhoActual-1)+"' AND  RE.TERMINADA='T' GROUP BY OPE.ID, OPE.NOMBRE";
 		System.out.println(sql2);
 		
 		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
@@ -300,7 +299,9 @@ public class DAOOperador {
 		ResultSet rs = prepStmt.executeQuery();
 		rs.next();
 		String tipo2 = rs.getString("TIPO");
-		int carnet = Integer.parseInt(rs.getString("CARNET"));
+		int carnet =0;
+		if(rs.getString("CARNET")!= null)
+		carnet = Integer.parseInt(rs.getString("CARNET"));
 		
 		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
 		
