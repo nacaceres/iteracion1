@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import vos.*;
 
@@ -135,10 +136,28 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt2);
 		prepStmt2.executeQuery();
 
+		List<Servicio> lista = Alojamiento.getServicios();
+		for (int i = 0; i < lista.size(); i++) {
+			Servicio actual = lista.get(i);
+			String sql3 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
+						 actual.getId()+", '"+
+						 actual.getNombre()+"' , '"+
+						 actual.getDescripcion()+"', "+
+						 actual.getCostoAdicional() +" )";
+			System.out.println(sql3);
+			PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
+			recursos.add(prepStmt3);
+			prepStmt3.executeQuery();
+			
+			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
+					Alojamiento.getId()+" , "+
+					actual.getId()+")";
+			System.out.println(sql4);
+			PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+			recursos.add(prepStmt4);
+			prepStmt4.executeQuery();
+		}
 
-
-		//Falta agregar todos los servicios.
-		//Falta agregar todos los contratos.
 	}
 
 	/**
@@ -154,15 +173,14 @@ public class DAOAlojamiento {
 		String var = "F";
 		if(Apartamento.isVigente())
 			var = "T";
-		String fecha = Apartamento.getFechaRetiro().getDate() +"/" +Apartamento.getFechaRetiro().getMonth()+"/" +Apartamento.getFechaRetiro().getYear();
 		String sql2 = "INSERT INTO "+ USUARIO+".ALOJAMIENTOS (ID, UBICACION, COSTO_BASICO, CAPACIDAD, VIGENTE, FECHA_RETIRO, TIPO , ID_OPERADOR) VALUES ("+ 
 
 				Apartamento.getId()+", '"+
 				Apartamento.getUbicacion()+"' ,"+
 				Apartamento.getCostoBasico()+","+
 				Apartamento.getCapacidad()+", '"+
-				var+"' , '"+
-				fecha+"' , '"+
+				var+"' , "+
+				null+" , '"+
 				Apartamento.getTipo()+"' ,"+
 				Apartamento.getOperador().getId()+")";
 		System.out.println(sql2);
@@ -181,7 +199,27 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt3);
 		prepStmt3.executeQuery();
 
-		//Falta agregar todos los servicios.
+		List<Servicio> lista = Apartamento.getServicios();
+		for (int i = 0; i < lista.size(); i++) {
+			Servicio actual = lista.get(i);
+			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
+						 actual.getId()+", '"+
+						 actual.getNombre()+"' , '"+
+						 actual.getDescripcion()+"', "+
+						 actual.getCostoAdicional() +" )";
+			System.out.println(sql5);
+			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
+			recursos.add(prepStmt5);
+			prepStmt5.executeQuery();
+			
+			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
+					Apartamento.getId()+" , "+
+					actual.getId()+")";
+			System.out.println(sql4);
+			PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+			recursos.add(prepStmt4);
+			prepStmt4.executeQuery();
+		}
 		//Falta agregar todos los contratos.
 	}
 	/**
@@ -197,15 +235,14 @@ public class DAOAlojamiento {
 		String var = "F";
 		if(HabHostal.isVigente())
 			var = "T";
-		String fecha = HabHostal.getFechaRetiro().getDate() +"/" +HabHostal.getFechaRetiro().getMonth()+"/" +HabHostal.getFechaRetiro().getYear();
 		String sql2 = "INSERT INTO "+ USUARIO+".ALOJAMIENTOS (ID, UBICACION, COSTO_BASICO, CAPACIDAD, VIGENTE, FECHA_RETIRO, TIPO , ID_OPERADOR) VALUES ("+ 
 
 				HabHostal.getId()+", '"+
 				HabHostal.getUbicacion()+"' ,"+
 				HabHostal.getCostoBasico()+","+
 				HabHostal.getCapacidad()+", '"+
-				var+"' , '"+
-				fecha+"' , '"+
+				var+"' , "+
+				null+" , '"+
 				HabHostal.getTipo()+"' ,"+
 				HabHostal.getOperador().getId()+")";
 		System.out.println(sql2);
@@ -231,8 +268,27 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt3);
 		prepStmt3.executeQuery();
 
-		//Falta agregar todos los servicios.
-		//Falta agregar todos los contratos.
+		List<Servicio> lista = HabHostal.getServicios();
+		for (int i = 0; i < lista.size(); i++) {
+			Servicio actual = lista.get(i);
+			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
+						 actual.getId()+", '"+
+						 actual.getNombre()+"' , '"+
+						 actual.getDescripcion()+"', "+
+						 actual.getCostoAdicional() +" )";
+			System.out.println(sql5);
+			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
+			recursos.add(prepStmt5);
+			prepStmt5.executeQuery();
+			
+			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
+					HabHostal.getId()+" , "+
+					actual.getId()+")";
+			System.out.println(sql4);
+			PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+			recursos.add(prepStmt4);
+			prepStmt4.executeQuery();
+		}
 	}
 	/**
 	 * Metodo que agregar la informacion de un nuevo HabHotel en la Base de Datos a partir del parametro ingresado<br/>
@@ -247,15 +303,14 @@ public class DAOAlojamiento {
 		String var = "F";
 		if(HabHotel.isVigente())
 			var = "T";
-		String fecha = HabHotel.getFechaRetiro().getDate() +"/" +HabHotel.getFechaRetiro().getMonth()+"/" +HabHotel.getFechaRetiro().getYear();
 		String sql2 = "INSERT INTO "+ USUARIO+".ALOJAMIENTOS (ID, UBICACION, COSTO_BASICO, CAPACIDAD, VIGENTE, FECHA_RETIRO, TIPO , ID_OPERADOR) VALUES ("+ 
 
 				HabHotel.getId()+", '"+
 				HabHotel.getUbicacion()+"' ,"+
 				HabHotel.getCostoBasico()+","+
 				HabHotel.getCapacidad()+", '"+
-				var+"' , '"+
-				fecha+"' , '"+
+				var+"' , "+
+				null+" , '"+
 				HabHotel.getTipo()+"' ,"+
 				HabHotel.getOperador().getId()+")";
 		System.out.println(sql2);
@@ -272,8 +327,27 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt3);
 		prepStmt3.executeQuery();
 
-		//Falta agregar todos los servicios.
-		//Falta agregar todos los contratos.
+		List<Servicio> lista = HabHotel.getServicios();
+		for (int i = 0; i < lista.size(); i++) {
+			Servicio actual = lista.get(i);
+			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
+						 actual.getId()+", '"+
+						 actual.getNombre()+"' , '"+
+						 actual.getDescripcion()+"', "+
+						 actual.getCostoAdicional() +" )";
+			System.out.println(sql5);
+			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
+			recursos.add(prepStmt5);
+			prepStmt5.executeQuery();
+			
+			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
+					HabHotel.getId()+" , "+
+					actual.getId()+")";
+			System.out.println(sql4);
+			PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+			recursos.add(prepStmt4);
+			prepStmt4.executeQuery();
+		}
 	}
 	/**
 	 * Metodo que agregar la informacion de un nuevo habUniversitaria en la Base de Datos a partir del parametro ingresado<br/>
@@ -288,15 +362,14 @@ public class DAOAlojamiento {
 		String var = "F";
 		if(habUniversitaria.isVigente())
 			var = "T";
-		String fecha = habUniversitaria.getFechaRetiro().getDate() +"/" +habUniversitaria.getFechaRetiro().getMonth()+"/" +habUniversitaria.getFechaRetiro().getYear();
 		String sql2 = "INSERT INTO "+ USUARIO+".ALOJAMIENTOS (ID, UBICACION, COSTO_BASICO, CAPACIDAD, VIGENTE, FECHA_RETIRO, TIPO , ID_OPERADOR) VALUES ("+ 
 
 				habUniversitaria.getId()+", '"+
 				habUniversitaria.getUbicacion()+"' ,"+
 				habUniversitaria.getCostoBasico()+","+
 				habUniversitaria.getCapacidad()+", '"+
-				var+"' , '"+
-				fecha+"' , '"+
+				var+"' , "+
+				null+" , '"+
 				habUniversitaria.getTipo()+"' ,"+
 				habUniversitaria.getOperador().getId()+")";
 		System.out.println(sql2);
@@ -313,8 +386,27 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt3);
 		prepStmt3.executeQuery();
 
-		//Falta agregar todos los servicios.
-		//Falta agregar todos los contratos.
+		List<Servicio> lista = habUniversitaria.getServicios();
+		for (int i = 0; i < lista.size(); i++) {
+			Servicio actual = lista.get(i);
+			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
+						 actual.getId()+", '"+
+						 actual.getNombre()+"' , '"+
+						 actual.getDescripcion()+"', "+
+						 actual.getCostoAdicional() +" )";
+			System.out.println(sql5);
+			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
+			recursos.add(prepStmt5);
+			prepStmt5.executeQuery();
+			
+			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
+					habUniversitaria.getId()+" , "+
+					actual.getId()+")";
+			System.out.println(sql4);
+			PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+			recursos.add(prepStmt4);
+			prepStmt4.executeQuery();
+		}
 	}
 	/**
 	 * Metodo que agregar la informacion de un nuevo Vivienda en la Base de Datos a partir del parametro ingresado<br/>
@@ -329,15 +421,14 @@ public class DAOAlojamiento {
 		String var = "F";
 		if(Vivienda.isVigente())
 			var = "T";
-		String fecha = Vivienda.getFechaRetiro().getDate() +"/" +Vivienda.getFechaRetiro().getMonth()+"/" +Vivienda.getFechaRetiro().getYear();
 		String sql2 = "INSERT INTO "+ USUARIO+".ALOJAMIENTOS (ID, UBICACION, COSTO_BASICO, CAPACIDAD, VIGENTE, FECHA_RETIRO, TIPO , ID_OPERADOR) VALUES ("+ 
 
 				Vivienda.getId()+", '"+
 				Vivienda.getUbicacion()+"' ,"+
 				Vivienda.getCostoBasico()+","+
 				Vivienda.getCapacidad()+", '"+
-				var+"' , '"+
-				fecha+"' , '"+
+				var+"' , "+
+				null+" , '"+
 				Vivienda.getTipo()+"' ,"+
 				Vivienda.getOperador().getId()+")";
 		System.out.println(sql2);
@@ -362,7 +453,27 @@ public class DAOAlojamiento {
 		recursos.add(prepStmt3);
 		prepStmt3.executeQuery();
 
-		//Falta agregar todos los servicios.
+		List<Servicio> lista = Vivienda.getServicios();
+		for (int i = 0; i < lista.size(); i++) {
+			Servicio actual = lista.get(i);
+			String sql5 = "INSERT INTO "+USUARIO+".SERVICIOS (ID, NOMBRE, DESCRIPCION, COSTO_ADICIONAL) VALUES ("+
+						 actual.getId()+", '"+
+						 actual.getNombre()+"' , '"+
+						 actual.getDescripcion()+"', "+
+						 actual.getCostoAdicional() +" )";
+			System.out.println(sql5);
+			PreparedStatement prepStmt5 = conn.prepareStatement(sql5);
+			recursos.add(prepStmt5);
+			prepStmt5.executeQuery();
+			
+			String sql4 = "INSERT INTO " +USUARIO +".SERVICIOS_OFRECIDOS (ID_ALOJAMIENTO , ID_SERVICIO) VALUES ("+
+					Vivienda.getId()+" , "+
+					actual.getId()+")";
+			System.out.println(sql4);
+			PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+			recursos.add(prepStmt4);
+			prepStmt4.executeQuery();
+		}
 		//Falta agregar todos los contratos.
 	}
 	/**
@@ -528,7 +639,7 @@ public class DAOAlojamiento {
 		//Falta agregar todas las reservas
 		Alojamiento alojamiento = new Alojamiento(id, ubicacion, costoBasico, capacidad,  vigente, date, ope, servicios, reservas, tipo);
 
-
+		//Falta agregar los contratos y demas atributos segun el tipo
 		return alojamiento;
 	}
 }
