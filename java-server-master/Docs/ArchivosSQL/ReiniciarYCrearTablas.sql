@@ -1,33 +1,22 @@
-----------------------------------------
+----------------------------------------------------------------------------
 ----------------------DROPEAR TODO------------------------------------------
------------------------------------------------
+----------------------------------------------------------------------------
 drop table "ALOJAMIENTOS" cascade constraints PURGE;
 drop table "CLIENTES" cascade constraints PURGE;
-drop table "ALOJAMIENTOS1" cascade constraints PURGE;
-drop table "CLIENTES1" cascade constraints PURGE;
 drop table "CONTRATOS" cascade constraints PURGE;
-drop table "EJEMPLO" cascade constraints PURGE;
 drop table "HABITACIONES_HOSTAL" cascade constraints PURGE;
 drop table "HABITACIONES_HOTEL" cascade constraints PURGE;
-drop table "HABITACIONES_HOSTAL" cascade constraints PURGE;
-drop table "HABITACIONES_HOTEL" cascade constraints PURGE;
-drop table "HABITACIONES_HOSTAL" cascade constraints PURGE;
-drop table "HABITACIONES_HOTEL" cascade constraints PURGE;
-drop table "HABITACIONES_HOSTAL" cascade constraints PURGE;
 drop table "HABITACIONES_VIV_UNI" cascade constraints PURGE;
 drop table "LES_GUSTA" cascade constraints PURGE;
 drop table "OPERADORES" cascade constraints PURGE;
-drop table "OPERADORES1" cascade constraints PURGE;
 drop table "RELACIONES" cascade constraints PURGE;
 drop table "RESERVAS" cascade constraints PURGE;
 drop table "SE_HAN_QUEDADO" cascade constraints PURGE;
 drop table "SEGUROS" cascade constraints PURGE;
 drop table "SERVICIOS" cascade constraints PURGE;
 drop table "SERVICIOS_ADICIONALES" cascade constraints PURGE;
-drop table "SERVICIOS1" cascade constraints PURGE;
 drop table "VIVIENDAS" cascade constraints PURGE;
 drop table "APARTAMENTOS" cascade constraints PURGE;
-drop table "RELACIONES1" cascade constraints PURGE;
 drop table "SERVICIOS_OFRECIDOS" cascade constraints PURGE;
 
 rollback;
@@ -83,20 +72,11 @@ CREATE  TABLE ALOJAMIENTOS(
 ID NUMBER(5,0) NOT NULL UNIQUE,
 UBICACION VARCHAR2(60) NOT NULL,
 COSTO_BASICO NUMBER(10,2) NOT NULL,
---DIAS_ALQUILADO NUMBER(5,0) DEFAULT 0 NOT NULL,
 CAPACIDAD NUMBER(2,0) NOT NULL,
----NUM_PERSONAS NUMBER(6,0) DEFAULT 0 NOT NULL ,
 VIGENTE  VARCHAR2(1) DEFAULT 'T' NOT NULL ,
 FECHA_RETIRO DATE  DEFAULT NULL,
-----VECES_ALQUILADO NUMBER DEFAULT 0  NOT NULL,
 TIPO VARCHAR2(40) NOT NULL,
 ID_OPERADOR NUMBER(15,0) NOT NULL,
----CONSTRAINT CHECK_DIAS_ALQUILADO_ALOJ
----CHECK (DIAS_ALQUILADO>=0),
- ---CONSTRAINT CHECK_NUM_PERSONAS_VALUE_ALOJ
---CHECK (NUM_PERSONAS >=0),
---CONSTRAINT CHECK_VECES_ALQUILADO_ALOJ
----CHECK (VECES_ALQUILADO>=0),
 CONSTRAINT CHECK_TIPO_VALUES_ALOJ
 CHECK (TIPO IN ('HAB UNIVERSITARIA','APARTAMENTO','HAB HOSTAL','HAB HOTEL','VIVIENDA'))
 );
@@ -334,20 +314,10 @@ ADD CONSTRAINT FK_F_CLIENTES_S_H
 FOREIGN KEY(ID_ALOJAMIENTO) REFERENCES ALOJAMIENTOS (ID);
 
 
------------------
+--------------------------------------------------------------------------------------------------------
 -----------------OPERACIONES EXTRA----------------------------------------------------------------------
 
----------------------DELETES
 
----------DELETE  FROM OPERADORES  WHERE ID IS NOT NULL;  
------DELETE  FROM RELACIONES WHERE ID IS NOT NULL;
-
------agregar columnas
-------ALTER TABLE ALOJAMIENTOS ADD( TIPO VARCHAR2(20) NOT NULL);
-
-
---------modificar columnas
-----ALTER TABLE ALOJAMIENTOS MODIFY (TIPO NOT NULL);
 
 
 

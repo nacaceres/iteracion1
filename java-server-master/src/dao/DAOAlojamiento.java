@@ -561,7 +561,13 @@ public class DAOAlojamiento {
 		ArrayList<Alojamiento> Alojamientos = new ArrayList<Alojamiento>();
 		if(pCondiciones.getFechaFin()!= null && pCondiciones!=null && pCondiciones.getServicios()!= null&& !pCondiciones.getServicios().isEmpty())
 		{
-			String sql = "SELECT * FROM ISIS2304A431810.ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  ISIS2304A431810.RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '"+20/10/17+"' AND '"+30/10/17+"')";
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date fechaInicio = pCondiciones.getFechaInicio();
+			Date fechaFin = pCondiciones.getFechaFin();
+			String x1 = dateFormat.format(fechaInicio);
+			String x2 = dateFormat.format(fechaFin);
+
+			String sql = "SELECT * FROM ISIS2304A431810.ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  ISIS2304A431810.RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '"+x1+"' AND '"+x2+"')";
 			String sql2	=	" ) AND ALO.ID IN ( SELECT SEO.ID_ALOJAMIENTO FROM  ISIS2304A431810.SERVICIOS_OFRECIDOS SEO INNER JOIN  ISIS2304A431810.SERVICIOS SE ON SE.ID=SEO.ID_SERVICIO WHERE ";
 			String sql3 = "";
 			for (int i = 1; i < pCondiciones.getServicios().size(); i++) {
@@ -569,7 +575,7 @@ public class DAOAlojamiento {
 				sql3+=" SE.NOMBRE='"+actual+"'OR ";
 			}
 			String sql4 =  "SE.NOMBRE='"+pCondiciones.getServicios().get(0).getNombre()+"' )";
-
+			System.out.println(sql+sql2+sql3+sql4);
 			PreparedStatement prepStmt = conn.prepareStatement(sql+sql2+sql3+sql4);
 			recursos.add(prepStmt);
 			ResultSet rs = prepStmt.executeQuery();
