@@ -4,38 +4,38 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class IndiceOcupacion {
 
-	@JsonProperty( value = "idAlojamiento")
-	private String idAlojamiento;
+	@JsonProperty( value = "id")
+	private String id;
 	
-	@JsonProperty( value = "nombreOperador")
-	private String nombreOperador;
+	@JsonProperty( value = "nombre")
+	private String nombre;
 	
 	@JsonProperty( value = "porcentajeOcupacion")
 	private String porcentajeOcupacion;
 	
-	public IndiceOcupacion (@JsonProperty( value = "idAlojamiento") String pIdAlojamiento, 
-							@JsonProperty( value = "nombreOperador") String pNombreOperador,
+	public IndiceOcupacion (@JsonProperty( value = "id") String pIdAlojamiento, 
+							@JsonProperty( value = "nombre") String pNombreOperador,
 							@JsonProperty( value = "porcentajeOcupacion") String pPorcentajeOcupacion)
 	{
-		idAlojamiento=pIdAlojamiento;
-		nombreOperador = pNombreOperador;
+		id=pIdAlojamiento;
+		nombre = pNombreOperador;
 		porcentajeOcupacion = pPorcentajeOcupacion;
 	}
 
-	public String getIdAlojamiento() {
-		return idAlojamiento;
+	public String getId() {
+		return id;
 	}
 
-	public void setIdAlojamiento(String idAlojamiento) {
-		this.idAlojamiento = idAlojamiento;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getNombreOperador() {
-		return nombreOperador;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setNombreOperador(String nombreOperador) {
-		this.nombreOperador = nombreOperador;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getPorcentajeOcupacion() {
@@ -45,6 +45,7 @@ public class IndiceOcupacion {
 	public void setPorcentajeOcupacion(String porcentajeOcupacion) {
 		this.porcentajeOcupacion = porcentajeOcupacion;
 	}
+
 	
 	
 }

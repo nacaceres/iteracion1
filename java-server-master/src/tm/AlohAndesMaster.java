@@ -1375,6 +1375,90 @@ public class AlohAndesMaster{
 		}
 		return Alojamientos;
 	}
+	/**
+	 * Metodo por el que se obtienen los indices de ocupacion de varios alojamientos<br/>
+	 * @param name -id del Alojamiento a buscar. id != null
+	 * @return Alojamiento - Alojamiento que se obtiene como resultado de la consulta.
+	 * @throws Exception -  cualquier error que se genere durante la transaccion
+	 */
+	public List <IndiceOcupacion> getIndicesOcupacion() throws Exception {
+		DAOOperador daoOperador = new DAOOperador();
+		List <IndiceOcupacion> Alojamientos = null;
+		try 
+		{
+			this.conn = darConexion();
+			daoOperador.setConn(conn);
+			Alojamientos = daoOperador.getIndicesOcupacion();
+		} 
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoOperador.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return Alojamientos;
+	}
+	/**
+	 * Metodo que obtiene las estadisticas del cliente enviado por parametro<br/>
+	 * @param name -id del Cliente a buscar. id != null
+	 * @return Cliente - Cliente que se obtiene como resultado de la consulta.
+	 * @throws Exception -  cualquier error que se genere durante la transaccion
+	 */
+	public EstadCli getEstadisticasCliente(Cliente id) throws Exception {
+		DAOCliente daoCliente = new DAOCliente();
+		EstadCli Cliente = null;
+		try 
+		{
+			this.conn = darConexion();
+			daoCliente.setConn(conn);
+			Cliente = daoCliente.getEstadisticasCliente(id);
+			if(Cliente == null)
+			{
+				throw new Exception("El Cliente con el id = " + id + " no se encuentra persistido en la base de datos.");				
+			}
+		} 
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoCliente.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return Cliente;
+	}
 //	/**
 //	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>
 //	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>

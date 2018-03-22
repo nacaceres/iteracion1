@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import tm.AlohAndesMaster;
 import vos.Cliente;
+import vos.EstadCli;
 import vos.UsoAlohAndes;
 
 
@@ -202,4 +203,27 @@ public class ClientesService {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 	}
+	 /**
+		 * Metodo GET que trae a todas las estadisticas de un cliente dado por parametro. <br/>
+		 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+		 * <b>URL: </b> http://localhost:8080/AlohAndes/rest/Clientes <br/>
+		 * @return	<b>Response Status 200</b> - JSON que contiene a todos los Clientes que estan en la Base de Datos <br/>
+		 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+		 */			
+		@PUT
+		@Produces({ MediaType.APPLICATION_JSON })
+		@Path("estadisticascliente")
+		public Response getEstadisticasCliente(Cliente clie) {
+			
+			try {
+				AlohAndesMaster tm = new AlohAndesMaster(getPath());
+				
+				EstadCli Clientes;
+				Clientes = tm.getEstadisticasCliente(clie);
+				return Response.status(200).entity(Clientes).build();
+			} 
+			catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+		}
 }

@@ -222,6 +222,37 @@ public class DAOCliente {
 		return clientes;
 	}
 	
+	/**
+	 * Metodo que obtiene las estadisticas del cliente enviado por parametro<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/> 
+	 * @param id el identificador del Cliente
+	 * @return la informacion del Cliente que cumple con los criterios de la sentecia SQL
+	 * 			Null si no existe el bebedor conlos criterios establecidos
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public EstadCli getEstadisticasCliente(Cliente cliente1) throws SQLException, Exception 
+	{
+		EstadCli cliente = null;
+
+		String sql = "SELECT CLI.ID,  CLI.NOMBRE,ALO.TIPO AS TIPO_ALOJAMIENTO,SUM(RE.COSTO_DEFINITIVO) AS DINERO_PAGADO,SUM(RE.NUM_DIAS) AS DIAS_CONTRATADOS FROM ISIS2304A431810.CLIENTES CLI INNER JOIN  ISIS2304A431810.RESERVAS RE ON RE.ID_CLIENTE=CLI.ID INNER JOIN ISIS2304A431810.ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO WHERE CLI.NOMBRE='"+cliente1.getNombre()+"' GROUP BY CLI.NOMBRE,CLI.ID,ALO.TIPO"; 
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		if(rs.next()) {
+			String id = rs.getString("ID");
+			String nombre = rs.getString("NOMBRE");
+			String tipo = rs.getString("TIPO_ALOJAMIENTO");
+			String dinero = rs.getString("DINERO_PAGADO");
+			String dias = rs.getString("DIAS_CONTRATADOS");
+			cliente = new EstadCli(id,nombre,tipo,dinero,dias);
+		}
+
+		return cliente;
+	}
+	
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
