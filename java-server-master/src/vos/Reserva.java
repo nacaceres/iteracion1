@@ -87,7 +87,19 @@ public class Reserva
 	 */
 	@JsonProperty( value = "cliente")
 	private Cliente cliente;
+	
+	/**
+	 * Indica si la reserva hace parte de una reserva colectiva
+	 */
+	@JsonProperty( value = "colectiva")
+	private boolean colectiva;
 
+	/**
+	 * Indica si la reserva hace parte de una reserva colectiva
+	 */
+	@JsonProperty( value = "idColectiva")
+	private Long idColectiva;
+	
 	/**
 	 * Lista que contiene los servicios adicionales de la reserva, estos son los servicios que no 
 	 * incluye el alojamiento.
@@ -114,6 +126,8 @@ public class Reserva
 			@JsonProperty( value = "tiempoOportunoCan") Date pTiempoOportunoCan,
 			@JsonProperty( value = "alojamiento") Alojamiento pAlojamiento,
 			@JsonProperty( value = "cliente") Cliente pCliente,
+			@JsonProperty( value = "colectiva") boolean pColectiva,
+			@JsonProperty( value = "idColectiva") Long pIdColectiva,
 			@JsonProperty( value = "serviciosAdicionales") List<Servicio> pServiciosAdicionales )
 	{
 		id=pId;
@@ -128,6 +142,8 @@ public class Reserva
 		tiempoOportunoCan = pTiempoOportunoCan;
 		alojamiento = pAlojamiento;
 		cliente = pCliente;
+		colectiva = pColectiva;
+		idColectiva = pIdColectiva;
 		serviciosAdicionales = pServiciosAdicionales;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -238,6 +254,23 @@ public class Reserva
 		this.id = id;
 	}
 
+	public boolean isColectiva() {
+		return colectiva;
+	}
+
+	public void setColectiva(boolean colectiva) {
+		this.colectiva = colectiva;
+	}
+
+	public Long getIdColectiva() {
+		return idColectiva;
+	}
+
+	public void setIdColectiva(Long idColectiva) {
+		this.idColectiva = idColectiva;
+	}
+
+	
 	
 }
 

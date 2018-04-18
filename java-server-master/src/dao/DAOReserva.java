@@ -123,7 +123,10 @@ public class DAOReserva {
 		String terminada = "F";
 		if(Reserva.isTerminada())
 			terminada = "T";
-		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, NUM_DIAS, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE) VALUES ("+ 
+		String colectiva = "F";
+		if(Reserva.isColectiva())
+			colectiva = "T";
+		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, NUM_DIAS, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE, COLECTIVA, ID_COLECTIVA) VALUES ("+ 
 				Reserva.getId()+" , "+
 				Reserva.getNumDias()+" , "+
 				fecha1+" , "+
@@ -134,7 +137,9 @@ public class DAOReserva {
 				Reserva.getCostoDefinitivo()+" ,"+
 				fecha4+" , '"+
 				terminada+ "' , "+
-				Reserva.getAlojamiento().getId()+" , "+
+				Reserva.getAlojamiento().getId()+" , '"+
+				colectiva +"' , "+
+				Reserva.getIdColectiva()+" , "+
 				Reserva.getCliente().getId()+")";
 		System.out.println(sql);
 		
@@ -145,6 +150,20 @@ public class DAOReserva {
 		
 	}
 
+	
+	/**
+	 * Metodo que intentara agregar la informacion de una reserva colectiva en la Base de Datos a partir de los parametro ingresado<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @param Reserva Reserva que desea agregar a la Base de Datos
+	 * @param Cantidad cantidad de reservas a agregar-
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si no se puede generar la reserva colectiva.
+	 */
+	public Informe addReservaColectiva (Reserva Reserva, int cantidad) throws SQLException, Exception {
+		
+		return null;
+	}
+	
 	/**
 	 * Metodo que actualiza la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
@@ -244,6 +263,7 @@ public class DAOReserva {
 	public Reserva convertResultSetToReserva(ResultSet resultSet, DAOAlojamiento daoAlojamiento, DAOCliente daoCliente) throws SQLException, Exception {
 
 		long id = Long.parseLong(resultSet.getString("ID"));
+		long idColectiva = Long.parseLong(resultSet.getString("ID_COLECTIVA"));
 		int numDias = Integer.parseInt(resultSet.getString("NUM_DIAS"));
 		String fechaInicio = resultSet.getString("FECHA_INICIO");
 		
@@ -290,13 +310,16 @@ public class DAOReserva {
 		boolean terminada = false;
 		if(resultSet.getString("TERMINADA").equals("T"))
 			terminada = true;
+		boolean colectiva = false;
+		if(resultSet.getString("COLECTIVA").equals("T"))
+			colectiva = true;
 		long idAlojamiento = Long.parseLong(resultSet.getString("ID_ALOJAMIENTO"));
 		long idCliente = Long.parseLong(resultSet.getString("ID_CLIENTE"));
 		
 		Alojamiento alojamiento = daoAlojamiento.findAlojamientoById(idAlojamiento);
 		Cliente cliente = daoCliente.findClienteById(idCliente);
 		ArrayList <Servicio>servicios = new ArrayList<Servicio>();
-		Reserva ope = new Reserva(id, numDias, date1, date2, cancelada, numPersonas, date3, costoFinal, terminada, date4, alojamiento, cliente, servicios);
+		Reserva ope = new Reserva(id, numDias, date1, date2, cancelada, numPersonas, date3, costoFinal, terminada, date4, alojamiento, cliente, colectiva , idColectiva, servicios);
 
 		return ope;
 	}
