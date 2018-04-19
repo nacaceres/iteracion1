@@ -72,12 +72,12 @@ public class DAOReserva {
 		ResultSet rs = prepStmt.executeQuery();
 
 		while (rs.next()) {
-		reservas.add(convertResultSetToReserva(rs,daoAlojamiento,daoCliente));
+			reservas.add(convertResultSetToReserva(rs,daoAlojamiento,daoCliente));
 		}
 		return reservas;
 	}
 
-	
+
 
 	/**
 	 * Metodo que obtiene la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
@@ -126,9 +126,8 @@ public class DAOReserva {
 		String colectiva = "F";
 		if(Reserva.isColectiva())
 			colectiva = "T";
-		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, NUM_DIAS, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE, COLECTIVA, ID_COLECTIVA) VALUES ("+ 
+		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE, COLECTIVA, ID_COLECTIVA) VALUES ("+ 
 				Reserva.getId()+" , "+
-				Reserva.getNumDias()+" , "+
 				fecha1+" , "+
 				fecha2+" , "+
 				Reserva.getNumPersonas()+" , '"+
@@ -142,15 +141,20 @@ public class DAOReserva {
 				Reserva.getIdColectiva()+" , "+
 				Reserva.getCliente().getId()+")";
 		System.out.println(sql);
-		
+
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
+
+		String sql2 = "INSERT INTO "+USUARIO+".RESERVAS_DIAS (ID , NUMDIAS) VALUES (" + Reserva.getId()+" , "+ Reserva.getNumDias() +")";
+		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+		recursos.add(prepStmt2);
+		prepStmt2.executeQuery();
 		//Pendiente anhadir los servicios a tablas.
-		
+
 	}
 
-	
+
 	/**
 	 * Metodo que intentara agregar la informacion de una reserva colectiva en la Base de Datos a partir de los parametro ingresado<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
@@ -159,11 +163,32 @@ public class DAOReserva {
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si no se puede generar la reserva colectiva.
 	 */
-	public Informe addReservaColectiva (Reserva Reserva, int cantidad) throws SQLException, Exception {
-		
+	public Informe addReservaColectiva (ReservaColectiva reservaColectiva, DAOAlojamiento daoAlojamiento) throws SQLException, Exception {
+
+		String tipo = reservaColectiva.getReserva().getAlojamiento().getTipo();
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String fechaInicio = "'"+dateFormat.format(reservaColectiva.getReserva().getFechaInicio())+"'";
+		String fechaFin = "'"+dateFormat.format(reservaColectiva.getReserva().getFechaFin())+"'";
+		String sql = null;
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		int rowcount = 0;
+		if (rs.last()) {
+			rowcount = rs.getRow();
+			rs.beforeFirst(); 
+		}
+		if(rowcount >= reservaColectiva.getCantidad())
+		{
+			sql2 
+			while (rs.next()) {
+				Alojamiento actual = daoAlojamiento.convertResultSetToAlojamiento(rs);
+				Reserva ope = new Reserva(id, reservaColectiva.getReserva().getNumDias(), fechaInicio, fechaFin, reservaColectiva.getReserva().isCancelada() , reservaColectiva.getReserva().getNumPersonas(), null, costoFinal, reservaColectiva.getReserva().isTerminada(), reservaColectiva.getReserva().getTiempoOportunoCan(), alojamiento, reservaColectiva.getReserva().getCliente(), true , reservaColectiva.getIdReservaColectiva(), reservaColectiva.getReserva().getServiciosAdicionales());
+			}
+		}
 		return null;
 	}
-	
+
 	/**
 	 * Metodo que actualiza la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
@@ -172,7 +197,7 @@ public class DAOReserva {
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
 	public void cancelarReserva(Reserva Reserva) throws SQLException, Exception {
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date1 = new Date();
 		String x = dateFormat.format(date1);
@@ -194,38 +219,38 @@ public class DAOReserva {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
-//
-//	/**
-//	 * Metodo que actualiza la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
-//	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
-//	 * @param Reserva Reserva que desea actualizar a la Base de Datos
-//	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
-//	 * @throws Exception Si se genera un error dentro del metodo.
-//	 */
-//	public void deleteReserva(Reserva Reserva,DAOReserva daoReserva) throws SQLException, Exception {
-//
-//		for (int i = 0; i < Reserva.getReservas().size(); i++) {
-//			Reserva actual = Reserva.getReservas().get(i);
-//			//Implementar el metodo delete de DAOReserva.
-//		}
-//		
-//		String sql2 = String.format("DELETE FROM %1$s.reservaS WHERE ID = %2$d", USUARIO, Reserva.getId());
-//		
-//		System.out.println(sql2);
-//
-//		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
-//		recursos.add(prepStmt2);
-//		prepStmt2.executeQuery();
-//		
-//		String sql = String.format("DELETE FROM %1$s.RELACIONES WHERE ID = %2$d", USUARIO, Reserva.getRelacionUniandes().getId());
-//		
-//		System.out.println(sql);
-//
-//		PreparedStatement prepStmt = conn.prepareStatement(sql);
-//		recursos.add(prepStmt);
-//		prepStmt.executeQuery();
-//	}
-//
+	//
+	//	/**
+	//	 * Metodo que actualiza la informacion del Reserva en la Base de Datos que tiene el identificador dado por parametro<br/>
+	//	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	//	 * @param Reserva Reserva que desea actualizar a la Base de Datos
+	//	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	//	 * @throws Exception Si se genera un error dentro del metodo.
+	//	 */
+	//	public void deleteReserva(Reserva Reserva,DAOReserva daoReserva) throws SQLException, Exception {
+	//
+	//		for (int i = 0; i < Reserva.getReservas().size(); i++) {
+	//			Reserva actual = Reserva.getReservas().get(i);
+	//			//Implementar el metodo delete de DAOReserva.
+	//		}
+	//		
+	//		String sql2 = String.format("DELETE FROM %1$s.reservaS WHERE ID = %2$d", USUARIO, Reserva.getId());
+	//		
+	//		System.out.println(sql2);
+	//
+	//		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+	//		recursos.add(prepStmt2);
+	//		prepStmt2.executeQuery();
+	//		
+	//		String sql = String.format("DELETE FROM %1$s.RELACIONES WHERE ID = %2$d", USUARIO, Reserva.getRelacionUniandes().getId());
+	//		
+	//		System.out.println(sql);
+	//
+	//		PreparedStatement prepStmt = conn.prepareStatement(sql);
+	//		recursos.add(prepStmt);
+	//		prepStmt.executeQuery();
+	//	}
+	//
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -266,14 +291,14 @@ public class DAOReserva {
 		long idColectiva = Long.parseLong(resultSet.getString("ID_COLECTIVA"));
 		int numDias = Integer.parseInt(resultSet.getString("NUM_DIAS"));
 		String fechaInicio = resultSet.getString("FECHA_INICIO");
-		
+
 		String fif = fechaInicio.substring(2, 10);
 		String [] array = fif.split("-");
 		int anho = Integer.parseInt(array[0])+100;
 		int mes = Integer.parseInt(array[1])-1;
 		int dia = Integer.parseInt(array[2]);
 		Date date1 = new Date(anho, mes, dia);
-		
+
 		String fechaFin = resultSet.getString("FECHA_FIN");
 		String fff = fechaFin.substring(2, 10);
 		String [] array2 = fff.split("-");
@@ -281,7 +306,7 @@ public class DAOReserva {
 		int mes2 = Integer.parseInt(array2[1])-1;
 		int dia2 = Integer.parseInt(array2[2]);
 		Date date2 = new Date(anho2, mes2, dia2);
-		
+
 		int numPersonas = Integer.parseInt(resultSet.getString("NUM_PERSONAS"));
 		boolean cancelada = false;
 		if(resultSet.getString("CANCELADA").equals("T"))
@@ -290,14 +315,14 @@ public class DAOReserva {
 		Date date3 = null;
 		if(fechaCancelacion != null)
 		{
-		String fcf = fechaCancelacion.substring(2, 10);
-		String [] array3 = fcf.split("-");
-		int anho3 = Integer.parseInt(array3[0])+100;
-		int mes3 = Integer.parseInt(array3[1])-1;
-		int dia3 = Integer.parseInt(array3[2]);
-		date3 = new Date(anho3, mes3, dia3);
+			String fcf = fechaCancelacion.substring(2, 10);
+			String [] array3 = fcf.split("-");
+			int anho3 = Integer.parseInt(array3[0])+100;
+			int mes3 = Integer.parseInt(array3[1])-1;
+			int dia3 = Integer.parseInt(array3[2]);
+			date3 = new Date(anho3, mes3, dia3);
 		}
-		
+
 		double costoFinal = Double.parseDouble(resultSet.getString("COSTO_DEFINITIVO"));
 		String tiempoOportuno = resultSet.getString("TIEMPO_OPORTUNO");
 		String ftf = tiempoOportuno.substring(2, 10);
@@ -306,7 +331,7 @@ public class DAOReserva {
 		int mes4 = Integer.parseInt(array4[1])-1;
 		int dia4 = Integer.parseInt(array4[2]);
 		Date date4 = new Date(anho4, mes4, dia4);
-		
+
 		boolean terminada = false;
 		if(resultSet.getString("TERMINADA").equals("T"))
 			terminada = true;
@@ -315,7 +340,7 @@ public class DAOReserva {
 			colectiva = true;
 		long idAlojamiento = Long.parseLong(resultSet.getString("ID_ALOJAMIENTO"));
 		long idCliente = Long.parseLong(resultSet.getString("ID_CLIENTE"));
-		
+
 		Alojamiento alojamiento = daoAlojamiento.findAlojamientoById(idAlojamiento);
 		Cliente cliente = daoCliente.findClienteById(idCliente);
 		ArrayList <Servicio>servicios = new ArrayList<Servicio>();
