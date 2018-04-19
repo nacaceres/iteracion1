@@ -169,18 +169,20 @@ public class DAOReserva {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		String fechaInicio = "'"+dateFormat.format(reservaColectiva.getReserva().getFechaInicio())+"'";
 		String fechaFin = "'"+dateFormat.format(reservaColectiva.getReserva().getFechaFin())+"'";
-		String sql = null;
+		String sql = "SELECT * FROM ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '20/10/18' AND '30/10/18') OR  ( RE.FECHA_FIN  BETWEEN '20/10/18' AND '30/10/18') OR (  RE.FECHA_INICIO <'20/10/18'  AND   RE.FECHA_FIN>  '30/10/18') ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='HAB HOTEL');";
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		int rowcount = 0;
-		if (rs.last()) {
-			rowcount = rs.getRow();
-			rs.beforeFirst(); 
-		}
+		
 		if(rowcount >= reservaColectiva.getCantidad())
 		{
-			sql2 
+			String sql2 = "SELECT * FROM RESERVAS;";
+			PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+			recursos.add(prepStmt2);
+			ResultSet rs2 = prepStmt2.executeQuery();
+			int rowcount2 = 0;
+			
 			while (rs.next()) {
 				Alojamiento actual = daoAlojamiento.convertResultSetToAlojamiento(rs);
 				Reserva ope = new Reserva(id, reservaColectiva.getReserva().getNumDias(), fechaInicio, fechaFin, reservaColectiva.getReserva().isCancelada() , reservaColectiva.getReserva().getNumPersonas(), null, costoFinal, reservaColectiva.getReserva().isTerminada(), reservaColectiva.getReserva().getTiempoOportunoCan(), alojamiento, reservaColectiva.getReserva().getCliente(), true , reservaColectiva.getIdReservaColectiva(), reservaColectiva.getReserva().getServiciosAdicionales());
