@@ -82,8 +82,7 @@ CHECK (TIPO IN ('HAB UNIVERSITARIA','APARTAMENTO','HAB HOSTAL','HAB HOTEL','VIVI
 ------------------------
 
 CREATE  TABLE RESERVAS(
-ID NUMBER(5,0) NOT NULL UNIQUE,
-NUM_DIAS NUMBER(3,0) NOT NULL,
+ID NUMBER(5,0) NOT NULL UNIQUE,--NUM_DIAS NUMBER(3,0) NOT NULL,-->
 FECHA_INICIO DATE  NOT NULL,
 FECHA_FIN DATE NOT NULL,
 NUM_PERSONAS NUMBER(2,0) NOT NULL ,
@@ -315,25 +314,3 @@ FOREIGN KEY(ID_CLIENTE) REFERENCES CLIENTES (ID);
 ALTER TABLE SE_HAN_QUEDADO
 ADD CONSTRAINT FK_F_CLIENTES_S_H
 FOREIGN KEY(ID_ALOJAMIENTO) REFERENCES ALOJAMIENTOS (ID);
-
-
-
-
---------------------------------------------------------------------------------------------------------
------------------OPERACIONES EXTRA----------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

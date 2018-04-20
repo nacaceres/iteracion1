@@ -1,8 +1,6 @@
 -----------------------------------------------------------------------------------------------------------------
 -------------------------------------------------INSERTIONS--------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------
-
------------
 DELETE FROM RELACIONES WHERE ID IS NOT NULL;
 DELETE FROM CLIENTES WHERE ID IS NOT NULL;
 DELETE FROM OPERADORES WHERE ID IS NOT NULL;
@@ -177,7 +175,6 @@ Insert into SERVICIOS_ADICIONALES(ID_RESERVA, ID_SERVICIO) VALUES('4','3');
 -----RESERVAS LIKE MUCHAS----
 
 insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (302, '25/3/2018', '26/3/2018', '15/4/2018', 65, 9, 1020567, 4);
-insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (302, '16/5/2017', '18/5/2017', '4/6/2017', 95, 9, 1020567, 7);
 insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (303, '20/3/2018', '23/3/2018', '2/4/2018', 71, 8, 1020567, 7);
 insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (304, '29/1/2018', '3/2/2018', '17/2/2018', 73, 1, 1020567, 8);
 insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (305, '26/2/2018', '27/2/2018', '15/3/2018', 90, 3, 1020567, 6);
