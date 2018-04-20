@@ -126,8 +126,9 @@ public class DAOReserva {
 		String colectiva = "F";
 		if(Reserva.isColectiva())
 			colectiva = "T";
-		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE, COLECTIVA, ID_COLECTIVA) VALUES ("+ 
+		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, NUM_DIAS, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE, COLECTIVA, ID_COLECTIVA) VALUES ("+ 
 				Reserva.getId()+" , "+
+				Reserva.getNumDias()+" , "+
 				fecha1+" , "+
 				fecha2+" , "+
 				Reserva.getNumPersonas()+" , '"+
@@ -145,14 +146,7 @@ public class DAOReserva {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		//recursos.add(prepStmt);
 		prepStmt.executeQuery();
-
-		String sql2 = "INSERT INTO "+USUARIO+".RESERVAS_DIAS (ID , NUMDIAS) VALUES (" + Reserva.getId()+" , "+ Reserva.getNumDias() +")";
-		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
-		//recursos.add(prepStmt2);
-		prepStmt2.executeQuery();
-		
 		prepStmt.close();
-		prepStmt2.close();
 		//Pendiente anhadir los servicios a tablas.
 
 	}
@@ -167,17 +161,19 @@ public class DAOReserva {
 	 * @throws Exception Si no se puede generar la reserva colectiva.
 	 */
 	public Informe addReservaColectiva (ReservaColectiva reservaColectiva, DAOAlojamiento daoAlojamiento) throws SQLException, Exception {
-
+		ArrayList<String> informe = new ArrayList<String>();
 		String tipo = reservaColectiva.getReserva().getAlojamiento().getTipo();
 		Date fechaInicio = reservaColectiva.getReserva().getFechaInicio();
 		Date fechaFin = reservaColectiva.getReserva().getFechaFin();
-		
-		String sql = "SELECT * FROM ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '20/10/18' AND '30/10/18') OR  ( RE.FECHA_FIN  BETWEEN '20/10/18' AND '30/10/18') OR (  RE.FECHA_INICIO <'20/10/18'  AND   RE.FECHA_FIN>  '30/10/18') ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='HAB HOTEL');";
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String fecha1 = "'"+dateFormat.format(fechaInicio)+"'";
+		String fecha2 = "'"+dateFormat.format(fechaFin)+"'";
+		String sql = "SELECT * FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"');";
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		
-		String sql3 = "SELECT COUNT (*) AS NUM_ALOJAMIENTOS FROM ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '20/10/18' AND '30/10/18') OR  ( RE.FECHA_FIN  BETWEEN '20/10/18' AND '30/10/18') OR (  RE.FECHA_INICIO <'20/10/18'  AND   RE.FECHA_FIN>  '30/10/18') ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='HAB HOTEL');";
+		String sql3 = "SELECT COUNT (*) AS NUM_ALOJAMIENTOS FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"');";
 		PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
 		recursos.add(prepStmt3);
 		ResultSet rs3 = prepStmt3.executeQuery();
@@ -185,18 +181,28 @@ public class DAOReserva {
 		int rowcount = Integer.parseInt(rs3.getString("NUM_ALOJAMIENTOS"));
 		if(rowcount >= reservaColectiva.getCantidad())
 		{
-			String sql2 = "SELECT COUNT (*) AS NUMACTUAL FROM RESERVAS;";
+			String sql2 = "SELECT COUNT (*) AS NUMACTUAL FROM "+USUARIO+".RESERVAS;";
 			PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
 			recursos.add(prepStmt2);
 			ResultSet rs2 = prepStmt2.executeQuery();
 			Long idReserva = Long.parseLong(rs2.getString("NUMACTUAL"));
+			int contador = 0;
 			while (rs.next()) {
+				contador++;
 				Alojamiento actual = daoAlojamiento.convertResultSetToAlojamiento(rs);
 				Reserva ope = new Reserva(idReserva+1, reservaColectiva.getReserva().getNumDias(), fechaInicio, fechaFin, reservaColectiva.getReserva().isCancelada() , reservaColectiva.getReserva().getNumPersonas(), null, actual.getCostoBasico(), reservaColectiva.getReserva().isTerminada(), reservaColectiva.getReserva().getTiempoOportunoCan(), actual, reservaColectiva.getReserva().getCliente(), true , reservaColectiva.getIdReservaColectiva(), reservaColectiva.getReserva().getServiciosAdicionales());
 				addReserva(ope);
+				String x = "La reserva No."+contador+"ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+" con id de reserva individual "+idReserva+1;
+				informe.add(x);
 			}
 		}
-		return null;
+		else
+		{
+			String y ="La reserva colectiva no pudo realizarse debido a que no se contaban con los alojamientos requeridos.";
+			informe.add(y);
+		}
+		Informe inf = new Informe(informe);
+		return inf;
 	}
 
 	/**
@@ -207,6 +213,37 @@ public class DAOReserva {
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
 	public void cancelarReserva(Reserva Reserva) throws SQLException, Exception {
+
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date1 = new Date();
+		String x = dateFormat.format(date1);
+		String fecha = x;
+		double costoDef = Reserva.getCostoDefinitivo();
+		if(Reserva.getTiempoOportunoCan().compareTo(date1)>0)
+		{
+			costoDef = costoDef *0.1;
+		}
+		else if (Reserva.getTiempoOportunoCan().compareTo(date1)<0 && Reserva.getFechaInicio().compareTo(date1)>0)
+		{
+			costoDef = costoDef *0.3;
+		}
+		else
+			costoDef = costoDef *0.5;
+		String sql = "UPDATE "+ USUARIO +".RESERVAS SET "+"CANCELADA = 'T' , FECHA_CANCELACION = '"+fecha+"' , COSTO_DEFINITIVO = "+costoDef+" , TERMINADA = 'F' WHERE ID ="+Reserva.getId();
+		System.out.println(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
+	
+	/**
+	 * Metodo que cancela la reserva colectiva dada por parametro<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @param Reserva Reserva que desea actualizar a la Base de Datos
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public void cancelarReservaColectiva(ReservaColectiva reservaColectiva) throws SQLException, Exception {
 
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date1 = new Date();
