@@ -239,32 +239,52 @@ public class DAOReserva {
 	/**
 	 * Metodo que cancela la reserva colectiva dada por parametro<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
-	 * @param Reserva Reserva que desea actualizar a la Base de Datos
+	 * @param Reserva Reserva colectiva que desea cancelar
 	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public void cancelarReservaColectiva(ReservaColectiva reservaColectiva) throws SQLException, Exception {
-
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date date1 = new Date();
-		String x = dateFormat.format(date1);
-		String fecha = x;
-		double costoDef = Reserva.getCostoDefinitivo();
-		if(Reserva.getTiempoOportunoCan().compareTo(date1)>0)
-		{
-			costoDef = costoDef *0.1;
-		}
-		else if (Reserva.getTiempoOportunoCan().compareTo(date1)<0 && Reserva.getFechaInicio().compareTo(date1)>0)
-		{
-			costoDef = costoDef *0.3;
-		}
-		else
-			costoDef = costoDef *0.5;
-		String sql = "UPDATE "+ USUARIO +".RESERVAS SET "+"CANCELADA = 'T' , FECHA_CANCELACION = '"+fecha+"' , COSTO_DEFINITIVO = "+costoDef+" , TERMINADA = 'F' WHERE ID ="+Reserva.getId();
-		System.out.println(sql);
+	public Informe cancelarReservaColectiva(ReservaColectiva reservaColectiva, DAOAlojamiento daoAlojamiento, DAOCliente daoCliente) throws SQLException, Exception {
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		double costoDefinitivo = 0;
+		String sql ="SELECT * FROM "+ USUARIO +".RESERVAS WHERE ID_COLECTIVA = "+reservaColectiva+" ;";
 		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
 		recursos.add(prepStmt);
-		prepStmt.executeQuery();
+		ResultSet rs =prepStmt.executeQuery();
+		
+		while (rs.next()) {
+			reservas.add(convertResultSetToReserva(rs,daoAlojamiento,daoCliente));
+		}
+		
+		for (int i = 0; i < reservas.size(); i++) {
+			
+			Reserva actual = reservas.get(i);
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date date1 = new Date();
+			String x = dateFormat.format(date1);
+			String fecha = x;
+			double costoDef = actual.getCostoDefinitivo();
+			if(actual.getTiempoOportunoCan().compareTo(date1)>0)
+			{
+				costoDef = costoDef *0.1;
+			}
+			else if (actual.getTiempoOportunoCan().compareTo(date1)<0 && actual.getFechaInicio().compareTo(date1)>0)
+			{
+				costoDef = costoDef *0.3;
+			}
+			else
+				costoDef = costoDef *0.5;
+			costoDefinitivo += costoDef;
+			String sql2 = "UPDATE "+ USUARIO +".RESERVAS SET "+"CANCELADA = 'T' , FECHA_CANCELACION = '"+fecha+"' , COSTO_DEFINITIVO = "+costoDef+" , TERMINADA = 'F' WHERE ID ="+actual.getId();
+			System.out.println(sql2);
+			PreparedStatement prepStmt2 = conn.prepareStatement(sql2.toString());
+			recursos.add(prepStmt2);
+			prepStmt2.executeQuery();
+			prepStmt2.close();
+			
+		}
+		
+		return null;
+		
 	}
 	//
 	//	/**
