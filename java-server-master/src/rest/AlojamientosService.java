@@ -25,6 +25,7 @@ import vos.Condiciones;
 import vos.HabHostal;
 import vos.HabHotel;
 import vos.HabUniversitaria;
+import vos.Informe;
 import vos.Operador;
 import vos.Vivienda;
 
@@ -276,6 +277,54 @@ public class AlojamientosService {
 			
 			tm.retirarOfertaAlojamiento(Alojamiento);
 			return getAlojamientoById(Alojamiento.getId());			
+		}
+		catch( Exception e )
+		{
+			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+		}
+	}
+	/**
+	 * Metodo que recibe un Alojamiento en formato JSON y lo agrega a la Base de Datos <br/>
+	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>Postcondicion: </b> Se actualiza la Base de datos con la informacion correspondiente al Alojamiento.<br/>
+	 * @param Alojamiento JSON con la informacion del Alojamiento que se desea agregar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Alojamiento que se desea modificar <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */
+	@PUT	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("deshabilitar")
+	public Response deshabilitarOfertaAlojamiento(Alojamiento Alojamiento) {
+		try{
+			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+			
+			Informe x = tm.deshabilitarOfertaAlojamiento(Alojamiento);
+			return Response.status( 200 ).entity( x ).build( );			
+		}
+		catch( Exception e )
+		{
+			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+		}
+	}
+	/**
+	 * Metodo que recibe un Alojamiento en formato JSON y lo agrega a la Base de Datos <br/>
+	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>Postcondicion: </b> Se actualiza la Base de datos con la informacion correspondiente al Alojamiento.<br/>
+	 * @param Alojamiento JSON con la informacion del Alojamiento que se desea agregar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Alojamiento que se desea modificar <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */
+	@PUT	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("habilitar")
+	public Response habilitarOfertaAlojamiento(Alojamiento Alojamiento) {
+		try{
+			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+			
+			Informe x = tm.habilitarOfertaAlojamiento(Alojamiento);
+			return Response.status( 200 ).entity( x ).build( );			
 		}
 		catch( Exception e )
 		{

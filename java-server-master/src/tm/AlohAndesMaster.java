@@ -1170,6 +1170,101 @@ public class AlohAndesMaster{
 	}
 
 	/**
+	 * Metodo que modela la transaccion que actualiza en la base de datos al Alojamiento que entra por parametro.<br/>
+	 * Solamente se actualiza si existe el Alojamiento en la Base de Datos <br/>
+	 * <b> post: </b> se ha actualizado el Alojamiento que entra como parametro <br/>
+	 * @param Alojamiento - Alojamiento a actualizar. Alojamiento != null
+	 * @throws Exception - Cualquier error que se genere actualizando al Alojamiento.
+	 */
+	public Informe deshabilitarOfertaAlojamiento(Alojamiento alojamiento) throws Exception 
+	{
+
+		ArrayList <String> array = new ArrayList<>();
+		Informe inf = new Informe(array);
+		DAOReserva daoReserva = new DAOReserva( );
+		DAOCliente daoCliente = new DAOCliente();
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn( conn );
+			inf = daoAlojamiento.deshabilitarOfertaAlojamiento(alojamiento, daoReserva, daoCliente);
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				daoCliente.cerrarRecursos();
+				daoReserva.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}	
+		return inf;
+	}
+	/**
+	 * Metodo que modela la transaccion que actualiza en la base de datos al Alojamiento que entra por parametro.<br/>
+	 * Solamente se actualiza si existe el Alojamiento en la Base de Datos <br/>
+	 * <b> post: </b> se ha actualizado el Alojamiento que entra como parametro <br/>
+	 * @param Alojamiento - Alojamiento a actualizar. Alojamiento != null
+	 * @throws Exception - Cualquier error que se genere actualizando al Alojamiento.
+	 */
+	public Informe habilitarOfertaAlojamiento(Alojamiento alojamiento) throws Exception 
+	{
+		ArrayList <String> array = new ArrayList<>();
+		Informe inf = new Informe(array);
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento( );
+		try
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn( conn );
+			
+			inf=	daoAlojamiento.habilitarOfertaAlojamiento( alojamiento);
+			
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}	
+		return inf;
+	}
+	/**
 	 * Metodo que modela la transaccion que actualiza en la base de datos al Reserva que entra por parametro.<br/>
 	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
 	 * <b> post: </b> se ha actualizado el Reserva que entra como parametro <br/>
