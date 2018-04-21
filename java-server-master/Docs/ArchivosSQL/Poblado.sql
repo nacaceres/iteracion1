@@ -1,6 +1,8 @@
 -----------------------------------------------------------------------------------------------------------------
 -------------------------------------------------INSERTIONS--------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------
+
+-----------
 DELETE FROM RELACIONES WHERE ID IS NOT NULL;
 DELETE FROM CLIENTES WHERE ID IS NOT NULL;
 DELETE FROM OPERADORES WHERE ID IS NOT NULL;
@@ -9,6 +11,7 @@ DELETE FROM SERVICIOS WHERE ID IS NOT NULL;
 DELETE FROM ALOJAMIENTOS WHERE ID IS NOT NULL;
 DELETE FROM RESERVAS WHERE ID IS NOT NULL;
 DELETE FROM CONTRATOS  WHERE ID IS NOT NULL;
+DELETE FROM RESERVAS WHERE ID IS NOT NULL;
 
 DELETE FROM HABITACIONES_HOTEL  WHERE ID IS NOT NULL;
 DELETE FROM HABITACIONES_HOSTAL  WHERE ID IS NOT NULL;
@@ -30,7 +33,6 @@ DELETE FROM LES_GUSTA  WHERE ID_CLIENTE IS NOT NULL;
 
 
 
-
 ----------------------------RELACIONES-----------------------------
 -----------------DATA
 Insert into RELACIONES(ID,TIPO,CARNET) VALUES('1','ESTUDIANTE','20163692');
@@ -44,6 +46,9 @@ Insert into RELACIONES(ID,TIPO) VALUES('6','HOTEL');
 Insert into RELACIONES(ID,TIPO) VALUES('7','HOSTAL');
 Insert into RELACIONES (ID,TIPO) VALUES('8','ADMININISTRADOR VIVIENDA UNIVERSITARIA');
 Insert into RELACIONES(ID,TIPO,CARNET) VALUES('9','PROFESOR','24089');
+Insert into RELACIONES(ID,TIPO,CARNET) VALUES('10','ESTUDIANTE','201418078');
+Insert into RELACIONES(ID,TIPO,CARNET) VALUES('11','ESTUDIANTE','201418079');
+Insert into RELACIONES(ID,TIPO,CARNET)  VALUES('12','ESTUDIANTE','201418080');
 
 
 
@@ -65,6 +70,11 @@ Insert into CLIENTES (ID,TIPO_ID,NOMBRE,CONTACTO,ID_RELACION)  VALUES('1020567',
 Insert into CLIENTES (ID,TIPO_ID,NOMBRE,CONTACTO,ID_RELACION)  VALUES('1101567896','CC','MAICOLSITO','TEL:310267','2');
 Insert into CLIENTES (ID,TIPO_ID,NOMBRE,CONTACTO,ID_RELACION)  VALUES('183456','CC','MAURICIO','TEL:310267','3');
 
+Insert into CLIENTES (ID,TIPO_ID,NOMBRE,CONTACTO,ID_RELACION)  VALUES(10,'CC','ANDREA','a.cusva@uniandes.edu.co',10);
+Insert into CLIENTES (ID,TIPO_ID,NOMBRE,CONTACTO,ID_RELACION)  VALUES(11,'CC','LAURA','l.diaz10@uniandes.edu.co',11);
+Insert into CLIENTES (ID,TIPO_ID,NOMBRE,CONTACTO,ID_RELACION)  VALUES(12,'CC','ALEJANDRA','a.torres@uniandes.edu.co',12);
+
+
 
 ------SERVICIOS----------------------------------
 Insert into SERVICIOS (ID,NOMBRE,DESCRIPCION,COSTO_ADICIONAL) VALUES ('1','wi-fi','conexion a internet','10000');
@@ -78,6 +88,93 @@ Insert into SERVICIOS (ID,NOMBRE,DESCRIPCION,COSTO_ADICIONAL) VALUES ('4','lavad
 Insert into ALOJAMIENTOS(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) values('1','en el bog re','85000', '2','4520202','HAB HOTEL');
 Insert into ALOJAMIENTOS(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) values('2','en el bog re','45000', '1','4520202','HAB HOTEL');
 Insert into ALOJAMIENTOS(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) values('3','en el bog re','110500', '4','4520202','HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (41, 'EL BOGOTA REAL HABITACION: 41', 16, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (42, 'EL BOGOTA REAL HABITACION: 42', 19, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (43, 'EL BOGOTA REAL HABITACION: 43', 3, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (44, 'EL BOGOTA REAL HABITACION: 44', 33, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (45, 'EL BOGOTA REAL HABITACION: 45', 14, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (46, 'EL BOGOTA REAL HABITACION: 46', 94, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (47, 'EL BOGOTA REAL HABITACION: 47', 29, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (48, 'EL BOGOTA REAL HABITACION: 48', 88, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (49, 'EL BOGOTA REAL HABITACION: 49', 45, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (50, 'EL BOGOTA REAL HABITACION: 50', 14, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (51, 'EL BOGOTA REAL HABITACION: 51', 3, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (52, 'EL BOGOTA REAL HABITACION: 52', 78, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (53, 'EL BOGOTA REAL HABITACION: 53', 86, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (54, 'EL BOGOTA REAL HABITACION: 54', 73, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (55, 'EL BOGOTA REAL HABITACION: 55', 50, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (56, 'EL BOGOTA REAL HABITACION: 56', 76, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (57, 'EL BOGOTA REAL HABITACION: 57', 77, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (58, 'EL BOGOTA REAL HABITACION: 58', 3, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (59, 'EL BOGOTA REAL HABITACION: 59', 22, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (60, 'EL BOGOTA REAL HABITACION: 60', 12, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (61, 'EL BOGOTA REAL HABITACION: 61', 88, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (62, 'EL BOGOTA REAL HABITACION: 62', 50, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (63, 'EL BOGOTA REAL HABITACION: 63', 55, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (64, 'EL BOGOTA REAL HABITACION: 64', 83, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (65, 'EL BOGOTA REAL HABITACION: 65', 93, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (66, 'EL BOGOTA REAL HABITACION: 66', 37, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (67, 'EL BOGOTA REAL HABITACION: 67', 47, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (68, 'EL BOGOTA REAL HABITACION: 68', 6, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (69, 'EL BOGOTA REAL HABITACION: 69', 10, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (70, 'EL BOGOTA REAL HABITACION: 70', 13, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (71, 'EL BOGOTA REAL HABITACION: 71', 43, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (72, 'EL BOGOTA REAL HABITACION: 72', 61, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (73, 'EL BOGOTA REAL HABITACION: 73', 50, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (74, 'EL BOGOTA REAL HABITACION: 74', 95, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (75, 'EL BOGOTA REAL HABITACION: 75', 24, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (76, 'EL BOGOTA REAL HABITACION: 76', 88, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (77, 'EL BOGOTA REAL HABITACION: 77', 24, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (78, 'EL BOGOTA REAL HABITACION: 78', 67, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (79, 'EL BOGOTA REAL HABITACION: 79', 98, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (80, 'EL BOGOTA REAL HABITACION: 80', 35, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (81, 'EL BOGOTA REAL HABITACION: 81', 7, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (82, 'EL BOGOTA REAL HABITACION: 82', 55, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (83, 'EL BOGOTA REAL HABITACION: 83', 56, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (84, 'EL BOGOTA REAL HABITACION: 84', 16, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (85, 'EL BOGOTA REAL HABITACION: 85', 81, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (86, 'EL BOGOTA REAL HABITACION: 86', 33, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (87, 'EL BOGOTA REAL HABITACION: 87', 35, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (88, 'EL BOGOTA REAL HABITACION: 88', 60, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (89, 'EL BOGOTA REAL HABITACION: 89', 18, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (90, 'EL BOGOTA REAL HABITACION: 90', 15, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (91, 'EL BOGOTA REAL HABITACION: 91', 23, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (92, 'EL BOGOTA REAL HABITACION: 92', 8, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (93, 'EL BOGOTA REAL HABITACION: 93', 92, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (94, 'EL BOGOTA REAL HABITACION: 94', 32, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (95, 'EL BOGOTA REAL HABITACION: 95', 80, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (96, 'EL BOGOTA REAL HABITACION: 96', 12, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (97, 'EL BOGOTA REAL HABITACION: 97', 47, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (98, 'EL BOGOTA REAL HABITACION: 98', 32, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (99, 'EL BOGOTA REAL HABITACION: 99', 93, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (100, 'EL BOGOTA REAL HABITACION: 100', 49, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (101, 'EL BOGOTA REAL HABITACION: 101', 91, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (102, 'EL BOGOTA REAL HABITACION: 102', 31, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (103, 'EL BOGOTA REAL HABITACION: 103', 85, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (104, 'EL BOGOTA REAL HABITACION: 104', 79, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (105, 'EL BOGOTA REAL HABITACION: 105', 70, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (106, 'EL BOGOTA REAL HABITACION: 106', 26, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (107, 'EL BOGOTA REAL HABITACION: 107', 83, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (108, 'EL BOGOTA REAL HABITACION: 108', 89, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (109, 'EL BOGOTA REAL HABITACION: 109', 15, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (110, 'EL BOGOTA REAL HABITACION: 110', 90, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (111, 'EL BOGOTA REAL HABITACION: 111', 38, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (112, 'EL BOGOTA REAL HABITACION: 112', 44, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (113, 'EL BOGOTA REAL HABITACION: 113', 81, 3, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (114, 'EL BOGOTA REAL HABITACION: 114', 12, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (115, 'EL BOGOTA REAL HABITACION: 115', 10, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (116, 'EL BOGOTA REAL HABITACION: 116', 5, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (117, 'EL BOGOTA REAL HABITACION: 117', 95, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (118, 'EL BOGOTA REAL HABITACION: 118', 20, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (119, 'EL BOGOTA REAL HABITACION: 119', 83, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (120, 'EL BOGOTA REAL HABITACION: 120', 3, 2, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (121, 'EL BOGOTA REAL HABITACION: 121', 96, 1, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (122, 'EL BOGOTA REAL HABITACION: 122', 24, 4, 4520202, 'HAB HOTEL');
+insert into ALOJAMIENTOS (id, ubicacion, costo_basico, capacidad, ID_OPERADOR, TIPO) values (123, 'EL BOGOTA REAL HABITACION: 123', 82, 1, 4520202, 'HAB HOTEL');
+--------MAS HOTELES
+
+
+
 ---LA PIEZA
 
 Insert into Alojamientos(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) values('4','en la primera','450000', '1','23582001','VIVIENDA');
@@ -87,6 +184,9 @@ Insert into ALOJAMIENTOS(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) v
 --EL HOSTAL
 Insert into ALOJAMIENTOS(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) values('6','el chorro','15000', '1','967202','HAB HOSTAL');
 Insert into ALOJAMIENTOS(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) values('7','el chorro','20000', '2','967202','HAB HOSTAL');
+----------MAS HOSTALES---------
+
+
 --EL CEDIDO
 Insert into ALOJAMIENTOS(ID,UBICACION,COSTO_BASICO,CAPACIDAD,ID_OPERADOR,TIPO) values('10','26 Y7','340000','4','132456','VIVIENDA');
 
@@ -144,6 +244,93 @@ Insert into HABITACIONES_HOTEL(ID,TIPO_HABITACION) VALUES('1','SEMISUITE');
 Insert into HABITACIONES_HOTEL(ID,TIPO_HABITACION) VALUES('2','ESTANDAR');
 Insert into HABITACIONES_HOTEL(ID,TIPO_HABITACION) VALUES('3','SUITE');
 
+
+
+
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (41, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (42, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (43, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (44, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (45, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (46, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (47, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (48, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (49, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (50, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (51, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (52, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (53, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (54, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (55, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (56, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (57, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (58, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (59, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (60, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (61, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (62, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (63, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (64, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (65, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (66, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (67, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (68, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (69, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (70, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (71, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (72, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (73, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (74, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (75, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (76, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (77, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (78, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (79, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (80, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (81, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (82, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (83, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (84, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (85, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (86, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (87, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (88, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (89, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (90, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (91, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (92, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (93, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (94, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (95, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (96, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (97, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (98, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (99, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (100, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (101, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (102, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (103, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (104, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (105, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (106, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (107, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (108, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (109, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (110, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (111, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (112, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (113, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (114, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (115, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (116, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (117, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (118, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (119, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (120, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (121, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (122, 'SUITE');
+insert into HABITACIONES_HOTEL (id, TIPO_HABITACION) values (123, 'SUITE');
+
 -----HAB HOSTAL--------------------
 Insert into HABITACIONES_HOSTAL(ID,HORARIO_APERTURA,HORARIO_CIERRE,COMPARTIDA) VALUES('6',NULL,NULL,'F');
 Insert into HABITACIONES_HOSTAL(ID,HORARIO_APERTURA,HORARIO_CIERRE,COMPARTIDA) VALUES('7', to_date('1999/01/01:9:00:00AM', 'yyyy/mm/dd:hh:mi:ssam'),to_date('1999/01/01:6:00:00pM', 'yyyy/mm/dd:hh:mi:ssam'),'T');
@@ -174,7 +361,7 @@ Insert into SERVICIOS_ADICIONALES(ID_RESERVA, ID_SERVICIO) VALUES('4','3');
 
 -----RESERVAS LIKE MUCHAS----
 
-insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (302, '25/3/2018', '26/3/2018', '15/4/2018', 65, 9, 1020567, 4);
+insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (302, '16/5/2017', '18/5/2017', '4/6/2017', 95, 9, 1020567, 7);
 insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (303, '20/3/2018', '23/3/2018', '2/4/2018', 71, 8, 1020567, 7);
 insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (304, '29/1/2018', '3/2/2018', '17/2/2018', 73, 1, 1020567, 8);
 insert into RESERVAS (ID, tiempo_oportuno, fecha_inicio, fecha_fin, COSTO_DEFINITIVO, ID_ALOJAMIENTO, ID_CLIENTE, NUM_PERSONAS) values (305, '26/2/2018', '27/2/2018', '15/3/2018', 90, 3, 1020567, 6);
@@ -408,3 +595,5 @@ values('210','20/10/18','20/11/18','1','450000','13/10/18','4','1101567896','T')
 
 Insert into RESERVAS(ID,FECHA_INICIO,FECHA_FIN,NUM_PERSONAS,COSTO_DEFINITIVO,TIEMPO_OPORTUNO,ID_ALOJAMIENTO,ID_CLIENTE,TERMINADA)
 values('211','20/10/18','24/11/18','3','4509000','13/10/18','7','1101567896','T');
+
+commit;
