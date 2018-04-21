@@ -533,13 +533,16 @@ public class DAOAlojamiento {
 	 */
 	public Informe deshabilitarOfertaAlojamiento(Alojamiento alojamiento, DAOReserva daoReserva, DAOCliente daoCliente) throws SQLException, Exception {
 
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date datex = new Date();
+		String xm = dateFormat.format(datex);
+		
 		ArrayList<String> informe = new ArrayList<>();
 		String sentencia ="SELECT * FROM  " +USUARIO +".RESERVAS RE WHERE RE.ID_ALOJAMIENTO = "+alojamiento.getId()+" AND CANCELADA = 'F' AND TERMINADA = 'F' ORDER BY RE.FECHA_INICIO";
 		PreparedStatement prepStmt2 = conn.prepareStatement(sentencia);
 		recursos.add(prepStmt2);
 		prepStmt2.executeQuery();
 		ResultSet rs = prepStmt2.executeQuery();
-		int contador = 0;
 		while(rs.next()) {
 			String idReservaActual = rs.getString("ID");
 			String fechaInicio = "'"+ rs.getString("FECHA_INICIO")+"'";
@@ -588,15 +591,17 @@ public class DAOAlojamiento {
 				ArrayList<Servicio> servicios = new ArrayList<>();
 				Reserva ope = new Reserva(idReserva+1, date1, date2, false , numPer , null, actual.getCostoBasico(), false, date3, actual, cliente, false , Long.parseLong("0"), servicios);
 				daoReserva.addReserva(ope);
-				String x = "La reserva No."+contador+"ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+"" debido a inconvenientes con el alojamiento " +alojamiento.getId()+ " quien se encuentra deshabilitado temporalmente";
+				String x = "La reserva No."+idReservaActual+"ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+"con un nuevo id "+idReserva+1 +" debido a inconvenientes con el alojamiento " +alojamiento.getId()+ " quien se encuentra deshabilitado temporalmente";
 				informe.add(x);
 				prepStmt4.close();
-			}
-			prepStmt3.close();
-			else
-			{
 				
 			}
+			else
+			{
+				String zx = "La reserva con id: "+ idReservaActual +" fue cancelada debido a inconvenitentes con el alojamiento y no se encontro una oferta disponible en las fechas";
+				informe.add(zx);
+			}
+			prepStmt3.close();
 
 		}
 
@@ -610,9 +615,17 @@ public class DAOAlojamiento {
 		prepStmt.executeQuery();
 		String y = "Se ha deshabilitado el alojamiento: " +alojamiento.getId();
 		informe.add(y);
+		
+		String sql6 = "UPDATE " +USUARIO +".RESERVAS SET CANCELADA = 'T' , FECHA_CANCELACION = '"+xm+"' WHERE RE.ID_ALOJAMIENTO = "+alojamiento.getId();
+		PreparedStatement prepStmt6 = conn.prepareStatement(sql6);
+		recursos.add(prepStmt6);
+		prepStmt6.executeQuery();
+		
 		Informe inf = new Informe(informe);
 		return inf;
 	}
+	
+	
 	/**
 	 * Metodo que obtiene la informacion de todos los Alojamientos mas populares en la base de datos <br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
