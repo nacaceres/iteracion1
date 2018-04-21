@@ -190,34 +190,36 @@ public class DAOReserva {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		String fecha1 = "'"+dateFormat.format(fechaInicio)+"'";
 		String fecha2 = "'"+dateFormat.format(fechaFin)+"'";
-		String sql = "SELECT * FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"');";
+		String sql = "SELECT * FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fecha1+" AND "+fecha2+") OR  ( RE.FECHA_FIN  BETWEEN "+fecha1+" AND "+fecha2+") OR (  RE.FECHA_INICIO <"+fecha1+"  AND   RE.FECHA_FIN>  "+fecha2+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"')";
 		System.out.println(sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-		
-		String sql3 = "SELECT COUNT (*) AS NUM_ALOJAMIENTOS FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"');";
+		System.out.println("Se murio");
+		String sql3 = "SELECT COUNT (*) AS NUM_ALOJAMIENTOS FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fecha1+" AND "+fecha2+") OR  ( RE.FECHA_FIN  BETWEEN "+fecha1+" AND "+fecha2+") OR (  RE.FECHA_INICIO <"+fecha1+"  AND   RE.FECHA_FIN>  "+fecha2+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"')";
 		System.out.println(sql3);
 		PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
 		recursos.add(prepStmt3);
 		ResultSet rs3 = prepStmt3.executeQuery();
-		
+		rs3.next();
 		int rowcount = Integer.parseInt(rs3.getString("NUM_ALOJAMIENTOS"));
 		if(rowcount >= reservaColectiva.getCantidad())
 		{
-			String sql2 = "SELECT COUNT (*) AS NUMACTUAL FROM "+USUARIO+".RESERVAS;";
+			String sql2 = "SELECT MAX(ID) as MAXIMO FROM "+USUARIO+".RESERVAS";
 			System.out.println(sql2);
 			PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
 			recursos.add(prepStmt2);
 			ResultSet rs2 = prepStmt2.executeQuery();
-			Long idReserva = Long.parseLong(rs2.getString("NUMACTUAL"));
+			rs2.next();
+			Long idReserva = Long.parseLong(rs2.getString("MAXIMO"));
 			int contador = 0;
-			while (rs.next()) {
+			while (rs.next() && contador<reservaColectiva.getCantidad()) {
 				contador++;
 				Alojamiento actual = daoAlojamiento.convertResultSetToAlojamiento(rs);
-				Reserva ope = new Reserva(idReserva+1, fechaInicio, fechaFin, reservaColectiva.getReserva().isCancelada() , reservaColectiva.getReserva().getNumPersonas(), null, actual.getCostoBasico(), reservaColectiva.getReserva().isTerminada(), reservaColectiva.getReserva().getTiempoOportunoCan(), actual, reservaColectiva.getReserva().getCliente(), true , reservaColectiva.getIdReservaColectiva(), reservaColectiva.getReserva().getServiciosAdicionales());
+				Long idReservaActual = idReserva+1+contador;
+				Reserva ope = new Reserva(idReservaActual, fechaInicio, fechaFin, reservaColectiva.getReserva().isCancelada() , reservaColectiva.getReserva().getNumPersonas(), null, actual.getCostoBasico(), reservaColectiva.getReserva().isTerminada(), reservaColectiva.getReserva().getTiempoOportunoCan(), actual, reservaColectiva.getReserva().getCliente(), true , reservaColectiva.getIdReservaColectiva(), reservaColectiva.getReserva().getServiciosAdicionales());
 				addReserva(ope);
-				String x = "La reserva No."+contador+"ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+" con id de reserva individual "+idReserva+1;
+				String x = "La reserva No. "+contador+" ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+" con id de reserva individual "+idReservaActual;
 				informe.add(x);
 			}
 		}
@@ -272,7 +274,8 @@ public class DAOReserva {
 		ArrayList<String> informes = new ArrayList<String>();
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 		double costoDefinitivo = 0;
-		String sql ="SELECT * FROM "+ USUARIO +".RESERVAS WHERE ID_COLECTIVA = "+reservaColectiva+" ;";
+		String sql ="SELECT * FROM "+ USUARIO +".RESERVAS WHERE ID_COLECTIVA = "+reservaColectiva.getIdReservaColectiva();
+		System.out.println(sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
 		recursos.add(prepStmt);
 		ResultSet rs =prepStmt.executeQuery();
@@ -309,7 +312,7 @@ public class DAOReserva {
 			String stringActual = "La reserva con id: " + actual.getId() + " ha sido cancelada con una valor de: "+costoDef;
 			informes.add(stringActual);
 		}
-		String z = "La reserva colectiva con id de reserva colectiva: "+ reservaColectiva.getReserva().getIdColectiva()+ " con un costo total de "+ costoDefinitivo;
+		String z = "La reserva colectiva con id de reserva colectiva: "+ reservaColectiva.getReserva().getIdColectiva()+ " ha sido cancelada con un costo total de "+ costoDefinitivo;
 		informes.add(z);
 		Informe finalisimo = new Informe(informes);
 		return finalisimo;
