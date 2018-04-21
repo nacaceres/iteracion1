@@ -789,9 +789,9 @@ public class DAOAlojamiento {
 				d2.setTime(d1.getTime() + 1 * 24 * 60 * 60 * 1000);	
 				d1=d2;
 			}
-			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados"+maxOcupacion);
-			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados"+maxOcupacion);
-			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados"+maxOcupacion);
+			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados "+maxOcupacion+" alojamientos");
+			pReporte.add("la ocupacion maxima se da en "+diaminOcu+"cuando hay ocupados "+minOcuapcion+" alojamientos");
+			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados "+maxOcupacion);
 		}
 	
 		Informe result=new Informe(pReporte);
