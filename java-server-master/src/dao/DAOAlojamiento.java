@@ -99,7 +99,7 @@ public class DAOAlojamiento {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-		
+
 		if(rs.next()) {
 			Alojamiento = convertResultSetToAlojamiento(rs);
 		}
@@ -523,6 +523,95 @@ public class DAOAlojamiento {
 		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
+	}
+	/**
+	 * Metodo que deshabilita la oferta de alojamiento en la Base de Datos que tiene el identificador dado por parametro<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @param Alojamiento alojamiento que se desea actualizar a la Base de Datos
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public Informe deshabilitarOfertaAlojamiento(Alojamiento alojamiento, DAOReserva daoReserva, DAOCliente daoCliente) throws SQLException, Exception {
+
+		ArrayList<String> informe = new ArrayList<>();
+		String sentencia ="SELECT * FROM  " +USUARIO +".RESERVAS RE WHERE RE.ID_ALOJAMIENTO = "+alojamiento.getId()+" AND CANCELADA = 'F' AND TERMINADA = 'F' ORDER BY RE.FECHA_INICIO";
+		PreparedStatement prepStmt2 = conn.prepareStatement(sentencia);
+		recursos.add(prepStmt2);
+		prepStmt2.executeQuery();
+		ResultSet rs = prepStmt2.executeQuery();
+		int contador = 0;
+		while(rs.next()) {
+			String idReservaActual = rs.getString("ID");
+			String fechaInicio = "'"+ rs.getString("FECHA_INICIO")+"'";
+			String fechaFin = "'"+rs.getString("FECHA_FIN")+"'";
+			String sql3 = "SELECT * FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ROWNUM < 2 AND ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) ;";
+			PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
+			recursos.add(prepStmt3);
+			ResultSet rs3 = prepStmt3.executeQuery();
+			if(rs3.next())
+			{
+				String sql4 = "SELECT COUNT (*) AS NUMACTUAL FROM "+USUARIO+".RESERVAS;";
+				PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
+				recursos.add(prepStmt4);
+				ResultSet rs4 = prepStmt4.executeQuery();
+				Long idReserva = Long.parseLong(rs4.getString("NUMACTUAL"));
+				Alojamiento actual = convertResultSetToAlojamiento(rs3);
+				int numPer = Integer.parseInt(rs.getString("NUM_PERSONAS"));
+				String fechaCancelacion = rs.getString("FECHA_CANCELACION");
+				Date date3 = null;
+				if(fechaCancelacion != null)
+				{
+					String fcf = fechaCancelacion.substring(2, 10);
+					String [] array3 = fcf.split("-");
+					int anho3 = Integer.parseInt(array3[0])+100;
+					int mes3 = Integer.parseInt(array3[1])-1;
+					int dia3 = Integer.parseInt(array3[2]);
+					date3 = new Date(anho3, mes3, dia3);
+				}
+
+				String fif = fechaInicio.substring(2, 10);
+				String [] array = fif.split("-");
+				int anho = Integer.parseInt(array[0])+100;
+				int mes = Integer.parseInt(array[1])-1;
+				int dia = Integer.parseInt(array[2]);
+				Date date1 = new Date(anho, mes, dia);
+
+				String fff = fechaFin.substring(2, 10);
+				String [] array2 = fff.split("-");
+				int anho2 = Integer.parseInt(array2[0])+100;
+				int mes2 = Integer.parseInt(array2[1])-1;
+				int dia2 = Integer.parseInt(array2[2]);
+				Date date2 = new Date(anho2, mes2, dia2);
+
+				long idCliente = Long.parseLong(rs.getString("ID_CLIENTE"));
+				Cliente cliente = daoCliente.findClienteById(idCliente);
+				ArrayList<Servicio> servicios = new ArrayList<>();
+				Reserva ope = new Reserva(idReserva+1, date1, date2, false , numPer , null, actual.getCostoBasico(), false, date3, actual, cliente, false , Long.parseLong("0"), servicios);
+				daoReserva.addReserva(ope);
+				String x = "La reserva No."+contador+"ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+"" debido a inconvenientes con el alojamiento " +alojamiento.getId()+ " quien se encuentra deshabilitado temporalmente";
+				informe.add(x);
+				prepStmt4.close();
+			}
+			prepStmt3.close();
+			else
+			{
+				
+			}
+
+		}
+
+		StringBuilder sql = new StringBuilder();
+		sql.append(String.format("UPDATE %s.ALOJAMIENTOS SET ", USUARIO));
+		sql.append("VIGENTE = 'F' ");
+		sql.append(String.format(" WHERE ID = %d ", alojamiento.getId()));
+		System.out.println(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+		String y = "Se ha deshabilitado el alojamiento: " +alojamiento.getId();
+		informe.add(y);
+		Informe inf = new Informe(informe);
+		return inf;
 	}
 	/**
 	 * Metodo que obtiene la informacion de todos los Alojamientos mas populares en la base de datos <br/>
