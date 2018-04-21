@@ -625,6 +625,29 @@ public class DAOAlojamiento {
 		return inf;
 	}
 	
+	/**
+	 * Metodo que habilita la oferta de alojamiento en la Base de Datos que tiene el identificador dado por parametro<br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>  
+	 * @param Alojamiento alojamiento que se desea habilitar a la Base de Datos
+	 * @throws SQLException SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public Informe habilitarOfertaAlojamiento(Alojamiento alojamiento) throws SQLException, Exception {
+
+		StringBuilder sql = new StringBuilder();
+		sql.append(String.format("UPDATE %s.ALOJAMIENTOS SET ", USUARIO));
+		sql.append("VIGENTE = 'V' ");
+		sql.append(String.format(" WHERE ID = %d ", alojamiento.getId()));
+		System.out.println(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+		ArrayList<String> noMasSistrans = new ArrayList<>();
+		String y = "Se ha habilitado la oferta de alojamiento identificada con id: "+alojamiento.getId();
+		noMasSistrans.add(y);
+		Informe x = new Informe(noMasSistrans);
+		return x;
+	}
 	
 	/**
 	 * Metodo que obtiene la informacion de todos los Alojamientos mas populares en la base de datos <br/>
