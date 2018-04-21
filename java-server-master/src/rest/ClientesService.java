@@ -226,4 +226,32 @@ public class ClientesService {
 				return Response.status(500).entity(doErrorMessage(e)).build();
 			}
 		}
+		
+		/**
+		 * Metodo GET que trae a los Cliente que son fieles al alojmaiento con id dado por parametro<br/>
+		 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+		 * <b>URL: </b> http://localhost:8080/AlohAndesMaster/rest/clientesfieles/{id} <br/>
+		 * @return	<b>Response Status 200</b> - JSON Cliente que contiene al Cliente cuyo ID corresponda al parametro <br/>
+		 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+		 */
+		@GET
+		@Path( "clientesfieles/{id: \\d+}" )
+		@Produces( { MediaType.APPLICATION_JSON } )
+		public Response getClientesFielesById( @PathParam( "id" ) Long id )
+		{
+			try{
+				AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+				
+				List<Cliente> Cliente = tm.getClientesFieles(id);
+				return Response.status( 200 ).entity( Cliente ).build( );			
+			}
+			catch( Exception e )
+			{
+				return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+			}
+		}
+
+		
+		
+		
 }

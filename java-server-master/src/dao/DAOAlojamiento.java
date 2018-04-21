@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 import vos.*;
 
 /**
@@ -691,8 +691,7 @@ public class DAOAlojamiento {
 			Date fechaFin = pCondiciones.getFechaFin();
 			String x1 = dateFormat.format(fechaInicio);
 			String x2 = dateFormat.format(fechaFin);
-
-			String sql = "SELECT * FROM ISIS2304A431810.ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  ISIS2304A431810.RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '"+x1+"' AND '"+x2+"')";
+		   String sql = "SELECT * FROM ISIS2304A431810.ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  ISIS2304A431810.RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '"+x1+"' AND '"+x2+"')";
 			String sql2	=	" ) AND ALO.ID IN ( SELECT SEO.ID_ALOJAMIENTO FROM  ISIS2304A431810.SERVICIOS_OFRECIDOS SEO INNER JOIN  ISIS2304A431810.SERVICIOS SE ON SE.ID=SEO.ID_SERVICIO WHERE ";
 			String sql3 = "";
 			for (int i = 1; i < pCondiciones.getServicios().size(); i++) {
@@ -713,6 +712,84 @@ public class DAOAlojamiento {
 		else
 			throw new Exception("Condiciones de busqueda invalidas");
 		return Alojamientos;
+	}
+	
+	
+	
+	/**
+	 * Metodo que dado un tipo de alojamiento y un rango de fechas semana o mes dice cuales fueron las fechas de mayor y menor numero de reservas y la de mayor recaudacion
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @return	lista con la informacion del parametro analizado y la fecha en la cual se produce ademas de su valor.
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public Informe getOperacionAlohAndes(Condiciones2 cond) throws SQLException,Exception
+	{
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaInicio = cond.getFechaInicio();
+		Date fechaFin = cond.getFechaFin();
+		String x1 = dateFormat.format(fechaInicio);
+		String x2 = dateFormat.format(fechaFin);
+
+		long diff = fechaFin.getTime() - fechaInicio.getTime();
+		int n=(int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		System.out.println ("Days de : " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+		String tipo=cond.getTipo().getTipo();
+		if(cond!=null && cond.getFechaInicio()!= null &&cond.getFechaFin()!= null && cond.getTipo()!= null)
+		{
+			String diamaxOcu=null;
+			String diaminOcu=null;
+			String diamaxRec=null;
+
+			double maxOcupacion= -1;
+			double minOcuapcion= Double.POSITIVE_INFINITY;
+			double maxRecaudacion= -1;
+			Date d1 = fechaInicio;
+
+			for(int i=0;i<n;i++)//puede cambairse este while
+			{
+
+				String xi=dateFormat.format(d1);
+				String sql=String.format("SELECT COUNT(*) AS OCUPACION  FROM RESERVAS RE INNER JOIN ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO WHERE"+xi+"BETWEEN RE.FECHA_INICIO AND RE.FECHA_FIN  AND RE.CANCELADA='F' AND  ALO.TIPO=%1$s",tipo);
+				PreparedStatement prepStmt = conn.prepareStatement(sql);
+				recursos.add(prepStmt);
+				ResultSet rs = prepStmt.executeQuery();
+				double ocupaciondiaactual=Integer.parseInt( rs.getString("OCUPACION"));
+				rs.close();
+				if(ocupaciondiaactual>maxOcupacion  )
+				{
+					maxOcupacion=ocupaciondiaactual;
+					diamaxRec=xi;
+				}
+				if(ocupaciondiaactual<minOcuapcion  )
+				{
+					minOcuapcion=ocupaciondiaactual;
+					diaminOcu=xi;
+				}
+
+				String sql2=String.format("SELECT SUM(COSTO_DEFINITIVO) AS TOTAL_COBRADO_POR_DIA FROM RESERVAS RE INNER JOIN ALOJAMIENTOS ALO ON RE.ID_ALOJAMIENTO=ALO.ID WHERE (RE.TERMINADA='T' AND RE.FECHA_FIN=" +xi+ " )OR (RE.CANCELADA='T' AND RE.FECHA_CANCELACION=" +xi +") AND  ALO.TIPO = $1$S",tipo);
+			       
+				PreparedStatement prepStmt2 = conn.prepareStatement(sql);
+				recursos.add(prepStmt2);
+				ResultSet rs2 = prepStmt.executeQuery();
+				double reacudodiaactual=Integer.parseInt( rs2.getString("TOTAL_COBRADO_POR_DIA"));
+				rs2.close();
+
+				if(reacudodiaactual>maxRecaudacion  )
+				{
+					maxRecaudacion=reacudodiaactual;
+					diamaxRec=xi;
+				}
+
+
+				Date d2 = new Date();
+				d2.setTime(d1.getTime() + 1 * 24 * 60 * 60 * 1000);	
+				d1=d2;
+			}
+
+		}
+		return null;
+
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES

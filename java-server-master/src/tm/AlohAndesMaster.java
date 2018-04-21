@@ -1651,6 +1651,46 @@ public class AlohAndesMaster{
 		}
 		return Cliente;
 	}
+	
+	
+	public List<Cliente> getClientesFieles(Long id) throws Exception
+	{
+		DAOCliente daoCliente = new DAOCliente();
+		List<Cliente> Clientes;
+		try 
+		{
+			this.conn = darConexion();
+			daoCliente.setConn(conn);
+			Clientes = daoCliente.getClientesFieles(id);
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoCliente.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return Clientes;	
+		
+		
+	}
+	
 	//	/**
 	//	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>
 	//	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>

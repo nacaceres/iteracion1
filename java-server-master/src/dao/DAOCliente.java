@@ -75,6 +75,36 @@ public class DAOCliente {
 	}
 
 
+	/**
+	 * Metodo que obtiene la informacion de todos los Clientes fieles para un alojamiento dado <br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @param id del alojamiento para el cual se hace el analisis
+	 * @return	lista con la informacion de todos los Clientes que han reservado mas de 15 noches o en 3 ocasiones un alojamiento
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public ArrayList<Cliente> getClientesFieles(Long  id)    throws SQLException,Exception
+	{
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		
+
+	String sql=String.format("SELECT RES.ID_ALOJAMIENTO,RES.ID_CLIENTE,CLI.NOMBRE,CLI.CONTACTO,COUNT(*) AS NUMERO_OCASIONES,SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO))   AS NUM_NOCHES");
+	String sql2=String.format(	" FROM RESERVAS RES INNER JOIN CLIENTES CLI ON CLI.ID=RES.ID_CLIENTE WHERE RES.ID_ALOJAMIENTO = %1$d AND RES.CANCELADA='F' ",id);
+	String sql3=String.format(" GROUP BY RES.ID_CLIENTE, RES.ID_ALOJAMIENTO,CLI.NOMBRE,CLI.CONTACTO HAVING COUNT(*)>=3 OR SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO)) >=15");
+	
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql+sql2+sql3);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			clientes.add(convertResultSetToCliente(rs));
+		}
+		return clientes;
+		
+		
+	}
+	
 
 	/**
 	 * Metodo que obtiene la informacion del Cliente en la Base de Datos que tiene el identificador dado por parametro<br/>
@@ -253,6 +283,11 @@ public class DAOCliente {
 		return cliente;
 	}
 	
+	
+	
+	
+	
+	
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -281,6 +316,17 @@ public class DAOCliente {
 		}
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Metodo que transforma el resultado obtenido de una consulta SQL (sobre la tabla CLIENTES y RELACIONES) en una instancia de la clase Cliente.
 	 * @param resultSet ResultSet con la informacion de un Cliente que se obtuvo de la base de datos.
