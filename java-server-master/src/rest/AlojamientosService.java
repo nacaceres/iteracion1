@@ -22,6 +22,7 @@ import vos.AlojamientosTop;
 import vos.Apartamento;
 import vos.Cliente;
 import vos.Condiciones;
+import vos.Condiciones2;
 import vos.HabHostal;
 import vos.HabHotel;
 import vos.HabUniversitaria;
@@ -377,4 +378,31 @@ public class AlojamientosService {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 	}
+	
+	
+	/**
+	 * Metodo GET que trae un informe que detalla los dias de pico(ocuapcion y recaudacion). <br/>
+	 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>URL: </b> http://localhost:8080/AlohAndes/rest/Alojamientos <br/>
+	 * @return	<b>Response Status 200</b> - JSON que contiene a todos los Alojamientos que estan en la Base de Datos <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */			
+	@PUT
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("diaspico")
+	public Response getDiasPico(Condiciones2 pCondiciones) {
+		
+		try {
+			AlohAndesMaster tm = new AlohAndesMaster(getPath());
+			
+		  Informe x=tm.getDiasPico(pCondiciones);
+	   return Response.status(200).entity(x).build();
+		} 
+		catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+	}
+	
+	
+	
 }

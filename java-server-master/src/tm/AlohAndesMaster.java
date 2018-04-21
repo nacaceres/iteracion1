@@ -1651,7 +1651,12 @@ public class AlohAndesMaster{
 		}
 		return Cliente;
 	}
-	
+	/**
+	 * este metodo da una lista con los clieentes mas fieles para un alojamiento dado
+	 * @param id id del alojamiento sobre el cual se quiere hacer la consulta
+	 * @return una lista de clientes
+	 * @throws Exception  cualquier error que se genere durante la transaccion
+	 */
 	
 	public List<Cliente> getClientesFieles(Long id) throws Exception
 	{
@@ -1690,6 +1695,52 @@ public class AlohAndesMaster{
 		
 		
 	}
+	/**
+	 * este metodo dice cuales dias son los de mayor 
+	 * @param pCondiciones las condiciones establecen el rango de fechas posibles
+	 * @return un informe que detalla maxima y minima ocupacion y maxima recaudacion.
+	 * @throws Exception si se genera cualquier error.
+	 */
+	public Informe getDiasPico(Condiciones2 pCondiciones) throws Exception
+	{
+		ArrayList <String> array = new ArrayList<>();
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+		DAOCliente daoCliente = new DAOCliente();
+		DAOReserva daoReserva = new DAOReserva();
+		Informe inf = new Informe(array);
+		try 
+		{
+			this.conn = darConexion();
+			daoAlojamiento.setConn(conn);
+		 inf = daoAlojamiento.getOperacionAlohAndes(pCondiciones);
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return inf;	
+	}
+		
+	
 	
 	//	/**
 	//	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>

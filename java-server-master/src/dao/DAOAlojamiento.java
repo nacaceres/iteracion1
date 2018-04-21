@@ -791,13 +791,56 @@ public class DAOAlojamiento {
 			}
 			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados "+maxOcupacion+" alojamientos");
 			pReporte.add("la ocupacion maxima se da en "+diaminOcu+"cuando hay ocupados "+minOcuapcion+" alojamientos");
-			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados "+maxOcupacion);
+			pReporte.add("la ocupacion maxima se da en "+diamaxRec+"cuando hay cancelados $"+maxRecaudacion);
 		}
 	
 		Informe result=new Informe(pReporte);
 		return result;
 
 	}
+	
+	
+	/**
+	 * Metodo que obtiene la informacion de todos los Alojamientos que no tienen reservas durante 1 mes completo <br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @return	lista con la informacion de todos los Alojamientos que se no fueron usados durante 1 mes o mas
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public ArrayList<Alojamiento> getAlojamientosDesiertos(Condiciones pCondiciones) throws SQLException, Exception {
+		ArrayList<Alojamiento> Alojamientos = new ArrayList<Alojamiento>();
+		if(pCondiciones.getFechaFin()!= null && pCondiciones!=null && pCondiciones.getServicios()!= null&& !pCondiciones.getServicios().isEmpty())
+		{
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Date fechaInicio = pCondiciones.getFechaInicio();
+			Date fechaFin = pCondiciones.getFechaFin();
+			String x1 = dateFormat.format(fechaInicio);
+			String x2 = dateFormat.format(fechaFin);
+		   String sql = "SELECT * FROM ISIS2304A431810.ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  ISIS2304A431810.RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN '"+x1+"' AND '"+x2+"')";
+			String sql2	=	" ) AND ALO.ID IN ( SELECT SEO.ID_ALOJAMIENTO FROM  ISIS2304A431810.SERVICIOS_OFRECIDOS SEO INNER JOIN  ISIS2304A431810.SERVICIOS SE ON SE.ID=SEO.ID_SERVICIO WHERE ";
+			String sql3 = "";
+			for (int i = 1; i < pCondiciones.getServicios().size(); i++) {
+				String actual = pCondiciones.getServicios().get(i).getNombre();
+				sql3+=" SE.NOMBRE='"+actual+"'OR ";
+			}
+			String sql4 =  "SE.NOMBRE='"+pCondiciones.getServicios().get(0).getNombre()+"' )";
+			System.out.println(sql+sql2+sql3+sql4);
+			PreparedStatement prepStmt = conn.prepareStatement(sql+sql2+sql3+sql4);
+			recursos.add(prepStmt);
+			ResultSet rs = prepStmt.executeQuery();
+
+
+			while (rs.next()) {
+				Alojamientos.add(convertResultSetToAlojamiento(rs));
+			}
+		}
+		else
+			throw new Exception("Condiciones de busqueda invalidas");
+		return Alojamientos;
+	}
+	
+	
+	
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
