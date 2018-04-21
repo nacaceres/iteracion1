@@ -22,11 +22,6 @@ public class Reserva
 	 */
 	@JsonProperty( value = "id")
 	private Long id;
-	/**
-	 * Numero de dias de la reserva
-	 */
-	@JsonProperty( value = "numDias")
-	private int numDias;
 
 	/**
 	 * Fecha de inicio de la reserva
@@ -115,7 +110,6 @@ public class Reserva
 	 * <b>post: </b> Crea una reserva con los valores que entran por parametro
 	 */
 	public Reserva(@JsonProperty( value = "id") Long pId,
-			@JsonProperty( value = "numDias") int pNumDias, 
 			@JsonProperty( value = "fechaInicio") Date pFechaInicio,
 			@JsonProperty( value = "fechaFin") Date pFechaFin,
 			@JsonProperty( value = "cancelada") boolean pCancelada,
@@ -131,7 +125,6 @@ public class Reserva
 			@JsonProperty( value = "serviciosAdicionales") List<Servicio> pServiciosAdicionales )
 	{
 		id=pId;
-		numDias = pNumDias;
 		fechaInicio = pFechaInicio;
 		fechaFin = pFechaFin;
 		cancelada = pCancelada;
@@ -150,9 +143,6 @@ public class Reserva
 	// METODOS
 	//----------------------------------------------------------------------------------------------------------------------------------
 
-	public int getNumDias() {
-		return numDias;
-	}
 
 	public Date getFechaInicio() {
 		return fechaInicio;
@@ -198,9 +188,6 @@ public class Reserva
 		return serviciosAdicionales;
 	}
 
-	public void setNumDias(int numDias) {
-		this.numDias = numDias;
-	}
 
 	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;

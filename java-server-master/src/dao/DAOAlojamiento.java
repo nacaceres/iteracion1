@@ -99,11 +99,11 @@ public class DAOAlojamiento {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-
+		
 		if(rs.next()) {
 			Alojamiento = convertResultSetToAlojamiento(rs);
 		}
-
+		rs.close();
 		return Alojamiento;
 	}
 

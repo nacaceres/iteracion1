@@ -16,9 +16,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import dao.DAOAlojamiento;
 import tm.AlohAndesMaster;
+import vos.Informe;
 import vos.Operador;
 import vos.Reserva;
+import vos.ReservaColectiva;
 
 
 
@@ -130,6 +133,31 @@ public class ReservasService {
 		}
 	}
 	
+	/**
+	 * Metodo que recibe un Reserva colectiva en formato JSON y lo agrega a la Base de Datos <br/>
+	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>Postcondicion: </b> Se agrega a la Base de datos la informacion correspondiente al Reserva. <br/>
+	 * <b>URL: </b> http://localhost:8080/TutorialParranderos/rest/Reservas <br/>
+	 * @param Reserva JSON con la informacion del Reserva que se desea agregar
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Reserva que ha sido agregado <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */
+	@POST
+	@Produces( { MediaType.APPLICATION_JSON } )
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("colectiva")
+	public Response addReservaColectiva(ReservaColectiva reservaColectiva) {
+		
+		try{
+			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+			Informe y = tm.addReservaColectiva(reservaColectiva);
+			return Response.status( 200 ).entity( y ).build( );			
+		}
+		catch( Exception e )
+		{
+			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+		}
+	}
 
 	/**
 	 * Metodo que recibe un Reserva en formato JSON y lo agrega a la Base de Datos <br/>

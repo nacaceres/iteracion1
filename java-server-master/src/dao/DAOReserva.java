@@ -66,13 +66,14 @@ public class DAOReserva {
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
 		String sql = String.format("SELECT * FROM %1$s.RESERVAS", USUARIO);
-
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-
-		while (rs.next()) {
+		int contador = 0;
+		while (rs.next() &&contador<59) {
+			contador++;
 			reservas.add(convertResultSetToReserva(rs,daoAlojamiento,daoCliente));
+			System.out.println(contador+"");
 		}
 		return reservas;
 	}
@@ -126,9 +127,14 @@ public class DAOReserva {
 		String colectiva = "F";
 		if(Reserva.isColectiva())
 			colectiva = "T";
-		String sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, NUM_DIAS, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE, COLECTIVA, ID_COLECTIVA) VALUES ("+ 
+		String idColectiva = "F";
+		if(Reserva.isColectiva())
+			colectiva = "T";
+		String sql = null;
+		if(Reserva.isColectiva())
+		{
+			sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, COLECTIVA, ID_COLECTIVA, ID_CLIENTE) VALUES ("+ 
 				Reserva.getId()+" , "+
-				Reserva.getNumDias()+" , "+
 				fecha1+" , "+
 				fecha2+" , "+
 				Reserva.getNumPersonas()+" , '"+
@@ -142,7 +148,23 @@ public class DAOReserva {
 				Reserva.getIdColectiva()+" , "+
 				Reserva.getCliente().getId()+")";
 		System.out.println(sql);
-
+		}
+		else
+		{
+			sql = "INSERT INTO "+USUARIO+".RESERVAS (ID, FECHA_INICIO, FECHA_FIN, NUM_PERSONAS,CANCELADA, FECHA_CANCELACION, COSTO_DEFINITIVO, TIEMPO_OPORTUNO, TERMINADA, ID_ALOJAMIENTO, ID_CLIENTE) VALUES ("+ 
+					Reserva.getId()+" , "+
+					fecha1+" , "+
+					fecha2+" , "+
+					Reserva.getNumPersonas()+" , '"+
+					cancelada+ "' , "+
+					null+" , "+
+					Reserva.getCostoDefinitivo()+" ,"+
+					fecha4+" , '"+
+					terminada+ "' , "+
+					Reserva.getAlojamiento().getId()+" , "+
+					Reserva.getCliente().getId()+")";
+			System.out.println(sql);
+		}
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		//recursos.add(prepStmt);
 		prepStmt.executeQuery();
@@ -190,7 +212,7 @@ public class DAOReserva {
 			while (rs.next()) {
 				contador++;
 				Alojamiento actual = daoAlojamiento.convertResultSetToAlojamiento(rs);
-				Reserva ope = new Reserva(idReserva+1, reservaColectiva.getReserva().getNumDias(), fechaInicio, fechaFin, reservaColectiva.getReserva().isCancelada() , reservaColectiva.getReserva().getNumPersonas(), null, actual.getCostoBasico(), reservaColectiva.getReserva().isTerminada(), reservaColectiva.getReserva().getTiempoOportunoCan(), actual, reservaColectiva.getReserva().getCliente(), true , reservaColectiva.getIdReservaColectiva(), reservaColectiva.getReserva().getServiciosAdicionales());
+				Reserva ope = new Reserva(idReserva+1, fechaInicio, fechaFin, reservaColectiva.getReserva().isCancelada() , reservaColectiva.getReserva().getNumPersonas(), null, actual.getCostoBasico(), reservaColectiva.getReserva().isTerminada(), reservaColectiva.getReserva().getTiempoOportunoCan(), actual, reservaColectiva.getReserva().getCliente(), true , reservaColectiva.getIdReservaColectiva(), reservaColectiva.getReserva().getServiciosAdicionales());
 				addReserva(ope);
 				String x = "La reserva No."+contador+"ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+" con id de reserva individual "+idReserva+1;
 				informe.add(x);
@@ -244,6 +266,7 @@ public class DAOReserva {
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
 	public Informe cancelarReservaColectiva(ReservaColectiva reservaColectiva, DAOAlojamiento daoAlojamiento, DAOCliente daoCliente) throws SQLException, Exception {
+		ArrayList<String> informes = new ArrayList<String>();
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 		double costoDefinitivo = 0;
 		String sql ="SELECT * FROM "+ USUARIO +".RESERVAS WHERE ID_COLECTIVA = "+reservaColectiva+" ;";
@@ -280,10 +303,13 @@ public class DAOReserva {
 			recursos.add(prepStmt2);
 			prepStmt2.executeQuery();
 			prepStmt2.close();
-			
+			String stringActual = "La reserva con id: " + actual.getId() + " ha sido cancelada con una valor de: "+costoDef;
+			informes.add(stringActual);
 		}
-		
-		return null;
+		String z = "La reserva colectiva con id de reserva colectiva: "+ reservaColectiva.getReserva().getIdColectiva()+ " con un costo total de "+ costoDefinitivo;
+		informes.add(z);
+		Informe finalisimo = new Informe(informes);
+		return finalisimo;
 		
 	}
 	//
@@ -353,19 +379,20 @@ public class DAOReserva {
 	 * @throws SQLException Si existe algun problema al extraer la informacion del ResultSet.
 	 */
 	public Reserva convertResultSetToReserva(ResultSet resultSet, DAOAlojamiento daoAlojamiento, DAOCliente daoCliente) throws SQLException, Exception {
-
 		long id = Long.parseLong(resultSet.getString("ID"));
-		long idColectiva = Long.parseLong(resultSet.getString("ID_COLECTIVA"));
-		int numDias = Integer.parseInt(resultSet.getString("NUM_DIAS"));
+		
+		long idColectiva =-1;
+		if(resultSet.getString("ID_COLECTIVA")!= null)
+		{
+			idColectiva =Long.parseLong(resultSet.getString("ID_COLECTIVA"));
+		}
 		String fechaInicio = resultSet.getString("FECHA_INICIO");
-
 		String fif = fechaInicio.substring(2, 10);
 		String [] array = fif.split("-");
 		int anho = Integer.parseInt(array[0])+100;
 		int mes = Integer.parseInt(array[1])-1;
 		int dia = Integer.parseInt(array[2]);
 		Date date1 = new Date(anho, mes, dia);
-
 		String fechaFin = resultSet.getString("FECHA_FIN");
 		String fff = fechaFin.substring(2, 10);
 		String [] array2 = fff.split("-");
@@ -373,7 +400,6 @@ public class DAOReserva {
 		int mes2 = Integer.parseInt(array2[1])-1;
 		int dia2 = Integer.parseInt(array2[2]);
 		Date date2 = new Date(anho2, mes2, dia2);
-
 		int numPersonas = Integer.parseInt(resultSet.getString("NUM_PERSONAS"));
 		boolean cancelada = false;
 		if(resultSet.getString("CANCELADA").equals("T"))
@@ -389,7 +415,6 @@ public class DAOReserva {
 			int dia3 = Integer.parseInt(array3[2]);
 			date3 = new Date(anho3, mes3, dia3);
 		}
-
 		double costoFinal = Double.parseDouble(resultSet.getString("COSTO_DEFINITIVO"));
 		String tiempoOportuno = resultSet.getString("TIEMPO_OPORTUNO");
 		String ftf = tiempoOportuno.substring(2, 10);
@@ -398,7 +423,6 @@ public class DAOReserva {
 		int mes4 = Integer.parseInt(array4[1])-1;
 		int dia4 = Integer.parseInt(array4[2]);
 		Date date4 = new Date(anho4, mes4, dia4);
-
 		boolean terminada = false;
 		if(resultSet.getString("TERMINADA").equals("T"))
 			terminada = true;
@@ -407,11 +431,10 @@ public class DAOReserva {
 			colectiva = true;
 		long idAlojamiento = Long.parseLong(resultSet.getString("ID_ALOJAMIENTO"));
 		long idCliente = Long.parseLong(resultSet.getString("ID_CLIENTE"));
-
 		Alojamiento alojamiento = daoAlojamiento.findAlojamientoById(idAlojamiento);
 		Cliente cliente = daoCliente.findClienteById(idCliente);
 		ArrayList <Servicio>servicios = new ArrayList<Servicio>();
-		Reserva ope = new Reserva(id, numDias, date1, date2, cancelada, numPersonas, date3, costoFinal, terminada, date4, alojamiento, cliente, colectiva , idColectiva, servicios);
+		Reserva ope = new Reserva(id, date1, date2, cancelada, numPersonas, date3, costoFinal, terminada, date4, alojamiento, cliente, colectiva , idColectiva, servicios);
 
 		return ope;
 	}

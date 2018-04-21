@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -1071,7 +1072,52 @@ public class AlohAndesMaster{
 			}
 		}
 	}
-	
+	/**
+	 * Metodo que modela la transaccion que agrega un Reserva colectiva la base de datos. <br/>
+	 * <b> post: </b> se ha agregado el Reserva colectiva que entra como parametro <br/>
+	 * @param Reserva - el Reserva a agregar. Reserva != null
+	 * @throws Exception - Cualquier error que se genere agregando el Reserva
+	 */
+	public Informe addReservaColectiva(ReservaColectiva reservaColectiva) throws Exception 
+	{
+		ArrayList <String> array = new ArrayList<>();
+		Informe inf = new Informe(array);
+		DAOReserva daoReserva = new DAOReserva( );
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+		try
+		{
+			this.conn = darConexion();
+			daoReserva.setConn(conn);
+			daoAlojamiento.setConn(conn);
+			inf = daoReserva.addReservaColectiva(reservaColectiva,daoAlojamiento);
+			
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoReserva.cerrarRecursos();
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return inf;
+	}
 	/**
 	 * Metodo que modela la transaccion que actualiza en la base de datos al Alojamiento que entra por parametro.<br/>
 	 * Solamente se actualiza si existe el Alojamiento en la Base de Datos <br/>

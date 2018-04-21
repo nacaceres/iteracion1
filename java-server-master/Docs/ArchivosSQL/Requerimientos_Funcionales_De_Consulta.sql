@@ -111,3 +111,41 @@ INNER JOIN ALOJAMIENTOS ALO
 ON ALO.ID=RE.ID_ALOJAMIENTO
 WHERE CLI.NOMBRE='EL DT'
 GROUP BY CLI.NOMBRE,CLI.ID,ALO.TIPO;
+
+
+--------------------------------------
+-----------------RF7-----------------
+--------------------------------------
+SELECT *
+
+FROM ALOJAMIENTOS ALO
+
+WHERE ALO.ID NOT IN 
+
+(
+
+SELECT RE.ID_ALOJAMIENTO
+
+FROM  RESERVAS RE
+
+WHERE( RE.FECHA_INICIO  BETWEEN '20/10/18' AND '30/10/18')
+
+OR  ( RE.FECHA_FIN  BETWEEN '20/10/18' AND '30/10/18')
+
+OR (  RE.FECHA_INICIO <'20/10/18'  AND   RE.FECHA_FIN >  '30/10/18')
+
+)
+
+AND ALO.ID IN
+
+(
+
+SELECT ALOJA.ID
+
+FROM  ALOJAMIENTOS ALOJA
+
+WHERE ALOJA.TIPO='HAB HOTEL'
+
+);
+
+-----------------addReserva-----------------
