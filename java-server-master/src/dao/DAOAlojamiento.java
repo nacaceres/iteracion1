@@ -725,6 +725,9 @@ public class DAOAlojamiento {
 	 */
 	public Informe getOperacionAlohAndes(Condiciones2 cond) throws SQLException,Exception
 	{
+		
+		ArrayList<String> pReporte = new ArrayList<>();
+		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date fechaInicio = cond.getFechaInicio();
 		Date fechaFin = cond.getFechaFin();
@@ -786,9 +789,13 @@ public class DAOAlojamiento {
 				d2.setTime(d1.getTime() + 1 * 24 * 60 * 60 * 1000);	
 				d1=d2;
 			}
-
+			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados"+maxOcupacion);
+			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados"+maxOcupacion);
+			pReporte.add("la ocupacion maxima se da en "+diamaxOcu+"cuando hay ocupados"+maxOcupacion);
 		}
-		return null;
+	
+		Informe result=new Informe(pReporte);
+		return result;
 
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------
