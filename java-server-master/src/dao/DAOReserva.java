@@ -191,11 +191,13 @@ public class DAOReserva {
 		String fecha1 = "'"+dateFormat.format(fechaInicio)+"'";
 		String fecha2 = "'"+dateFormat.format(fechaFin)+"'";
 		String sql = "SELECT * FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"');";
+		System.out.println(sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		
 		String sql3 = "SELECT COUNT (*) AS NUM_ALOJAMIENTOS FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) AND ALO.ID IN ( SELECT ALOJA.ID FROM  "+USUARIO+".ALOJAMIENTOS ALOJA WHERE ALOJA.TIPO='"+tipo+"');";
+		System.out.println(sql3);
 		PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
 		recursos.add(prepStmt3);
 		ResultSet rs3 = prepStmt3.executeQuery();
@@ -204,6 +206,7 @@ public class DAOReserva {
 		if(rowcount >= reservaColectiva.getCantidad())
 		{
 			String sql2 = "SELECT COUNT (*) AS NUMACTUAL FROM "+USUARIO+".RESERVAS;";
+			System.out.println(sql2);
 			PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
 			recursos.add(prepStmt2);
 			ResultSet rs2 = prepStmt2.executeQuery();
