@@ -170,7 +170,30 @@ public class ReservasService {
 	@PUT	
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response cancelarReserva(Reserva Reserva) {
+	@Path("colectiva")
+	public Response cancelarReserva(ReservaColectiva Reserva) {
+		try{
+			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+			Informe inf = tm.cancelarReservaColectiva(Reserva);
+			return Response.status( 200 ).entity( inf ).build( );		
+		}
+		catch( Exception e )
+		{
+			return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+		}
+	}
+	/**
+	 * Metodo que recibe un Reserva colectiva en formato JSON y la cancela en la base de datos <br/>
+	 * <b>Precondicion: </b> El archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>Postcondicion: </b> Se actualiza la Base de datos con la informacion correspondiente al Reserva.<br/>
+	 * @param Reserva JSON con el informe de la cancelacion
+	 * @return	<b>Response Status 200</b> - JSON que contiene al Reserva que se desea modificar <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */
+	@PUT	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response cancelarReservaColectiva(Reserva Reserva) {
 		try{
 			AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
 			tm.cancelarReserva(Reserva);

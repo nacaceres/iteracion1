@@ -35,7 +35,7 @@ public class AlohAndesMaster{
 	 * Atributo estatico que contiene el path absoluto del archivo que tiene los datos de la conexion
 	 */
 	private static String CONNECTION_DATA_PATH;
-	
+
 
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// ATRIBUTOS
@@ -60,7 +60,7 @@ public class AlohAndesMaster{
 	 * Atributo que guarda el driver que se va a usar para conectarse a la base de datos.
 	 */
 	private String driver;
-	
+
 	/**
 	 * Atributo que representa la conexion a la base de datos
 	 */
@@ -80,7 +80,7 @@ public class AlohAndesMaster{
 	 * @throws ClassNotFoundException 
 	 */
 	public AlohAndesMaster(String contextPathP) {
-		
+
 		try {
 			CONNECTION_DATA_PATH = contextPathP + CONNECTION_DATA_FILE_NAME_REMOTE;
 			initializeConnectionData();
@@ -103,15 +103,15 @@ public class AlohAndesMaster{
 
 		FileInputStream fileInputStream = new FileInputStream(new File(AlohAndesMaster.CONNECTION_DATA_PATH));
 		Properties properties = new Properties();
-		
+
 		properties.load(fileInputStream);
 		fileInputStream.close();
-		
+
 		this.url = properties.getProperty("url");
 		this.user = properties.getProperty("usuario");
 		this.password = properties.getProperty("clave");
 		this.driver = properties.getProperty("driver");
-		
+
 		Class.forName(driver);
 	}
 
@@ -126,11 +126,11 @@ public class AlohAndesMaster{
 		return DriverManager.getConnection(url, user, password);
 	}
 
-	
+
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS TRANSACCIONALES
 	//----------------------------------------------------------------------------------------------------------------------------------
-	
+
 	/**
 	 * Metodo que modela la transaccion que retorna todos los operadores de la base de datos. <br/>
 	 * @return List<operador> - Lista de operadores que contiene el resultado de la consulta.
@@ -173,7 +173,7 @@ public class AlohAndesMaster{
 		}
 		return operadores;
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que busca el Operador en la base de datos que tiene el ID dado por parametro. <br/>
 	 * @param name -id del Operador a buscar. id != null
@@ -221,7 +221,7 @@ public class AlohAndesMaster{
 		}
 		return Operador;
 	}
-	
+
 
 	/**
 	 * Metodo que modela la transaccion que agrega un Operador a la base de datos. <br/>
@@ -239,7 +239,7 @@ public class AlohAndesMaster{
 			daoOperador.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoOperador.addOperador(Operador,daoAlojamiento);
-			
+
 		}
 		catch (SQLException sqlException) {
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
@@ -266,7 +266,7 @@ public class AlohAndesMaster{
 			}
 		}
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que actualiza en la base de datos al Operador que entra por parametro.<br/>
 	 * Solamente se actualiza si existe el Operador en la Base de Datos <br/>
@@ -384,7 +384,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			daoCliente.setConn(conn);
-			
+
 			Clientes = daoCliente.getClientes();
 		}
 		catch (SQLException sqlException) {
@@ -412,7 +412,7 @@ public class AlohAndesMaster{
 		}
 		return Clientes;
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que busca el Cliente en la base de datos que tiene el ID dado por parametro. <br/>
 	 * @param name -id del Cliente a buscar. id != null
@@ -457,7 +457,7 @@ public class AlohAndesMaster{
 		}
 		return Cliente;
 	}
-	
+
 
 	/**
 	 * Metodo que modela la transaccion que agrega un Cliente a la base de datos. <br/>
@@ -467,7 +467,7 @@ public class AlohAndesMaster{
 	 */
 	public void addCliente(Cliente Cliente) throws Exception 
 	{
-		
+
 		DAOCliente daoCliente = new DAOCliente( );
 		try
 		{
@@ -500,7 +500,7 @@ public class AlohAndesMaster{
 			}
 		}
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que actualiza en la base de datos al Cliente que entra por parametro.<br/>
 	 * Solamente se actualiza si existe el Cliente en la Base de Datos <br/>
@@ -611,7 +611,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			daoAlojamiento.setConn(conn);
-			
+
 			Alojamientos = daoAlojamiento.getAlojamientos();
 		}
 		catch (SQLException sqlException) {
@@ -639,7 +639,7 @@ public class AlohAndesMaster{
 		}
 		return Alojamientos;
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que busca el Alojamiento en la base de datos que tiene el ID dado por parametro. <br/>
 	 * @param name -id del Alojamiento a buscar. id != null
@@ -684,7 +684,7 @@ public class AlohAndesMaster{
 		}
 		return Alojamiento;
 	}
-	
+
 
 	/**
 	 * Metodo que modela la transaccion que agrega un Alojamiento a la base de datos. <br/>
@@ -694,7 +694,7 @@ public class AlohAndesMaster{
 	 */
 	public void addAlojamiento(Alojamiento Alojamiento) throws Exception 
 	{
-		
+
 		DAOAlojamiento daoAlojamiento = new DAOAlojamiento( );
 		try
 		{
@@ -727,7 +727,7 @@ public class AlohAndesMaster{
 			}
 		}
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que agrega un Apartamento a la base de datos. <br/>
 	 * <b> post: </b> se ha agregado el Apartamento que entra como parametro <br/>
@@ -736,7 +736,7 @@ public class AlohAndesMaster{
 	 */
 	public void addApartamento(Apartamento Apartamento) throws Exception 
 	{
-		
+
 		DAOAlojamiento daoApartamento = new DAOAlojamiento( );
 		try
 		{
@@ -769,7 +769,7 @@ public class AlohAndesMaster{
 			}
 		}
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que agrega un HabHostal a la base de datos. <br/>
 	 * <b> post: </b> se ha agregado el HabHostal que entra como parametro <br/>
@@ -778,7 +778,7 @@ public class AlohAndesMaster{
 	 */
 	public void addHabHostal(HabHostal HabHostal) throws Exception 
 	{
-		
+
 		DAOAlojamiento daoHabHostal = new DAOAlojamiento( );
 		try
 		{
@@ -819,7 +819,7 @@ public class AlohAndesMaster{
 	 */
 	public void addHabHotel(HabHotel HabHotel) throws Exception 
 	{
-		
+
 		DAOAlojamiento daoHabHotel = new DAOAlojamiento( );
 		try
 		{
@@ -860,7 +860,7 @@ public class AlohAndesMaster{
 	 */
 	public void addHabUniversitaria(HabUniversitaria HabUniversitaria) throws Exception 
 	{
-		
+
 		DAOAlojamiento daoHabUniversitaria = new DAOAlojamiento( );
 		try
 		{
@@ -901,7 +901,7 @@ public class AlohAndesMaster{
 	 */
 	public void addVivienda(Vivienda Vivienda) throws Exception 
 	{
-		
+
 		DAOAlojamiento daoVivienda = new DAOAlojamiento( );
 		try
 		{
@@ -979,7 +979,7 @@ public class AlohAndesMaster{
 		}
 		return Reservas;
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que busca el Reserva en la base de datos que tiene el ID dado por parametro. <br/>
 	 * @param name -id del Reserva a buscar. id != null
@@ -1030,7 +1030,7 @@ public class AlohAndesMaster{
 		}
 		return Reserva;
 	}
-	
+
 
 	/**
 	 * Metodo que modela la transaccion que agrega un Reserva a la base de datos. <br/>
@@ -1046,7 +1046,7 @@ public class AlohAndesMaster{
 			this.conn = darConexion();
 			daoReserva.setConn(conn);
 			daoReserva.addReserva(Reserva);
-			
+
 		}
 		catch (SQLException sqlException) {
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
@@ -1090,7 +1090,7 @@ public class AlohAndesMaster{
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			inf = daoReserva.addReservaColectiva(reservaColectiva,daoAlojamiento);
-			
+
 		}
 		catch (SQLException sqlException) {
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
@@ -1127,7 +1127,7 @@ public class AlohAndesMaster{
 	 */
 	public void retirarOfertaAlojamiento(Alojamiento alojamiento) throws Exception 
 	{
-		
+
 		DAOAlojamiento daoAlojamiento = new DAOAlojamiento( );
 		try
 		{
@@ -1168,7 +1168,7 @@ public class AlohAndesMaster{
 			}
 		}	
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que actualiza en la base de datos al Reserva que entra por parametro.<br/>
 	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
@@ -1223,6 +1223,57 @@ public class AlohAndesMaster{
 				throw exception;
 			}
 		}	
+	}
+	/**
+	 * Metodo que modela la transaccion que actualiza en la base de datos al Reserva que entra por parametro.<br/>
+	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
+	 * <b> post: </b> se ha actualizado el Reserva que entra como parametro <br/>
+	 * @param Reserva - Reserva a actualizar. Reserva != null
+	 * @throws Exception - Cualquier error que se genere actualizando al Reserva.
+	 */
+	public Informe cancelarReservaColectiva(ReservaColectiva reservaColectiva) throws Exception 
+	{
+		ArrayList <String> array = new ArrayList<>();
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+		DAOCliente daoCliente = new DAOCliente();
+		DAOReserva daoReserva = new DAOReserva();
+		Informe inf = new Informe(array);
+		try
+		{
+			this.conn = darConexion();
+			daoReserva.setConn(conn);
+			daoAlojamiento.setConn(conn);
+			daoCliente.setConn(conn);
+			inf = daoReserva.cancelarReservaColectiva(reservaColectiva , daoAlojamiento , daoCliente);
+
+
+		}
+		catch (SQLException sqlException) {
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoReserva.cerrarRecursos();
+				daoAlojamiento.cerrarRecursos();
+				daoCliente.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return inf;
 	}
 	/**
 	 * Metodo que modela la transaccion que retorna las ganancias de todos  operadores. <br/>
@@ -1300,7 +1351,7 @@ public class AlohAndesMaster{
 		}
 		return operadores;
 	}
-	
+
 	/**
 	 * Metodo que modela la transaccion que retorna todos los Alojamientos top de la base de datos. <br/>
 	 * @return List<Alojamiento> - Lista de Alojamientos top que contiene el resultado de la consulta.
@@ -1313,7 +1364,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			daoAlojamiento.setConn(conn);
-			
+
 			Alojamientos = daoAlojamiento.getAlojamientosMasPopulares();
 		}
 		catch (SQLException sqlException) {
@@ -1353,7 +1404,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			daoCliente.setConn(conn);
-			
+
 			Clientes = daoCliente.getUsoAlohAndes();
 		}
 		catch (SQLException sqlException) {
@@ -1505,58 +1556,58 @@ public class AlohAndesMaster{
 		}
 		return Cliente;
 	}
-//	/**
-//	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>
-//	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
-//	 * <b> post: </b> se ha eliminado el Reserva que entra por parametro <br/>
-//	 * @param Reserva - Reserva a eliminar. Reserva != null
-//	 * @throws Exception - Cualquier error que se genere eliminando al Reserva.
-//	 */
-//	public void deleteReserva(Reserva Reserva) throws Exception 
-//	{
-//		DAOReserva daoReserva = new DAOReserva( );
-//		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
-//		try
-//		{
-//			this.conn = darConexion();
-//			daoReserva.setConn( conn );
-//			daoAlojamiento.setConn(conn);
-//			Reserva actual = daoReserva.findReservaById(Reserva.getId(),daoAlojamiento);
-//			if (actual!= null)
-//			{
-//				daoReserva.deleteReserva(Reserva,daoAlojamiento);
-//			}
-//			else
-//			{
-//				throw new Exception ("[EXCEPTION] General Exception: No se puede eliminar el Reserva debido a que no existe un Reserva en la base de datos con ese id.");
-//			}
-//
-//		}
-//		catch (SQLException sqlException) {
-//			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
-//			sqlException.printStackTrace();
-//			throw sqlException;
-//		} 
-//		catch (Exception exception) {
-//			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
-//			exception.printStackTrace();
-//			throw exception;
-//		} 
-//		finally {
-//			try {
-//				daoAlojamiento.cerrarRecursos();
-//				daoReserva.cerrarRecursos();
-//				if(this.conn!=null){
-//					this.conn.close();					
-//				}
-//			}
-//			catch (SQLException exception) {
-//				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
-//				exception.printStackTrace();
-//				throw exception;
-//			}
-//		}	
-//	}
+	//	/**
+	//	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>
+	//	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
+	//	 * <b> post: </b> se ha eliminado el Reserva que entra por parametro <br/>
+	//	 * @param Reserva - Reserva a eliminar. Reserva != null
+	//	 * @throws Exception - Cualquier error que se genere eliminando al Reserva.
+	//	 */
+	//	public void deleteReserva(Reserva Reserva) throws Exception 
+	//	{
+	//		DAOReserva daoReserva = new DAOReserva( );
+	//		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+	//		try
+	//		{
+	//			this.conn = darConexion();
+	//			daoReserva.setConn( conn );
+	//			daoAlojamiento.setConn(conn);
+	//			Reserva actual = daoReserva.findReservaById(Reserva.getId(),daoAlojamiento);
+	//			if (actual!= null)
+	//			{
+	//				daoReserva.deleteReserva(Reserva,daoAlojamiento);
+	//			}
+	//			else
+	//			{
+	//				throw new Exception ("[EXCEPTION] General Exception: No se puede eliminar el Reserva debido a que no existe un Reserva en la base de datos con ese id.");
+	//			}
+	//
+	//		}
+	//		catch (SQLException sqlException) {
+	//			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+	//			sqlException.printStackTrace();
+	//			throw sqlException;
+	//		} 
+	//		catch (Exception exception) {
+	//			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+	//			exception.printStackTrace();
+	//			throw exception;
+	//		} 
+	//		finally {
+	//			try {
+	//				daoAlojamiento.cerrarRecursos();
+	//				daoReserva.cerrarRecursos();
+	//				if(this.conn!=null){
+	//					this.conn.close();					
+	//				}
+	//			}
+	//			catch (SQLException exception) {
+	//				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+	//				exception.printStackTrace();
+	//				throw exception;
+	//			}
+	//		}	
+	//	}
 
-	
+
 }
