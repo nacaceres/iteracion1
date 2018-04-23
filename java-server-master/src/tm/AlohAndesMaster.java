@@ -143,16 +143,20 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daooperador.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			operadores = daooperador.getOperadores(daoAlojamiento);
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -187,20 +191,25 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoOperador.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			Operador = daoOperador.findOperadorById(id, daoAlojamiento);
+			conn.commit();
 			if(Operador == null)
 			{
+				conn.rollback();
 				throw new Exception("El Operador con el id = " + id + " no se encuentra persistido en la base de datos.");				
 			}
 		} 
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -236,17 +245,21 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoOperador.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoOperador.addOperador(Operador,daoAlojamiento);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -281,25 +294,30 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoOperador.setConn( conn );
 			daoAlojamiento.setConn(conn);
 			Operador actual = daoOperador.findOperadorById(Operador.getId(),daoAlojamiento);
 			if (actual!= null)
 			{
 				daoOperador.updateOperador(Operador);
+				conn.commit();
 			}
 			else
 			{
+				conn.rollback();
 				throw new Exception ("[EXCEPTION] General Exception: No se puede actualizar el Operador debido a que no existe un Operador en la base de datos con ese id.");
 			}
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -333,25 +351,30 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoOperador.setConn( conn );
 			daoAlojamiento.setConn(conn);
 			Operador actual = daoOperador.findOperadorById(Operador.getId(),daoAlojamiento);
 			if (actual!= null)
 			{
 				daoOperador.deleteOperador(Operador,daoAlojamiento);
+				conn.commit();
 			}
 			else
 			{
+				conn.rollback();
 				throw new Exception ("[EXCEPTION] General Exception: No se puede eliminar el Operador debido a que no existe un Operador en la base de datos con ese id.");
 			}
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -383,16 +406,20 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn(conn);
 
 			Clientes = daoCliente.getClientes();
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -425,19 +452,24 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn(conn);
 			Cliente = daoCliente.findClienteById(id);
+			conn.commit();
 			if(Cliente == null)
 			{
+				conn.rollback();
 				throw new Exception("El Cliente con el id = " + id + " no se encuentra persistido en la base de datos.");				
 			}
 		} 
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -472,16 +504,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn(conn);
 			daoCliente.addCliente(Cliente);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -514,24 +550,29 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn( conn );
 			Cliente actual = daoCliente.findClienteById(Cliente.getId());
 			if (actual!= null)
 			{
 				daoCliente.updateCliente(Cliente);
+				conn.commit();
 			}
 			else
 			{
+				conn.rollback();
 				throw new Exception ("[EXCEPTION] General Exception: No se puede actualizar el Cliente debido a que no existe un Cliente en la base de datos con ese id.");
 			}
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -563,24 +604,29 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn( conn );
 			Cliente actual = daoCliente.findClienteById(Cliente.getId());
 			if (actual!= null)
 			{
 				daoCliente.deleteCliente(Cliente);
+				conn.commit();
 			}
 			else
 			{
+				conn.rollback();
 				throw new Exception ("[EXCEPTION] General Exception: No se puede eliminar el Cliente debido a que no existe un Cliente en la base de datos con ese id.");
 			}
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -610,16 +656,20 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn(conn);
 
 			Alojamientos = daoAlojamiento.getAlojamientos();
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -652,19 +702,25 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn(conn);
 			Alojamiento = daoAlojamiento.findAlojamientoById(id);
+			conn.commit();
 			if(Alojamiento == null)
 			{
+				conn.rollback();
 				throw new Exception("El Alojamiento con el id = " + id + " no se encuentra persistido en la base de datos.");				
 			}
 		} 
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
+		
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -699,16 +755,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn(conn);
 			daoAlojamiento.addAlojamiento(Alojamiento);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -741,16 +801,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoApartamento.setConn(conn);
 			daoApartamento.addApartamento(Apartamento);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -783,16 +847,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoHabHostal.setConn(conn);
 			daoHabHostal.addHabHostal(HabHostal);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -824,16 +892,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoHabHotel.setConn(conn);
 			daoHabHotel.addHabHotel(HabHotel);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -865,16 +937,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoHabUniversitaria.setConn(conn);
 			daoHabUniversitaria.addHabUniversitaria(HabUniversitaria);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -906,16 +982,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoVivienda.setConn(conn);
 			daoVivienda.addVivienda(Vivienda);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -947,17 +1027,21 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoCliente.setConn(conn);
 			Reservas = daoReserva.getReservas(daoAlojamiento,daoCliente);
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -994,21 +1078,26 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoCliente.setConn(conn);
 			Reserva = daoReserva.findReservaById(id, daoAlojamiento,daoCliente);
+			conn.commit();
 			if(Reserva == null)
 			{
+				conn.rollback();
 				throw new Exception("El Reserva con el id = " + id + " no se encuentra persistido en la base de datos.");				
 			}
 		} 
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1044,16 +1133,20 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoReserva.addReserva(Reserva);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1087,17 +1180,21 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			inf = daoReserva.addReservaColectiva(reservaColectiva,daoAlojamiento);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1132,24 +1229,29 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn( conn );
 			Alojamiento actual = daoAlojamiento.findAlojamientoById(alojamiento.getId());
 			if (actual!= null)
 			{
 				daoAlojamiento.retirarOfertaAlojamiento( alojamiento);
+				conn.commit();
 			}
 			else
 			{
+				conn.rollback();
 				throw new Exception ("[EXCEPTION] General Exception: No se puede actualizar el Alojamiento debido a que no existe un Alojamiento en la base de datos con ese id.");
 			}
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1187,18 +1289,22 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn( conn );
 			daoCliente.setConn( conn );
 			daoReserva.setConn( conn );
 			inf = daoAlojamiento.deshabilitarOfertaAlojamiento(alojamiento, daoReserva, daoCliente);
+			conn.commit();
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1235,18 +1341,22 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn( conn );
-			
+
 			inf=	daoAlojamiento.habilitarOfertaAlojamiento( alojamiento);
-			
+			conn.commit();
+
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1281,6 +1391,7 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoCliente.setConn(conn);
@@ -1288,19 +1399,23 @@ public class AlohAndesMaster{
 			if (actual!= null)
 			{
 				daoReserva.cancelarReserva(Reserva);
+				conn.commit();
 			}
 			else
 			{
+				conn.rollback();
 				throw new Exception ("[EXCEPTION] General Exception: No se puede actualizar el Reserva debido a que no existe un Reserva en la base de datos con ese id.");
 			}
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1338,19 +1453,23 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoCliente.setConn(conn);
 			inf = daoReserva.cancelarReservaColectiva(reservaColectiva , daoAlojamiento , daoCliente);
+			conn.commit();
 
 
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1383,15 +1502,19 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daooperador.setConn(conn);
 			operadores = daooperador.getGananciasActualesOperadores();
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1421,15 +1544,19 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daooperador.setConn(conn);
 			operadores = daooperador.getGananciasPasadasOperadores();
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1460,16 +1587,20 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn(conn);
 
 			Alojamientos = daoAlojamiento.getAlojamientosMasPopulares();
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1500,16 +1631,20 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn(conn);
 
 			Clientes = daoCliente.getUsoAlohAndes();
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1541,15 +1676,19 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn(conn);
 			Alojamientos = daoAlojamiento.getAlojamientosConRestriccion(pCondiciones);
+			conn.commit();
 		} 
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1581,15 +1720,19 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoOperador.setConn(conn);
 			Alojamientos = daoOperador.getIndicesOcupacion();
+			conn.commit();
 		} 
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1621,19 +1764,23 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn(conn);
 			Cliente = daoCliente.getEstadisticasCliente(id);
+			conn.commit();
 			if(Cliente == null)
 			{
 				throw new Exception("El Cliente con el id = " + id + " no se encuentra persistido en la base de datos.");				
 			}
 		} 
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1659,7 +1806,7 @@ public class AlohAndesMaster{
 	 * @return una lista de clientes
 	 * @throws Exception  cualquier error que se genere durante la transaccion
 	 */
-	
+
 	public Informe getClientesFieles(Long id) throws Exception
 	{
 		DAOCliente daoCliente = new DAOCliente();
@@ -1667,15 +1814,19 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoCliente.setConn(conn);
 			Clientes = daoCliente.getClientesFieles(id);
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1694,8 +1845,8 @@ public class AlohAndesMaster{
 			}
 		}
 		return Clientes;	
-		
-		
+
+
 	}
 	/**
 	 * este metodo dice cuales dias son los de mayor 
@@ -1713,15 +1864,19 @@ public class AlohAndesMaster{
 		try 
 		{
 			this.conn = darConexion();
+			conn.setAutoCommit(false);
 			daoAlojamiento.setConn(conn);
-		 inf = daoAlojamiento.getOperacionAlohAndes(pCondiciones);
+			inf = daoAlojamiento.getOperacionAlohAndes(pCondiciones);
+			conn.commit();
 		}
 		catch (SQLException sqlException) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
 		catch (Exception exception) {
+			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
 			exception.printStackTrace();
 			throw exception;
@@ -1741,9 +1896,9 @@ public class AlohAndesMaster{
 		}
 		return inf;	
 	}
-		
-	
-	
+
+
+
 	//	/**
 	//	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>
 	//	 * Solamente se actualiza si existe el Reserva en la Base de Datos <br/>
