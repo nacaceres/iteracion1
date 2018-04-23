@@ -648,7 +648,7 @@ public class DAOAlojamiento {
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(String.format("UPDATE %s.ALOJAMIENTOS SET ", USUARIO));
-		sql.append("VIGENTE = 'V' ");
+		sql.append("VIGENTE = 'T' ");
 		sql.append(String.format(" WHERE ID = %d ", alojamiento.getId()));
 		System.out.println(sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql.toString());
