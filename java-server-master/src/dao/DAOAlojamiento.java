@@ -539,6 +539,7 @@ public class DAOAlojamiento {
 		
 		ArrayList<String> informe = new ArrayList<>();
 		String sentencia ="SELECT * FROM  " +USUARIO +".RESERVAS RE WHERE RE.ID_ALOJAMIENTO = "+alojamiento.getId()+" AND CANCELADA = 'F' AND TERMINADA = 'F' ORDER BY RE.FECHA_INICIO";
+		System.out.println(sentencia);
 		PreparedStatement prepStmt2 = conn.prepareStatement(sentencia);
 		recursos.add(prepStmt2);
 		prepStmt2.executeQuery();
@@ -547,20 +548,43 @@ public class DAOAlojamiento {
 			String idReservaActual = rs.getString("ID");
 			String fechaInicio = "'"+ rs.getString("FECHA_INICIO")+"'";
 			String fechaFin = "'"+rs.getString("FECHA_FIN")+"'";
-			String sql3 = "SELECT * FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ROWNUM < 2 AND ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR  ( RE.FECHA_FIN  BETWEEN "+fechaInicio+" AND "+fechaFin+") OR (  RE.FECHA_INICIO <"+fechaInicio+"  AND   RE.FECHA_FIN>  "+fechaFin+") ) ;";
+			String fif = fechaInicio.substring(3, 11);
+			System.out.println(fif);
+			String [] array = fif.split("-");
+			int anho = Integer.parseInt(array[0])+100;
+			int mes = Integer.parseInt(array[1])-1;
+			int dia = Integer.parseInt(array[2]);
+			Date date1 = new Date(anho, mes, dia);
+			System.out.println( "El dia es: "+ dia +"El mes es: "+ mes +"El anho es: "+anho);
+			String date11= "'"+dateFormat.format(date1)+"'";
+
+			String fff = fechaFin.substring(3, 11);
+			System.out.println(fff);
+			String [] array2 = fff.split("-");
+			int anho2 = Integer.parseInt(array2[0])+100;
+			int mes2 = Integer.parseInt(array2[1])-1;
+			int dia2 = Integer.parseInt(array2[2]);
+			Date date2 = new Date(anho2, mes2, dia2);
+			System.out.println( "El dia es: "+ dia2 +"El mes es: "+ mes2 +"El anho es: "+anho2);
+			String date22= "'"+dateFormat.format(date2)+"'";
+			
+			String sql3 = "SELECT * FROM "+USUARIO+".ALOJAMIENTOS ALO WHERE ROWNUM < 2 AND ALO.ID NOT IN ( SELECT RE.ID_ALOJAMIENTO FROM  "+USUARIO+".RESERVAS RE WHERE( RE.FECHA_INICIO  BETWEEN "+date11+" AND "+date22+") OR  ( RE.FECHA_FIN  BETWEEN "+date11+" AND "+date22+") OR (  RE.FECHA_INICIO < "+date11+"  AND   RE.FECHA_FIN >  "+date22+") )";
+			System.out.println(sql3);
 			PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
 			recursos.add(prepStmt3);
 			ResultSet rs3 = prepStmt3.executeQuery();
 			if(rs3.next())
 			{
-				String sql4 = "SELECT COUNT (*) AS NUMACTUAL FROM "+USUARIO+".RESERVAS;";
+				String sql4 = "SELECT MAX (ID) AS NUMACTUAL FROM "+USUARIO+".RESERVAS";
+				System.out.println(sql4);
 				PreparedStatement prepStmt4 = conn.prepareStatement(sql4);
 				recursos.add(prepStmt4);
 				ResultSet rs4 = prepStmt4.executeQuery();
+				rs4.next();
 				Long idReserva = Long.parseLong(rs4.getString("NUMACTUAL"));
 				Alojamiento actual = convertResultSetToAlojamiento(rs3);
 				int numPer = Integer.parseInt(rs.getString("NUM_PERSONAS"));
-				String fechaCancelacion = rs.getString("FECHA_CANCELACION");
+				String fechaCancelacion = rs.getString("TIEMPO_OPORTUNO");
 				Date date3 = null;
 				if(fechaCancelacion != null)
 				{
@@ -572,26 +596,13 @@ public class DAOAlojamiento {
 					date3 = new Date(anho3, mes3, dia3);
 				}
 
-				String fif = fechaInicio.substring(2, 10);
-				String [] array = fif.split("-");
-				int anho = Integer.parseInt(array[0])+100;
-				int mes = Integer.parseInt(array[1])-1;
-				int dia = Integer.parseInt(array[2]);
-				Date date1 = new Date(anho, mes, dia);
-
-				String fff = fechaFin.substring(2, 10);
-				String [] array2 = fff.split("-");
-				int anho2 = Integer.parseInt(array2[0])+100;
-				int mes2 = Integer.parseInt(array2[1])-1;
-				int dia2 = Integer.parseInt(array2[2]);
-				Date date2 = new Date(anho2, mes2, dia2);
 
 				long idCliente = Long.parseLong(rs.getString("ID_CLIENTE"));
 				Cliente cliente = daoCliente.findClienteById(idCliente);
 				ArrayList<Servicio> servicios = new ArrayList<>();
-				Reserva ope = new Reserva(idReserva+1, date1, date2, false , numPer , null, actual.getCostoBasico(), false, date3, actual, cliente, false , Long.parseLong("0"), servicios);
+				Reserva ope = new Reserva(idReserva+2, date1, date2, false , numPer , null, actual.getCostoBasico(), false, date3, actual, cliente, false , Long.parseLong("0"), servicios);
 				daoReserva.addReserva(ope);
-				String x = "La reserva No."+idReservaActual+"ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+"con un nuevo id "+idReserva+1 +" debido a inconvenientes con el alojamiento " +alojamiento.getId()+ " quien se encuentra deshabilitado temporalmente";
+				String x = "La reserva No."+idReservaActual+" ha sido asignada al alojamiento con id "+actual.getId()+" con ubicacion "+actual.getUbicacion()+" con un nuevo id "+idReserva+1 +" debido a inconvenientes con el alojamiento " +alojamiento.getId()+ " quien se encuentra deshabilitado temporalmente";
 				informe.add(x);
 				prepStmt4.close();
 				
@@ -616,7 +627,8 @@ public class DAOAlojamiento {
 		String y = "Se ha deshabilitado el alojamiento: " +alojamiento.getId();
 		informe.add(y);
 		
-		String sql6 = "UPDATE " +USUARIO +".RESERVAS SET CANCELADA = 'T' , FECHA_CANCELACION = '"+xm+"' WHERE RE.ID_ALOJAMIENTO = "+alojamiento.getId();
+		String sql6 = "UPDATE " +USUARIO +".RESERVAS SET CANCELADA = 'T' , FECHA_CANCELACION = '"+xm+"' WHERE ID_ALOJAMIENTO = "+alojamiento.getId();
+		System.out.println(sql6);
 		PreparedStatement prepStmt6 = conn.prepareStatement(sql6);
 		recursos.add(prepStmt6);
 		prepStmt6.executeQuery();

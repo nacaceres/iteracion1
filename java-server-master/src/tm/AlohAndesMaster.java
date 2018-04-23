@@ -1188,6 +1188,8 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			daoAlojamiento.setConn( conn );
+			daoCliente.setConn( conn );
+			daoReserva.setConn( conn );
 			inf = daoAlojamiento.deshabilitarOfertaAlojamiento(alojamiento, daoReserva, daoCliente);
 
 		}
