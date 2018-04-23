@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import tm.AlohAndesMaster;
 import vos.Cliente;
 import vos.EstadCli;
+import vos.Informe;
 import vos.UsoAlohAndes;
 
 
@@ -242,7 +243,7 @@ public class ClientesService {
 			try{
 				AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
 				
-				List<Cliente> Cliente = tm.getClientesFieles(id);
+				Informe Cliente = tm.getClientesFieles(id);
 				return Response.status( 200 ).entity( Cliente ).build( );			
 			}
 			catch( Exception e )

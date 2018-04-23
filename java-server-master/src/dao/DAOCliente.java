@@ -83,24 +83,38 @@ public class DAOCliente {
 	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
 	 * @throws Exception Si se genera un error dentro del metodo.
 	 */
-	public ArrayList<Cliente> getClientesFieles(Long  id)    throws SQLException,Exception
+	public Informe getClientesFieles(Long  id)    throws SQLException,Exception
 	{
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		ArrayList<String> clientes = new ArrayList<String>();
 		
 
 	String sql=String.format("SELECT RES.ID_ALOJAMIENTO,RES.ID_CLIENTE,CLI.NOMBRE,CLI.CONTACTO,COUNT(*) AS NUMERO_OCASIONES,SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO))   AS NUM_NOCHES");
 	String sql2=String.format(	" FROM RESERVAS RES INNER JOIN CLIENTES CLI ON CLI.ID=RES.ID_CLIENTE WHERE RES.ID_ALOJAMIENTO = %1$d AND RES.CANCELADA='F' ",id);
 	String sql3=String.format(" GROUP BY RES.ID_CLIENTE, RES.ID_ALOJAMIENTO,CLI.NOMBRE,CLI.CONTACTO HAVING COUNT(*)>=3 OR SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO)) >=15");
 	
-
+		System.out.println(sql+sql2+sql3);
 		PreparedStatement prepStmt = conn.prepareStatement(sql+sql2+sql3);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-
+		String z = "No existen cliente fieles";
+		boolean entro = false;
 		while (rs.next()) {
-			clientes.add(convertResultSetToCliente(rs));
+			entro = true;
+			String idAlojamiento = rs.getString("ID_ALOJAMIENTO");
+			String idCliente = rs.getString("ID_CLIENTE");
+			String nombre = rs.getString("NOMBRE");
+			String contacto = rs.getString("CONTACTO");
+			String numOcasiones = rs.getString("NUMERO_OCASIONES");
+			String numNoches = rs.getString("NUM_NOCHES");
+			String y = "El Alojamiento con id: "+ idAlojamiento+" tiene un cliente fiel, identificado con id: "+ idCliente+", con nombre: " + nombre+" y contacto: "+contacto+". Ha visitado el alojamiento en: "+numOcasiones+" ocasiones y se ha hospedado un total de: "+numNoches+" noches";
+			clientes.add(y);
 		}
-		return clientes;
+		if(!entro)
+		{
+			clientes.add(z);
+		}
+		Informe x = new Informe(clientes);
+		return x;
 		
 		
 	}

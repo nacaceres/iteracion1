@@ -1660,10 +1660,10 @@ public class AlohAndesMaster{
 	 * @throws Exception  cualquier error que se genere durante la transaccion
 	 */
 	
-	public List<Cliente> getClientesFieles(Long id) throws Exception
+	public Informe getClientesFieles(Long id) throws Exception
 	{
 		DAOCliente daoCliente = new DAOCliente();
-		List<Cliente> Clientes;
+		Informe Clientes;
 		try 
 		{
 			this.conn = darConexion();

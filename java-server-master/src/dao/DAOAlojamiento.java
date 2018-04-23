@@ -765,7 +765,8 @@ public class DAOAlojamiento {
 			{
 
 				String xi=dateFormat.format(d1);
-				String sql=String.format("SELECT COUNT(*) AS OCUPACION  FROM RESERVAS RE INNER JOIN ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO WHERE"+xi+"BETWEEN RE.FECHA_INICIO AND RE.FECHA_FIN  AND RE.CANCELADA='F' AND  ALO.TIPO=%1$s",tipo);
+				String sql=String.format("SELECT COUNT(*) AS OCUPACION  FROM RESERVAS RE INNER JOIN ALOJAMIENTOS ALO ON ALO.ID=RE.ID_ALOJAMIENTO WHERE "+xi+" BETWEEN RE.FECHA_INICIO AND RE.FECHA_FIN  AND RE.CANCELADA='F' AND  ALO.TIPO = %1$s",tipo);
+				System.out.println(sql);
 				PreparedStatement prepStmt = conn.prepareStatement(sql);
 				recursos.add(prepStmt);
 				ResultSet rs = prepStmt.executeQuery();
@@ -783,7 +784,7 @@ public class DAOAlojamiento {
 				}
 
 				String sql2=String.format("SELECT SUM(COSTO_DEFINITIVO) AS TOTAL_COBRADO_POR_DIA FROM RESERVAS RE INNER JOIN ALOJAMIENTOS ALO ON RE.ID_ALOJAMIENTO=ALO.ID WHERE (RE.TERMINADA='T' AND RE.FECHA_FIN=" +xi+ " )OR (RE.CANCELADA='T' AND RE.FECHA_CANCELACION=" +xi +") AND  ALO.TIPO = $1$S",tipo);
-			       
+			    System.out.println(sql2);
 				PreparedStatement prepStmt2 = conn.prepareStatement(sql);
 				recursos.add(prepStmt2);
 				ResultSet rs2 = prepStmt.executeQuery();
