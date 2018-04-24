@@ -758,18 +758,17 @@ public class DAOAlojamiento {
 		
 		
 		
-		String sql2="SELECT A.MES, A.ANO, A.TOTAL_RECIBIDO FROM (SELECT EXTRACT(MONTH FROM FECHA_FIN) AS MES, EXTRACT(YEAR FROM FECHA_FIN) AS  ANO,SUM(COSTO_DEFINITIVO) AS TOTAL_RECIBIDOFROM RESERVAS	WHERE CANCELADA='F' AND TERMINADA='T' GROUP BY EXTRACT(MONTH FROM FECHA_FIN), EXTRACT(YEAR FROM FECHA_FIN) )A WHERE A.TOTAL_RECIBIDO=( SELECT MAX(SUM(RE.COSTO_DEFINITIVO) ) FROM RESERVAS REWHERE RE.CANCELADA='F' AND RE.TERMINADA='T' GROUP BY EXTRACT(MONTH FROM RE.FECHA_FIN), EXTRACT(YEAR FROM RE.FECHA_FIN))";
+		String sql2="SELECT A.MES, A.ANO, A.TOTAL_RECIBIDO FROM (SELECT EXTRACT(MONTH FROM FECHA_FIN) AS MES, EXTRACT(YEAR FROM FECHA_FIN) AS  ANO,SUM(COSTO_DEFINITIVO) AS TOTAL_RECIBIDO FROM RESERVAS	WHERE CANCELADA='F' AND TERMINADA='T' GROUP BY EXTRACT(MONTH FROM FECHA_FIN), EXTRACT(YEAR FROM FECHA_FIN) )A WHERE A.TOTAL_RECIBIDO=( SELECT MAX(SUM(RE.COSTO_DEFINITIVO) ) FROM RESERVAS RE WHERE RE.CANCELADA='F' AND RE.TERMINADA='T' GROUP BY EXTRACT(MONTH FROM RE.FECHA_FIN), EXTRACT(YEAR FROM RE.FECHA_FIN))";
 		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
-		
 		System.out.println(sql2);
 		recursos.add(prepStmt2);
 		ResultSet rs2 = prepStmt2.executeQuery();
-		while(rs.next())
+		while(rs2.next())
 		{
 		
-			String anho = rs.getString("MES");
-			String mes = rs.getString("ANO");
-			String num = rs.getString("TOTAL RECIBIDO");
+			String mes = rs2.getString("MES");
+			String anho = rs2.getString("ANO");
+			String num = rs2.getString("TOTAL_RECIBIDO");
 			String frase = "A lo largo del anho: " + anho +" el mes en el que se generaron mas ingresos fue: "+mes + " con un total de: "+num+" PESOS(COP)";
 			pReporte.add(frase);
 	
@@ -781,26 +780,16 @@ public class DAOAlojamiento {
 		System.out.println(sql3);
 		ResultSet rs3 = prepStmt3.executeQuery();
 		boolean entro3 = false;
-		while(rs.next())
+		while(rs3.next())
 		{
 			entro3 = true;
-			String anho = rs.getString("YERA");
-			String mes = rs.getString("MES");
-			String num = rs.getString("NUM_VECES");
+			String anho = rs3.getString("YERA");
+			String mes = rs3.getString("MES");
+			String num = rs3.getString("NUM_VECES");
 			String frase = "A lo largo del anho: " + anho +" el mes en el que se generaron MENOS reservas fue: "+mes + " con un total de: "+num+" reservas";
 			pReporte.add(frase);
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
 		Informe result=new Informe(pReporte);
 		return result;
 
