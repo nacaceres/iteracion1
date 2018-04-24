@@ -246,6 +246,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoOperador.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoOperador.addOperador(Operador,daoAlojamiento);
@@ -505,6 +506,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoCliente.setConn(conn);
 			daoCliente.addCliente(Cliente);
 			conn.commit();
@@ -756,6 +758,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoAlojamiento.setConn(conn);
 			daoAlojamiento.addAlojamiento(Alojamiento);
 			conn.commit();
@@ -1134,6 +1137,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoReserva.setConn(conn);
 			daoReserva.addReserva(Reserva);
 			conn.commit();
@@ -1180,6 +1184,7 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
@@ -1230,6 +1235,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoAlojamiento.setConn( conn );
 			Alojamiento actual = daoAlojamiento.findAlojamientoById(alojamiento.getId());
 			if (actual!= null)
@@ -1289,6 +1295,7 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			conn.setAutoCommit(false);
 			daoAlojamiento.setConn( conn );
 			daoCliente.setConn( conn );
@@ -1341,6 +1348,7 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			conn.setAutoCommit(false);
 			daoAlojamiento.setConn( conn );
 
@@ -1392,6 +1400,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
 			daoCliente.setConn(conn);
@@ -1453,6 +1462,7 @@ public class AlohAndesMaster{
 		try
 		{
 			this.conn = darConexion();
+			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			conn.setAutoCommit(false);
 			daoReserva.setConn(conn);
 			daoAlojamiento.setConn(conn);
@@ -1503,6 +1513,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daooperador.setConn(conn);
 			operadores = daooperador.getGananciasActualesOperadores();
 			conn.commit();
@@ -1545,6 +1556,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daooperador.setConn(conn);
 			operadores = daooperador.getGananciasPasadasOperadores();
 			conn.commit();
@@ -1588,6 +1600,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoAlojamiento.setConn(conn);
 
 			Alojamientos = daoAlojamiento.getAlojamientosMasPopulares();
@@ -1632,6 +1645,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoCliente.setConn(conn);
 
 			Clientes = daoCliente.getUsoAlohAndes();
@@ -1677,6 +1691,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoAlojamiento.setConn(conn);
 			Alojamientos = daoAlojamiento.getAlojamientosConRestriccion(pCondiciones);
 			conn.commit();
@@ -1721,6 +1736,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoOperador.setConn(conn);
 			Alojamientos = daoOperador.getIndicesOcupacion();
 			conn.commit();
@@ -1765,6 +1781,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoCliente.setConn(conn);
 			Cliente = daoCliente.getEstadisticasCliente(id);
 			conn.commit();
@@ -1815,6 +1832,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoCliente.setConn(conn);
 			Clientes = daoCliente.getClientesFieles(id);
 			conn.commit();
@@ -1865,6 +1883,7 @@ public class AlohAndesMaster{
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
+			//conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoAlojamiento.setConn(conn);
 			inf = daoAlojamiento.getOperacionAlohAndes(pCondiciones);
 			conn.commit();
