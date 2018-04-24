@@ -389,13 +389,13 @@ public class AlojamientosService {
 	 */			
 	@PUT
 	@Produces({ MediaType.APPLICATION_JSON })
-	@Path("diaspico")
-	public Response getDiasPico(Condiciones2 pCondiciones) {
+	@Path("mejorMes")
+	public Response getDiasPico() {
 		
 		try {
 			AlohAndesMaster tm = new AlohAndesMaster(getPath());
 			
-		  Informe x=tm.getDiasPico(pCondiciones);
+		  Informe x=tm.getDiasPico();
 	   return Response.status(200).entity(x).build();
 		} 
 		catch (Exception e) {

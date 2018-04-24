@@ -1872,20 +1872,18 @@ public class AlohAndesMaster{
 	 * @return un informe que detalla maxima y minima ocupacion y maxima recaudacion.
 	 * @throws Exception si se genera cualquier error.
 	 */
-	public Informe getDiasPico(Condiciones2 pCondiciones) throws Exception
+	public Informe getDiasPico() throws Exception
 	{
 		ArrayList <String> array = new ArrayList<>();
 		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
-		DAOCliente daoCliente = new DAOCliente();
-		DAOReserva daoReserva = new DAOReserva();
 		Informe inf = new Informe(array);
 		try 
 		{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
-			//conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			daoAlojamiento.setConn(conn);
-			inf = daoAlojamiento.getOperacionAlohAndes(pCondiciones);
+			inf = daoAlojamiento.getOperacionAlohAndes();
 			conn.commit();
 		}
 		catch (SQLException sqlException) {
