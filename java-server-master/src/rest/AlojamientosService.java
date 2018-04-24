@@ -403,6 +403,29 @@ public class AlojamientosService {
 		}
 	}
 	
+	/**
+	 * Metodo GET que trae un informe que detalla los alojamientos que no han tenido reservas a lo largo de un mes). <br/>
+	 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+	 * <b>URL: </b> http://localhost:8080/AlohAndes/rest/Alojamientos <br/>
+	 * @return	<b>Response Status 200</b> - JSON que contiene a todos los Alojamientos que estan en la Base de Datos <br/>
+	 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+	 */			
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("desiertos")
+	public Response getAlojamientosDesiertos() {
+		
+		try {
+			AlohAndesMaster tm = new AlohAndesMaster(getPath());
+			
+		  Informe x=tm.getAlojamientosDesiertos();
+	      return Response.status(200).entity(x).build();
+		} 
+		catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+	}
+	
 	
 	
 }

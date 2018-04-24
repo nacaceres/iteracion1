@@ -720,7 +720,7 @@ public class AlohAndesMaster{
 			sqlException.printStackTrace();
 			throw sqlException;
 		} 
-		
+
 		catch (Exception exception) {
 			conn.rollback();
 			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
@@ -1916,7 +1916,51 @@ public class AlohAndesMaster{
 		return inf;	
 	}
 
+	/**
+	 * Metodo que modela la transaccion que busca los alojamientos desiertos <br/>
+	 * @param name -id del Cliente a buscar. id != null
+	 * @return Cliente - Cliente que se obtiene como resultado de la consulta.
+	 * @throws Exception -  cualquier error que se genere durante la transaccion
+	 */
+	public Informe getAlojamientosDesiertos() throws Exception {
+		DAOAlojamiento daoAlojamiento = new DAOAlojamiento();
+		Informe x = new Informe ( new ArrayList());
+		try 
+		{
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoAlojamiento.setConn(conn);
+			x = daoAlojamiento.getAlojamientosDesiertos();
+			conn.commit();				
 
+		} 
+		catch (SQLException sqlException) {
+			conn.rollback();
+			System.err.println("[EXCEPTION] SQLException:" + sqlException.getMessage());
+			sqlException.printStackTrace();
+			throw sqlException;
+		} 
+		catch (Exception exception) {
+			conn.rollback();
+			System.err.println("[EXCEPTION] General Exception:" + exception.getMessage());
+			exception.printStackTrace();
+			throw exception;
+		} 
+		finally {
+			try {
+				daoAlojamiento.cerrarRecursos();
+				if(this.conn!=null){
+					this.conn.close();					
+				}
+			}
+			catch (SQLException exception) {
+				System.err.println("[EXCEPTION] SQLException While Closing Resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return x;
+	}
 
 	//	/**
 	//	 * Metodo que modela la transaccion que elimina de la base de datos al Reserva que entra por parametro. <br/>
