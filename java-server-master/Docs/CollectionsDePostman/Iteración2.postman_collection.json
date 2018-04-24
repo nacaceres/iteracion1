@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "a7b0755d-101c-dddc-64c9-60ee905e1ee6",
+		"name": "Iteración2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear una reserva colectiva RF7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_cliente\",data.id);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cantidad\" : 5,\r\n  \"idReservaColectiva\" : 29,\r\n  \"reserva\" : {\r\n      \"fechaInicio\" : \"2021-05-06\",\r\n      \"fechaFin\" : \"2021-05-12\",\r\n      \"cancelada\" : \"false\",\r\n      \"numPersonas\" : 5,\r\n      \"costoDefinitivo\" : 20000,\r\n      \"terminada\" : \"false\",\r\n      \"tiempoOportunoCan\" : \"2021-05-01\",\r\n      \"idColectiva\" : 29,\r\n      \"colectiva\" : \"true\",\r\n        \"alojamiento\" : {\r\n            \"id\":41,\r\n            \"ubicacion\": \"EL BOGOTA REAL HABITACION: 41\",\r\n            \"costoBasico\": 16,\r\n            \"capacidad\" : 2,\r\n            \"vigente\": \"true\",\r\n            \"fechaRetiro\": null,\r\n            \"tipo\": \"HAB HOTEL\",\r\n          \"operador\" : {\r\n            \"id\": 4520202,\r\n            \"tipoId\": \"NIT\",\r\n            \"nombre\": \"BOGOTA REAL\",\r\n            \"contacto\": \"DIRECCION:CALLE 19 Y AJA  \",\r\n            \"alojamientos\": [],\r\n            \"relacionUniandes\": {\r\n                \"id\": 6,\r\n                \"tipo\": \"HOTEL\",\r\n                \"carnet\": null\r\n          }\r\n        },\r\n      \"reservas\" : [],\r\n      \"servicios\" : []\r\n    },\r\n    \"cliente\" : {\r\n      \"id\": 10,\r\n      \"tipoId\": \"CC\",\r\n      \"nombre\": \"ANDREA\",\r\n      \"contacto\": \"a.cusva@uniandes.edu.co\",\r\n      \"alojamientosPreferidos\": [],\r\n      \"reservas\": [],\r\n      \"serviciosPreferidos\":[],\r\n      \"contratos\":[],\r\n      \"relacionUniandes\": {\r\n        \"id\": 10,\r\n        \"tipo\": \"ESTUDIANTE\",\r\n        \"carnet\": 2016174\r\n    }\r\n  },\r\n  \"serviciosAdicionales\" : []\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas/colectiva",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas",
+						"colectiva"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancelar reserva colectiva RF8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cantidad\" : 5,\r\n  \"idReservaColectiva\" : 29,\r\n  \"reserva\" : {\r\n      \"fechaInicio\" : \"2021-05-06\",\r\n      \"fechaFin\" : \"2021-05-12\",\r\n      \"cancelada\" : \"false\",\r\n      \"numPersonas\" : 5,\r\n      \"costoDefinitivo\" : 20000,\r\n      \"terminada\" : \"false\",\r\n      \"tiempoOportunoCan\" : \"2021-05-01\",\r\n      \"idColectiva\" : 29,\r\n      \"colectiva\" : \"true\",\r\n        \"alojamiento\" : {\r\n            \"id\":41,\r\n            \"ubicacion\": \"EL BOGOTA REAL HABITACION: 41\",\r\n            \"costoBasico\": 16,\r\n            \"capacidad\" : 2,\r\n            \"vigente\": \"true\",\r\n            \"fechaRetiro\": null,\r\n            \"tipo\": \"HAB HOTEL\",\r\n          \"operador\" : {\r\n            \"id\": 4520202,\r\n            \"tipoId\": \"NIT\",\r\n            \"nombre\": \"BOGOTA REAL\",\r\n            \"contacto\": \"DIRECCION:CALLE 19 Y AJA  \",\r\n            \"alojamientos\": [],\r\n            \"relacionUniandes\": {\r\n                \"id\": 6,\r\n                \"tipo\": \"HOTEL\",\r\n                \"carnet\": null\r\n          }\r\n        },\r\n      \"reservas\" : [],\r\n      \"servicios\" : []\r\n    },\r\n    \"cliente\" : {\r\n      \"id\": 10,\r\n      \"tipoId\": \"CC\",\r\n      \"nombre\": \"ANDREA\",\r\n      \"contacto\": \"a.cusva@uniandes.edu.co\",\r\n      \"alojamientosPreferidos\": [],\r\n      \"reservas\": [],\r\n      \"serviciosPreferidos\":[],\r\n      \"contratos\":[],\r\n      \"relacionUniandes\": {\r\n        \"id\": 10,\r\n        \"tipo\": \"ESTUDIANTE\",\r\n        \"carnet\": 2016174\r\n    }\r\n  },\r\n  \"serviciosAdicionales\" : []\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas/colectiva",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas",
+						"colectiva"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verificar reserva o cancelacion colectiva RF7 y RF8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b397a49-fc57-4746-b479-66b5501d1d1f",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/reservas/20008",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"reservas",
+						"20008"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deshabilitar Alojamiento RF9",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"ubicacion\": \"en el bog re\",\n    \"costoBasico\": 85000,\n    \"capacidad\" : 2,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"HAB HOTEL\",\n    \"operador\" : {\n      \"id\": 4520202,\n      \"tipoId\": \"NIT\",\n      \"nombre\": \"BOGOTA REAL\",\n      \"contacto\": \"DIRECCION:CALLE 19 Y AJA  \",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 6,\n        \"tipo\": \"HOTEL\",\n        \"carnet\": null\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/deshabilitar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"alojamientos",
+						"deshabilitar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Habilitar un alojamiento RF10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"ubicacion\": \"en el bog re\",\n    \"costoBasico\": 85000,\n    \"capacidad\" : 2,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"HAB HOTEL\",\n    \"operador\" : {\n      \"id\": 4520202,\n      \"tipoId\": \"NIT\",\n      \"nombre\": \"BOGOTA REAL\",\n      \"contacto\": \"DIRECCION:CALLE 19 Y AJA  \",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 6,\n        \"tipo\": \"HOTEL\",\n        \"carnet\": null\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/habilitar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"alojamientos",
+						"habilitar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verificar deshabilitar o habilitar alojamiento RF9 y RF10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ae0112d-5fa7-4f12-9010-83a21b6e4d9f",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"alojamientos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC7 Analizar la operacion de Alohandes",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"tipoAlojamiento\" : {\n    \"id\": 1,\n    \"ubicacion\": \"en el bog re\",\n    \"costoBasico\": 85000,\n    \"capacidad\" : 2,\n    \"vigente\": \"true\",\n    \"fechaRetiro\": null,\n    \"tipo\": \"HAB HOTEL\",\n    \"operador\" : {\n      \"id\": 4520202,\n      \"tipoId\": \"NIT\",\n      \"nombre\": \"BOGOTA REAL\",\n      \"contacto\": \"DIRECCION:CALLE 19 Y AJA  \",\n      \"alojamientos\": [],\n      \"relacionUniandes\": {\n        \"id\": 6,\n        \"tipo\": \"HAB_HOTEL\",\n        \"carnet\": null\n      }\n    },\n    \"reservas\" : [],\n    \"servicios\" : []\n  },\n  \"fechaInicio\" : \"2016-05-07\",\n  \"fechaFin\" : \"2016-06-07\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/mejorMes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"alojamientos",
+						"mejorMes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC8 Encontrar los clientes frecuentes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"cliente count\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes/clientesfieles/41",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes",
+						"clientesfieles",
+						"41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC9 ENCONTRAR LAS OFERTAS DE ALOJAMIENTO QUE NO TIENEN MUCHA DEMANDA",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/alojamientos/desiertos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"alojamientos",
+						"desiertos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

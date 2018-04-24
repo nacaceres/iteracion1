@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "cd8d6fc7-e985-42df-a192-9dc834a3f52c",
+		"name": "Futuras iteraciones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Borrar un operador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "af75ed84-697a-4567-9d1d-e94080b9a5eb",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1020839170,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Chichico\",\n    \"contacto\": \"El celu de chichico\",\n    \"alojamientos\": [],\n    \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0bead64b-be97-4edb-8a3a-9fb076e20ea9",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1020839231,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Chicho\",\n    \"contacto\": \"Num del chicho\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 1,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

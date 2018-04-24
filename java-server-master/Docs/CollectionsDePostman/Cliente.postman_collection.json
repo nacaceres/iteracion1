@@ -31,7 +31,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 2,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
+					"raw": "{\n    \"id\": 1020839171,\n    \"tipoId\": \"CC\",\n    \"nombre\": \"Nicolas\",\n    \"contacto\": \"cel:3017914757\",\n    \"alojamientosPreferidos\": [],\n    \"reservas\": [],\n    \"serviciosPreferidos\":[],\n    \"contratos\":[],\n    \"relacionUniandes\": {\n        \"id\": 4653,\n        \"tipo\": \"ESTUDIANTE\",\n        \"carnet\": 201630692\n    }\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/AlohAndes/rest/clientes",
@@ -211,7 +211,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"nombre\" : \"EL DT\"\n}"
+					"raw": "{\n  \"nombre\" : \"EL DT\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/AlohAndes/rest/clientes/estadisticascliente",
