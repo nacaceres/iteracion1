@@ -1,5 +1,6 @@
-package rest;
+	package rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.Response;
 
 import tm.AlohAndesMaster;
 import vos.Cliente;
+import vos.CondicionesRFC10;
 import vos.EstadCli;
 import vos.Informe;
 import vos.UsoAlohAndes;
@@ -252,7 +254,69 @@ public class ClientesService {
 			}
 		}
 
+		/**
+		 * Metodo GET que trae el consumo de los clientes que cubren <br/>
+		 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+		 * <b>URL: </b> http://localhost:8080/AlohAndesMaster/rest/clientesfieles/{id} <br/>
+		 * @return	<b>Response Status 200</b> - JSON Cliente que contiene al Cliente cuyo ID corresponda al parametro <br/>
+		 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+		 */
+		@PUT
+		@Path( "consumoAlohandes/{id: \\d+}" )
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces( { MediaType.APPLICATION_JSON } )
+		public Response getConsumoAlohandes(  @PathParam( "id" ) Long id, CondicionesRFC10 pCondicion )
+		{
+			try{
+				AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+				
+				String id1 =id+"";
+				String id2 =pCondicion.getIdAlojamiento()+"";
+				
+				if(!id1.equals(id2))
+				{
+					throw new Exception ("Usted no tiene acceso a esos datos");
+				}
+				
+				ArrayList <Cliente> Cliente = tm.getConsumoAlohandes(pCondicion);
+				return Response.status( 200 ).entity( Cliente ).build( );			
+			}
+			catch( Exception e )
+			{
+				return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+			}
+		}
 		
-		
-		
+		/**
+		 * Metodo GET que trae el consumo de los clientes que cubren <br/>
+		 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+		 * <b>URL: </b> http://localhost:8080/AlohAndesMaster/rest/clientesfieles/{id} <br/>
+		 * @return	<b>Response Status 200</b> - JSON Cliente que contiene al Cliente cuyo ID corresponda al parametro <br/>
+		 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+		 */
+		@PUT
+		@Path( "consumoAlohandesAlternativo/{id: \\d+}" )
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces( { MediaType.APPLICATION_JSON } )
+		public Response getConsumoAlohandesAlternativo(  @PathParam( "id" ) Long id, CondicionesRFC10 pCondicion )
+		{
+			try{
+				AlohAndesMaster tm = new AlohAndesMaster( getPath( ) );
+				
+				String id1 =id+"";
+				String id2 =pCondicion.getIdAlojamiento()+"";
+				
+				if(!id1.equals(id2))
+				{
+					throw new Exception ("Usted no tiene acceso a esos datos");
+				}
+				
+				ArrayList <Cliente> Cliente = tm.getConsumoAlohandesAlternativo(pCondicion);
+				return Response.status( 200 ).entity( Cliente ).build( );			
+			}
+			catch( Exception e )
+			{
+				return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+			}
+		}
 }

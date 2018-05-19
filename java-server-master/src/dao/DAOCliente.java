@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import vos.*;
 
@@ -265,6 +268,80 @@ public class DAOCliente {
 		return clientes;
 	}
 	
+	/**
+	 * Metodo que obtiene la informacion de todo el consumo de alohandes en la Base de Datos <br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @param Condiciones de los clientes a quienes se quiere buscar el consumo
+	 * @return	lista con la informacion de todos los Clientes que se encuentran en la Base de Datos
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public ArrayList<Cliente> getConsumoAlohandes(CondicionesRFC10 pCondiciones) throws SQLException, Exception {
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		
+		String fechaInicio1 = "'"+pCondiciones.getFechaInicio()+"'";
+		
+		String fechaFin1 = "'"+pCondiciones.getFechaFin()+"'";
+
+		
+		String condi = pCondiciones.getCondicionDeOrdenamiento();
+		String idAloj = ""+pCondiciones.getIdAlojamiento();
+		
+		
+		String sql = "SELECT * FROM CLIENTES CLIEN WHERE CLIEN.ID IN (" + 
+				" SELECT RESERV.ID_CLIENTE FROM RESERVAS RESERV WHERE"+ 
+				"(( RESERV.FECHA_INICIO  BETWEEN "+fechaInicio1+" AND "+fechaFin1+")" + 
+				" OR  ( RESERV.FECHA_FIN  BETWEEN  "+fechaInicio1+" AND "+fechaFin1+")"+ 
+				" OR (  RESERV.FECHA_INICIO < "+fechaInicio1+"  AND   RESERV.FECHA_FIN >  "+fechaFin1+")" + 
+				") AND RESERV.ID_ALOJAMIENTO = "+idAloj+" )" + 
+				" ORDER BY CLIEN."+condi;
+		System.out.println(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			clientes.add(convertResultSetToCliente(rs));
+		}
+		return clientes;
+	}
+	/**
+	 * Metodo que obtiene la informacion de todo el consumo de alohandes en la Base de Datos <br/>
+	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
+	 * @param Condiciones de los clientes a quienes se quiere buscar el consumo
+	 * @return	lista con la informacion de todos los Clientes que se encuentran en la Base de Datos
+	 * @throws SQLException Genera excepcion si hay error en la conexion o en la consulta SQL
+	 * @throws Exception Si se genera un error dentro del metodo.
+	 */
+	public ArrayList<Cliente> getConsumoAlohandesAlternativo(CondicionesRFC10 pCondiciones) throws SQLException, Exception {
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		
+		String fechaInicio1 = "'"+pCondiciones.getFechaInicio()+"'";
+		
+		String fechaFin1 = "'"+pCondiciones.getFechaFin()+"'";
+
+		
+		String condi = pCondiciones.getCondicionDeOrdenamiento();
+		String idAloj = ""+pCondiciones.getIdAlojamiento();
+		
+		
+		String sql = "SELECT * FROM CLIENTES CLIEN WHERE CLIEN.ID NOT IN (" + 
+				" SELECT RESERV.ID_CLIENTE FROM RESERVAS RESERV WHERE"+ 
+				"(( RESERV.FECHA_INICIO  BETWEEN "+fechaInicio1+" AND "+fechaFin1+")" + 
+				" OR  ( RESERV.FECHA_FIN  BETWEEN  "+fechaInicio1+" AND "+fechaFin1+")"+ 
+				" OR (  RESERV.FECHA_INICIO < "+fechaInicio1+"  AND   RESERV.FECHA_FIN >  "+fechaFin1+")" + 
+				") AND RESERV.ID_ALOJAMIENTO = "+idAloj+" )" + 
+				" ORDER BY CLIEN."+condi;
+		System.out.println(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			clientes.add(convertResultSetToCliente(rs));
+		}
+		return clientes;
+	}
 	/**
 	 * Metodo que obtiene las estadisticas del cliente enviado por parametro<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/> 
