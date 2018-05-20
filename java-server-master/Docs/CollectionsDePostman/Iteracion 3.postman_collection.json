@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "73e81873-e438-47c0-b093-fb5c42c951a0",
+		"name": "Iteracion 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RFC10 OK CONSULTAR CONSUMO EN ALOHANDES",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fechaInicio\": \"20/10/18\",\n\t\"fechaFin\": \"30/10/18\",\n\t\"idAlojamiento\": \"2\",\n\t\"condicionDeOrdenamiento\": \"NOMBRE\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes/consumoAlohandes/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes",
+						"consumoAlohandes",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC10 FAIL - CONSULTAR CONSUMO EN ALOHANDES",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fechaInicio\": \"20/10/18\",\n\t\"fechaFin\": \"30/10/18\",\n\t\"idAlojamiento\": \"2\",\n\t\"condicionDeOrdenamiento\": \"NOMBRE\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes/consumoAlohandes/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes",
+						"consumoAlohandes",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC11 OK- CONSULTAR CONSUMO EN ALOHANDES – RFC10-V2",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fechaInicio\": \"20/10/18\",\n\t\"fechaFin\": \"30/10/18\",\n\t\"idAlojamiento\": \"2\",\n\t\"condicionDeOrdenamiento\": \"NOMBRE\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes/consumoAlohandesAlternativo/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes",
+						"consumoAlohandesAlternativo",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC11 - FAILCONSULTAR CONSUMO EN ALOHANDES – RFC10-V2",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fechaInicio\": \"20/10/18\",\n\t\"fechaFin\": \"30/10/18\",\n\t\"idAlojamiento\": \"2\",\n\t\"condicionDeOrdenamiento\": \"NOMBRE\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes/consumoAlohandesAlternativo/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes",
+						"consumoAlohandesAlternativo",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC12 - OK CONSULTAR FUNCIONAMIENTO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/operadores/funcionamiento",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"operadores",
+						"funcionamiento"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC13 - OK CONSULTAR LOS BUENOS CLIENTES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/AlohAndes/rest/clientes/premium",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"AlohAndes",
+						"rest",
+						"clientes",
+						"premium"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "324ab744-01f8-4841-a88b-746e050de9f2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "672367cc-9aaf-4ab5-a5df-80cd68ccddd4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

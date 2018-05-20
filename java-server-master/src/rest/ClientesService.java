@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 
 import tm.AlohAndesMaster;
 import vos.Cliente;
+import vos.ClientePremium;
 import vos.CondicionesRFC10;
 import vos.EstadCli;
 import vos.Informe;
@@ -317,6 +318,28 @@ public class ClientesService {
 			catch( Exception e )
 			{
 				return Response.status( 500 ).entity( doErrorMessage( e ) ).build( );
+			}
+		}
+		/**
+		 * Metodo GET que trae a todos los cliente premium de alohandes. <br/>
+		 * <b>Precondicion: </b> el archivo <em>'conectionData'</em> ha sido inicializado con las credenciales del usuario <br/>
+		 * <b>URL: </b> http://localhost:8080/AlohAndes/rest/Clientes <br/>
+		 * @return	<b>Response Status 200</b> - JSON que contiene a todos los Clientes que estan en la Base de Datos <br/>
+		 * 			<b>Response Status 500</b> - Excepcion durante el transcurso de la transaccion
+		 */			
+		@GET
+		@Produces({ MediaType.APPLICATION_JSON })
+		@Path("premium")
+		public Response getClientesPremium() {
+			
+			try {
+				AlohAndesMaster tm = new AlohAndesMaster(getPath());
+
+				List<ClientePremium> clientes = tm.getClientesPremium();
+				return Response.status(200).entity(clientes).build();
+			} 
+			catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
 			}
 		}
 }
