@@ -24,7 +24,7 @@ public class DAOCliente {
 	/**
 	 * Constante para indicar un usuario Oracle
 	 */
-	public final static String USUARIO = "ISIS2304A431810";
+	public final static String USUARIO = "ISIS2304A581810";
 
 
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -90,12 +90,12 @@ public class DAOCliente {
 	public Informe getClientesFieles(Long  id)    throws SQLException,Exception
 	{
 		ArrayList<String> clientes = new ArrayList<String>();
-		
 
-	String sql=String.format("SELECT RES.ID_ALOJAMIENTO,RES.ID_CLIENTE,CLI.NOMBRE,CLI.CONTACTO,COUNT(*) AS NUMERO_OCASIONES,SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO))   AS NUM_NOCHES");
-	String sql2=String.format(	" FROM RESERVAS RES INNER JOIN CLIENTES CLI ON CLI.ID=RES.ID_CLIENTE WHERE RES.ID_ALOJAMIENTO = %1$d AND RES.CANCELADA='F' ",id);
-	String sql3=String.format(" GROUP BY RES.ID_CLIENTE, RES.ID_ALOJAMIENTO,CLI.NOMBRE,CLI.CONTACTO HAVING COUNT(*)>=3 OR SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO)) >=15");
-	
+
+		String sql=String.format("SELECT RES.ID_ALOJAMIENTO,RES.ID_CLIENTE,CLI.NOMBRE,CLI.CONTACTO,COUNT(*) AS NUMERO_OCASIONES,SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO))   AS NUM_NOCHES");
+		String sql2=String.format(	" FROM RESERVAS RES INNER JOIN CLIENTES CLI ON CLI.ID=RES.ID_CLIENTE WHERE RES.ID_ALOJAMIENTO = %1$d AND RES.CANCELADA='F' ",id);
+		String sql3=String.format(" GROUP BY RES.ID_CLIENTE, RES.ID_ALOJAMIENTO,CLI.NOMBRE,CLI.CONTACTO HAVING COUNT(*)>=3 OR SUM(TRUNC(RES.FECHA_FIN)-TRUNC(RES.FECHA_INICIO)) >=15");
+
 		System.out.println(sql+sql2+sql3);
 		PreparedStatement prepStmt = conn.prepareStatement(sql+sql2+sql3);
 		recursos.add(prepStmt);
@@ -119,10 +119,10 @@ public class DAOCliente {
 		}
 		Informe x = new Informe(clientes);
 		return x;
-		
-		
+
+
 	}
-	
+
 
 	/**
 	 * Metodo que obtiene la informacion del Cliente en la Base de Datos que tiene el identificador dado por parametro<br/>
@@ -268,7 +268,7 @@ public class DAOCliente {
 		}
 		return clientes;
 	}
-	
+
 	/**
 	 * Metodo que obtiene la informacion de todo el consumo de alohandes en la Base de Datos <br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/>
@@ -279,16 +279,16 @@ public class DAOCliente {
 	 */
 	public ArrayList<Cliente> getConsumoAlohandes(CondicionesRFC10 pCondiciones) throws SQLException, Exception {
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-		
+
 		String fechaInicio1 = "'"+pCondiciones.getFechaInicio()+"'";
-		
+
 		String fechaFin1 = "'"+pCondiciones.getFechaFin()+"'";
 
-		
+
 		String condi = pCondiciones.getCondicionDeOrdenamiento();
 		String idAloj = ""+pCondiciones.getIdAlojamiento();
-		
-		
+
+
 		String sql = "SELECT * FROM CLIENTES CLIEN WHERE CLIEN.ID IN (" + 
 				" SELECT RESERV.ID_CLIENTE FROM RESERVAS RESERV WHERE"+ 
 				"(( RESERV.FECHA_INICIO  BETWEEN "+fechaInicio1+" AND "+fechaFin1+")" + 
@@ -300,9 +300,10 @@ public class DAOCliente {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-
-		while (rs.next()) {
+		int contador = 0;
+		while (rs.next()&& contador<1000) {
 			clientes.add(convertResultSetToCliente(rs));
+			contador++;
 		}
 		return clientes;
 	}
@@ -316,16 +317,16 @@ public class DAOCliente {
 	 */
 	public ArrayList<Cliente> getConsumoAlohandesAlternativo(CondicionesRFC10 pCondiciones) throws SQLException, Exception {
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-		
+
 		String fechaInicio1 = "'"+pCondiciones.getFechaInicio()+"'";
-		
+
 		String fechaFin1 = "'"+pCondiciones.getFechaFin()+"'";
 
-		
+
 		String condi = pCondiciones.getCondicionDeOrdenamiento();
 		String idAloj = ""+pCondiciones.getIdAlojamiento();
-		
-		
+
+
 		String sql = "SELECT * FROM CLIENTES CLIEN WHERE CLIEN.ID NOT IN (" + 
 				" SELECT RESERV.ID_CLIENTE FROM RESERVAS RESERV WHERE"+ 
 				"(( RESERV.FECHA_INICIO  BETWEEN "+fechaInicio1+" AND "+fechaFin1+")" + 
@@ -337,9 +338,10 @@ public class DAOCliente {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-
-		while (rs.next()) {
+		int contador = 0;
+		while (rs.next()&&contador<10000) {
 			clientes.add(convertResultSetToCliente(rs));
+			contador++;
 		}
 		return clientes;
 	}
@@ -372,8 +374,8 @@ public class DAOCliente {
 
 		return cliente;
 	}
-	
-	
+
+
 	/**
 	 * Metodo que obtiene los clientes premiun<br/>
 	 * <b>Precondicion: </b> la conexion a sido inicializadoa <br/> 
@@ -395,49 +397,63 @@ public class DAOCliente {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-
+		System.out.println(sql);
+		int contador = 0;
+		int contador1 = 0;
+		int contador2 = 0;
+		int contador3 = 0;
 		while(rs.next()) {
-			String id = null;
-			String id1 = rs.getString("IDQ1");
-			String id2 = rs.getString("IDQ2");
-			String id3 = rs.getString("IDQ3");
-			if(id1!= null)
+			if(contador%10 ==0)
 			{
-				id= "El cliente con id: "+id1+" se considera como buen cliente por las siguientes razones: ";
-			}
-			else if( id2 != null)
-			{
-				id= "El cliente con id: "+id2+" se considera como buen cliente por las siguientes razones: ";
-			}
-			else
-			{
-				id= "El cliente con id: "+id3+" se considera como buen cliente por las siguientes razones: ";
-			}
-			ArrayList <String> razones = new ArrayList<>();
-			String razon1 = rs.getString("RAZONQ1");
-			String razon2 = rs.getString("RAZONQ2");
-			String razon3 = rs.getString("RAZONQ3");
-			if(razon1 != null) 
-			{
-				razones.add("Todas las reservas del cliente superan los $125 por noche, su reserva mas barata ha sido de: " +razon1);
-			}
-			if(razon2!= null)
-			{
-				razones.add("Todas las reservas del cliente han sido en habitaciones de hotel tipo SUITE, ya que de un total de: "+ razon2 +" reservas, "+ razon2 + " han sido de tipo SUITE");
-			}
-			if(razon3 != null)
-			{
-				razones.add("El cliente ha hecho una reserva minimo una vez al mes desde el inicio de AlohAndes, con un total de: "+razon3+" reservas");
-			}
-			ClientePremium cliente = new ClientePremium(id, razones);
-			clientes.add(cliente);
-		}
+				String id = null;
+				String id1 = rs.getString("IDQ1");
+				String id2 = rs.getString("IDQ2");
+				String id3 = rs.getString("IDQ3");
+				if(id1!= null)
+				{
+					id= "El cliente con id: "+id1+" se considera como buen cliente por las siguientes razones: ";
+				}
+				else if( id2 != null)
+				{
+					id= "El cliente con id: "+id2+" se considera como buen cliente por las siguientes razones: ";
+				}
+				else
+				{
+					id= "El cliente con id: "+id3+" se considera como buen cliente por las siguientes razones: ";
+				}
+				ArrayList <String> razones = new ArrayList<>();
+				String razon1 = rs.getString("RAZONQ1");
+				String razon2 = rs.getString("RAZONQ2");
+				String razon3 = rs.getString("RAZONQ3");
+				if(razon1 != null) 
+				{
+					contador1++;
+					razones.add("Todas las reservas del cliente superan los $125 por noche, su reserva mas barata ha sido de: " +razon1);
+				}
+				if(razon2!= null)
+				{
+					contador2++;
+					razones.add("Todas las reservas del cliente han sido en habitaciones de hotel tipo SUITE, ya que de un total de: "+ razon2 +" reservas, "+ razon2 + " han sido de tipo SUITE");
+				}
+				if(razon3 != null)
+				{
+					contador3++;
+					razones.add("El cliente ha hecho una reserva minimo una vez al mes desde el inicio de AlohAndes, con un total de: "+razon3+" reservas");
+				}
 
+				ClientePremium cliente = new ClientePremium(id, razones);
+				clientes.add(cliente);
+				contador++;
+			}
+			contador++;
+			//System.out.println(contador2);
+		}
+		//System.out.println(contador1+" de razon 1 " +contador2+" de razon 2 "+contador3+" de razon 3 "+"de un total de: " +contador );
 		return clientes;
 	}
-	
-	
-	
+
+
+
 	//----------------------------------------------------------------------------------------------------------------------------------
 	// METODOS AUXILIARES
 	//----------------------------------------------------------------------------------------------------------------------------------
@@ -466,17 +482,17 @@ public class DAOCliente {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * Metodo que transforma el resultado obtenido de una consulta SQL (sobre la tabla CLIENTES y RELACIONES) en una instancia de la clase Cliente.
 	 * @param resultSet ResultSet con la informacion de un Cliente que se obtuvo de la base de datos.
@@ -490,16 +506,16 @@ public class DAOCliente {
 		String nombre = resultSet.getString("NOMBRE");
 		String contacto = resultSet.getString("CONTACTO");
 		long idRelacion = Long.parseLong(resultSet.getString("ID_RELACION"));
-		String sql = String.format("SELECT * FROM %1$s.RELACIONES WHERE ID = %2$d", USUARIO, idRelacion);
-
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
-		recursos.add(prepStmt);
-		ResultSet rs = prepStmt.executeQuery();
-		rs.next();
-		String tipo2 = rs.getString("TIPO");
-		int carnet = Integer.parseInt(rs.getString("CARNET"));
-
-		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
+		//		String sql = String.format("SELECT * FROM %1$s.RELACIONES WHERE ID = %2$d", USUARIO, idRelacion);
+		//
+		//		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		//		recursos.add(prepStmt);
+		//		ResultSet rs = prepStmt.executeQuery();
+		//		rs.next();
+		//		String tipo2 = rs.getString("TIPO");
+		//		int carnet = Integer.parseInt(rs.getString("CARNET"));
+		//
+		//		RelacionUniandes rela = new RelacionUniandes(idRelacion, tipo2, carnet);
 		ArrayList <Alojamiento> alojamientos = new ArrayList <Alojamiento>();
 		ArrayList <Contrato> contratos = new ArrayList <Contrato>();
 		ArrayList <Reserva> reservas = new ArrayList <Reserva>();
@@ -508,7 +524,7 @@ public class DAOCliente {
 		//Falta Agregar todos los contratos
 		//Falta agregar todos los servicios
 		//Falta agregar todas las reservas
-		Cliente ope = new Cliente(id, tipo, nombre, contacto, rela, contratos, reservas, servicios, alojamientos);
+		Cliente ope = new Cliente(id, tipo, nombre, contacto, null, contratos, reservas, servicios, alojamientos);
 
 		return ope;
 	}
