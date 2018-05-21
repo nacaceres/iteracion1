@@ -312,7 +312,10 @@ public class DAOOperador {
 		
 		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
 		recursos.add(prepStmt2);
+		long startTime = System.nanoTime();
 		ResultSet rs = prepStmt2.executeQuery();
+		long endTime = System.nanoTime();
+		System.out.println((endTime - startTime)/1000);
 		
 		while(rs.next()) {
 			String semana = rs.getString("SEMANA");
@@ -343,7 +346,10 @@ public class DAOOperador {
 		System.out.println(sql3);
 		PreparedStatement prepStmt3 = conn.prepareStatement(sql3);
 		recursos.add(prepStmt3);
+		long startTime3 = System.nanoTime();
 		ResultSet rs3 = prepStmt3.executeQuery();
+		long endTime3 = System.nanoTime();
+		System.out.println((endTime3 - startTime3)/1000);
 		while(rs3.next())
 		{
 			String semana = rs3.getString("SEMANA");

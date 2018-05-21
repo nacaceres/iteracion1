@@ -299,7 +299,10 @@ public class DAOCliente {
 		System.out.println(sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
+		long startTime = System.nanoTime();
 		ResultSet rs = prepStmt.executeQuery();
+		long endTime = System.nanoTime();
+		System.out.println((endTime - startTime)/1000);
 		int contador = 0;
 		while (rs.next()&& contador<1000) {
 			clientes.add(convertResultSetToCliente(rs));
@@ -337,7 +340,10 @@ public class DAOCliente {
 		System.out.println(sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
+		long startTime = System.nanoTime();
 		ResultSet rs = prepStmt.executeQuery();
+		long endTime = System.nanoTime();
+		System.out.println((endTime - startTime)/1000);
 		int contador = 0;
 		while (rs.next()&&contador<10000) {
 			clientes.add(convertResultSetToCliente(rs));
@@ -396,7 +402,10 @@ public class DAOCliente {
 				"SELECT Q4.IDQ1, Q4.RAZONQ1, Q4.IDQ2, Q4.RAZONQ2, Q3.IDQ3, Q3.RAZONQ3 FROM Q4 FULL OUTER JOIN Q3 ON Q4.IDQ1 = Q3.IDQ3";
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
+		long startTime = System.nanoTime();
 		ResultSet rs = prepStmt.executeQuery();
+		long endTime = System.nanoTime();
+		System.out.println((endTime - startTime)/1000);
 		System.out.println(sql);
 		int contador = 0;
 		int contador1 = 0;
